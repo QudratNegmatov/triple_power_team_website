@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Triple Power Team — Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <p class="eyebrow">Strategy · Design · Build</p>
+        <h1>We help brands move with triple the power.</h1>
+        <p class="lead">
+            Triple Power Team is a small studio that plans, designs, and builds digital products
+            for businesses that want to grow without the agency bloat.
+        </p>
+        <div class="cta-row">
+            <a href="{% url 'contact' %}" class="btn btn-primary">Start a project</a>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2>What we do</h2>
+        <div class="grid grid-3">
+            {% for service in services %}
+            <div class="card">
+                <div class="card-icon">{{ service.icon|default:"●" }}</div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.summary }}</p>
+            </div>
+            {% empty %}
+            <p class="muted">Services will show up here once added in the admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt">
+    <div class="container">
+        <h2>Recent work</h2>
+        <div class="grid grid-3">
+            {% for project in projects %}
+            <div class="card">
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.summary }}</p>
+            </div>
+            {% empty %}
+            <p class="muted">Projects will show up here once added in the admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section cta-section">
+    <div class="container cta-inner">
+        <h2>Ready to build something great?</h2>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Get in touch</a>
+    </div>
+</section>
+{% endblock %}

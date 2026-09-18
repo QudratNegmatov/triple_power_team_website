@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Contact — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <p class="eyebrow">Get in touch</p>
+        <h1>Let's talk about your project</h1>
+        <p class="lead">Tell us a bit about what you need and we'll get back to you shortly.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow">
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <p class="field-error">{{ field.errors|striptags }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Send message</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

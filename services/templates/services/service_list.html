@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Services — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <p class="eyebrow">What we offer</p>
+        <h1>Services</h1>
+        <p class="lead">Everything you need to plan, design, and ship your product.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="grid grid-3">
+            {% for service in services %}
+            <div class="card">
+                <div class="card-icon">{{ service.icon|default:"●" }}</div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description }}</p>
+            </div>
+            {% empty %}
+            <p class="muted">No services added yet. Add some in the Django admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
