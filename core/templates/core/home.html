@@ -1,19 +1,42 @@
 {% extends "base.html" %}
+{% load static site_icons %}
 
 {% block title %}Triple Power Team — Home{% endblock %}
 
 {% block content %}
 <section class="hero">
     <div class="container hero-inner">
-        <p class="eyebrow">Strategy · Design · Build</p>
-        <h1>We help brands move with triple the power.</h1>
-        <p class="lead">
-            Triple Power Team is a small studio that plans, designs, and builds digital products
-            for businesses that want to grow without the agency bloat.
-        </p>
-        <div class="cta-row">
-            <a href="{% url 'contact' %}" class="btn btn-primary">Start a project</a>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
+        <div class="hero-copy">
+            <p class="eyebrow">Freight · Warehousing · Customs</p>
+            <h1>Logistics that keeps your business moving.</h1>
+            <p class="lead">
+                Triple Power Team plans and runs the freight, storage, and customs work behind your
+                supply chain, so your goods arrive on time, every time.
+            </p>
+            <div class="cta-row">
+                <a href="{% url 'contact' %}" class="btn btn-primary">Request a quote</a>
+                <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
+            </div>
+        </div>
+        <div class="hero-art">
+            <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 250h420" stroke="#1d3326" stroke-width="2"/>
+                <g opacity="0.55" fill="none" stroke="#8ba597" stroke-width="2">
+                    <path d="M40 200V120h60v80"/>
+                    <path d="M40 130 70 105l30 25"/>
+                    <path d="M60 200v-45h20v45"/>
+                </g>
+                <g fill="none" stroke="#2fae64" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M150 245v-70h110v70"/>
+                    <path d="M260 210h55l35 30v10h-25"/>
+                    <circle cx="195" cy="252" r="16" fill="#060a08"/>
+                    <circle cx="320" cy="252" r="16" fill="#060a08"/>
+                </g>
+                <g fill="#2fae64" opacity="0.9">
+                    <rect x="170" y="150" width="30" height="30" rx="3"/>
+                    <rect x="205" y="150" width="30" height="30" rx="3"/>
+                </g>
+            </svg>
         </div>
     </div>
 </section>
@@ -24,7 +47,7 @@
         <div class="grid grid-3">
             {% for service in services %}
             <div class="card">
-                <div class="card-icon">{{ service.icon|default:"●" }}</div>
+                <div class="card-icon">{{ service.icon|svg_icon }}</div>
                 <h3>{{ service.title }}</h3>
                 <p>{{ service.summary }}</p>
             </div>
@@ -41,6 +64,11 @@
         <div class="grid grid-3">
             {% for project in projects %}
             <div class="card">
+                {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-image">
+                {% else %}
+                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                {% endif %}
                 <h3>{{ project.title }}</h3>
                 <p>{{ project.summary }}</p>
             </div>
@@ -53,7 +81,7 @@
 
 <section class="section cta-section">
     <div class="container cta-inner">
-        <h2>Ready to build something great?</h2>
+        <h2>Ready to ship your next shipment?</h2>
         <a href="{% url 'contact' %}" class="btn btn-primary">Get in touch</a>
     </div>
 </section>

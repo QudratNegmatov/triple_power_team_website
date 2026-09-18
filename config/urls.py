@@ -8,6 +8,7 @@ urlpatterns = [
     path("", include("core.urls")),
     path("services/", include("services.urls")),
     path("portfolio/", include("portfolio.urls")),
+    path("news/", include("news.urls")),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container narrow news-article">
+        <p class="eyebrow"><a href="{% url 'news_list' %}">&larr; Back to News</a></p>
+        <p class="news-meta">{{ post.published_at|date:"M j, Y" }}</p>
+        <h1>{{ post.title }}</h1>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        {% endif %}
+        <div class="news-body">
+            {{ post.body|linebreaks }}
+        </div>
+    </div>
+</section>
+{% endblock %}
