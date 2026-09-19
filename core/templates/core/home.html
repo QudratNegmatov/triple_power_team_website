@@ -14,7 +14,9 @@
                 supply chain, so your goods arrive on time, every time.
             </p>
             <div class="cta-row">
-                <a href="{% url 'contact' %}" class="btn btn-primary">Request a quote</a>
+                <a href="{% url 'contact' %}" class="btn btn-primary">
+                    Request a quote <span class="btn-arrow">&rarr;</span>
+                </a>
                 <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
             </div>
         </div>
@@ -41,12 +43,34 @@
     </div>
 </section>
 
+<section class="stats-bar reveal">
+    <div class="stat-item">
+        <span class="stat-number">120+</span>
+        <span class="stat-label">Fleet vehicles</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">8</span>
+        <span class="stat-label">Warehouses</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">99%</span>
+        <span class="stat-label">On-time delivery</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">15+</span>
+        <span class="stat-label">Years in business</span>
+    </div>
+</section>
+
 <section class="section">
     <div class="container">
-        <h2>What we do</h2>
+        <div class="section-head reveal">
+            <h2>What we do</h2>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">All services <span class="btn-arrow">&rarr;</span></a>
+        </div>
         <div class="grid grid-3">
             {% for service in services %}
-            <div class="card">
+            <div class="card reveal">
                 <div class="card-icon">{{ service.icon|svg_icon }}</div>
                 <h3>{{ service.title }}</h3>
                 <p>{{ service.summary }}</p>
@@ -60,10 +84,13 @@
 
 <section class="section section-alt">
     <div class="container">
-        <h2>Recent work</h2>
+        <div class="section-head reveal">
+            <h2>Recent work</h2>
+            <a href="{% url 'project_list' %}" class="btn btn-ghost">All projects <span class="btn-arrow">&rarr;</span></a>
+        </div>
         <div class="grid grid-3">
             {% for project in projects %}
-            <div class="card">
+            <div class="card reveal">
                 {% if project.image %}
                     <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-image">
                 {% else %}
@@ -76,13 +103,6 @@
             <p class="muted">Projects will show up here once added in the admin.</p>
             {% endfor %}
         </div>
-    </div>
-</section>
-
-<section class="section cta-section">
-    <div class="container cta-inner">
-        <h2>Ready to ship your next shipment?</h2>
-        <a href="{% url 'contact' %}" class="btn btn-primary">Get in touch</a>
     </div>
 </section>
 {% endblock %}

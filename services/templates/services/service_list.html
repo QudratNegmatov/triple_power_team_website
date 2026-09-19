@@ -8,18 +8,22 @@
     <div class="container">
         <p class="eyebrow">What we offer</p>
         <h1>Services</h1>
-        <p class="lead">Everything you need to plan, design, and ship your product.</p>
+        <p class="lead">Everything you need to plan, move, store, and clear your cargo.</p>
     </div>
 </section>
 
-<section class="section">
+<section class="section" style="padding-top: 0;">
     <div class="container">
-        <div class="grid grid-3">
+        <div class="service-rows">
             {% for service in services %}
-            <div class="card">
-                <div class="card-icon">{{ service.icon|svg_icon }}</div>
-                <h3>{{ service.title }}</h3>
-                <p>{{ service.description }}</p>
+            <div class="service-row reveal">
+                <span class="service-index">{{ forloop.counter|stringformat:"02d" }}</span>
+                <div class="service-row-icon">{{ service.icon|svg_icon }}</div>
+                <div class="service-row-body">
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description }}</p>
+                </div>
+                <span class="service-row-arrow">&rarr;</span>
             </div>
             {% empty %}
             <p class="muted">No services added yet. Add some in the Django admin.</p>

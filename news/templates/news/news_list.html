@@ -16,7 +16,7 @@
     <div class="container">
         <div class="grid grid-3">
             {% for post in posts %}
-            <a href="{% url 'news_detail' post.slug %}" class="card card-link">
+            <a href="{% url 'news_detail' post.slug %}" class="card card-link reveal">
                 {% if post.image %}
                     <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-image">
                 {% else %}

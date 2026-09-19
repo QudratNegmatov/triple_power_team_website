@@ -22,6 +22,15 @@
         </div>
     </header>
 
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            {% for i in "12" %}
+            <span>Freight</span><span>Warehousing</span><span>Customs Clearance</span>
+            <span>Fleet Tracking</span><span>Cold Chain</span><span>Import &amp; Export</span>
+            {% endfor %}
+        </div>
+    </div>
+
     {% if messages %}
         <div class="container">
             {% for message in messages %}
@@ -35,9 +44,23 @@
     </main>
 
     <footer class="site-footer">
-        <div class="container footer-inner">
+        <div class="container footer-cta">
+            <p class="eyebrow">Let's talk logistics</p>
+            <h2>Ready to move your next shipment?</h2>
+            <a href="{% url 'contact' %}" class="btn btn-primary">
+                Get in touch <span class="btn-arrow">&rarr;</span>
+            </a>
+        </div>
+        <div class="container footer-bottom">
             <p>&copy; {% now "Y" %} Triple Power Team. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="{% url 'news_list' %}">News</a>
+                <a href="{% url 'service_list' %}">Services</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
         </div>
     </footer>
+
+    <script src="{% static 'js/site.js' %}"></script>
 </body>
 </html>
