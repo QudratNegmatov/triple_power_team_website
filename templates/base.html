@@ -10,7 +10,16 @@
 <body>
     <header class="site-header">
         <div class="container header-inner">
-            <a href="{% url 'home' %}" class="logo">Triple Power Team</a>
+            <a href="{% url 'home' %}" class="logo">
+                <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="#1f9d55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6l6 6-6 6"/>
+                    <path d="M11 6l6 6-6 6"/>
+                </svg>
+                <span class="logo-text">
+                    Triple Power Team
+                    <small>Freight &middot; Warehousing &middot; Customs</small>
+                </span>
+            </a>
             <nav class="nav">
                 <a href="{% url 'home' %}">Home</a>
                 <a href="{% url 'about' %}">About</a>

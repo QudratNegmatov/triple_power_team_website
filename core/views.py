@@ -10,7 +10,7 @@ from .models import ContactMessage
 
 def home(request):
     context = {
-        "services": Service.objects.all()[:3],
+        "services": Service.objects.all()[:4],
         "projects": Project.objects.all()[:3],
     }
     return render(request, "core/home.html", context)

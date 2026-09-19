@@ -27,4 +27,26 @@ document.addEventListener("DOMContentLoaded", function () {
             revealEls.forEach(function (el) { el.classList.add("in-view"); });
         }
     }
+
+    var slides = document.querySelectorAll(".testimonial-slide");
+    var dots = document.querySelectorAll(".testimonial-dot");
+    if (slides.length) {
+        var current = 0;
+        var show = function (index) {
+            current = (index + slides.length) % slides.length;
+            slides.forEach(function (slide, i) {
+                slide.classList.toggle("is-active", i === current);
+            });
+            dots.forEach(function (dot, i) {
+                dot.classList.toggle("is-active", i === current);
+            });
+        };
+        var prevBtn = document.querySelector("[data-testimonial-prev]");
+        var nextBtn = document.querySelector("[data-testimonial-next]");
+        if (prevBtn) prevBtn.addEventListener("click", function () { show(current - 1); });
+        if (nextBtn) nextBtn.addEventListener("click", function () { show(current + 1); });
+        dots.forEach(function (dot, i) {
+            dot.addEventListener("click", function () { show(i); });
+        });
+    }
 });

@@ -4,112 +4,210 @@
 {% block title %}Triple Power Team — Home{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container hero-inner">
-        <div class="hero-copy">
-            <p class="eyebrow">Freight · Warehousing · Customs</p>
-            <h1>Logistics that keeps your business moving.</h1>
-            <p class="lead">
-                Triple Power Team plans and runs the freight, storage, and customs work behind your
-                supply chain, so your goods arrive on time, every time.
-            </p>
-            <div class="cta-row">
-                <a href="{% url 'contact' %}" class="btn btn-primary">
-                    Request a quote <span class="btn-arrow">&rarr;</span>
-                </a>
-                <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
-            </div>
+<section class="hero-split container">
+    <div class="hero-split-copy">
+        <p class="eyebrow">All-in-one logistics solutions</p>
+        <h1>Your Cargo. Our Network.<br>Delivered On Time.</h1>
+        <p class="lead">
+            Triple Power Team plans and runs the freight, storage, and customs work behind your
+            supply chain — with real-time tracking, so your goods arrive on time, every time.
+        </p>
+        <div class="cta-row">
+            <a href="{% url 'contact' %}" class="btn btn-primary">
+                Request a quote <span class="btn-arrow">&rarr;</span>
+            </a>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
         </div>
-        <div class="hero-art">
-            <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
-                <!-- sun / accent circle -->
-                <circle cx="420" cy="55" r="26" stroke="#5b6b62" stroke-width="2" fill="none" opacity="0.35"/>
-
-                <!-- ground -->
-                <path d="M0 270h480" stroke="#dbe6df" stroke-width="2"/>
-
-                <!-- warehouse, background -->
-                <g fill="none" stroke="#5b6b62" stroke-width="2" opacity="0.6">
-                    <path d="M20 150 65 110 110 150"/>
-                    <path d="M30 150v120h70v-120"/>
-                    <path d="M55 270v-50h20v50"/>
+        <div class="feature-row">
+            <div class="feature-row-item">{{ "check"|svg_icon }} Real-time tracking</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} 24/7 dispatch</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} Customs handled</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} Fleet management</div>
+        </div>
+    </div>
+    <div class="hero-split-visual reveal">
+        <div class="hero-visual-frame">
+            <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-20 260 70 170 160 260Z" fill="rgba(255,255,255,0.05)"/>
+                <path d="M120 260 230 145 340 260Z" fill="rgba(255,255,255,0.08)"/>
+                <path d="M20 340 160 195 240 195 380 340Z" fill="rgba(255,255,255,0.06)"/>
+                <path d="M200 340V200" stroke="rgba(255,255,255,0.3)" stroke-width="4" stroke-dasharray="14 12"/>
+                <g fill="none" stroke="#3ddc84" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="105" y="150" width="140" height="100" rx="6"/>
+                    <path d="M245 250v-45h30l30 25v20z"/>
+                    <line x1="205" y1="152" x2="205" y2="248" stroke-width="2" opacity="0.5"/>
+                    <circle cx="150" cy="253" r="20" fill="#123322"/>
+                    <circle cx="272" cy="253" r="20" fill="#123322"/>
                 </g>
-
-                <!-- motion lines -->
-                <g stroke="#5b6b62" stroke-width="3" stroke-linecap="round">
-                    <path d="M90 150h32" opacity="0.6"/>
-                    <path d="M98 170h24" opacity="0.45"/>
-                    <path d="M106 190h16" opacity="0.3"/>
+                <g fill="#3ddc84">
+                    <circle cx="150" cy="253" r="7"/>
+                    <circle cx="272" cy="253" r="7"/>
                 </g>
-
-                <!-- truck -->
-                <g fill="none" stroke="#1f9d55" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="130" y="110" width="160" height="120" rx="6"/>
-                    <path d="M290 230V175h35l35 30v25z"/>
-                    <line x1="250" y1="112" x2="250" y2="228" stroke-width="2" opacity="0.5"/>
-                    <circle cx="180" cy="235" r="24" fill="#ffffff"/>
-                    <circle cx="320" cy="235" r="24" fill="#ffffff"/>
-                </g>
-                <g fill="#1f9d55">
-                    <circle cx="180" cy="235" r="8"/>
-                    <circle cx="320" cy="235" r="8"/>
-                    <circle cx="364" cy="210" r="5"/>
-                </g>
-                <rect x="130" y="185" width="160" height="16" fill="#1f9d55" opacity="0.12"/>
-
-                <!-- triple chevron mark on cargo box -->
-                <g stroke="#1f9d55" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(190,140)">
-                    <path d="M0 0l11 11-11 11"/>
-                    <path d="M13 0l11 11-11 11"/>
-                    <path d="M26 0l11 11-11 11"/>
-                </g>
-
-                <!-- package waiting on the ground -->
-                <g transform="translate(388,214)" stroke="#1f9d55" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M0 8 20 0l20 8-20 8-20-8z"/>
-                    <path d="M0 8v16l20 8 20-8V8"/>
-                    <path d="M20 16v16"/>
+                <circle cx="300" cy="228" r="4" fill="#ffd28a"/>
+                <rect x="105" y="200" width="140" height="14" fill="#3ddc84" opacity="0.15"/>
+                <g stroke="#3ddc84" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(155,175)">
+                    <path d="M0 0l9 9-9 9"/>
+                    <path d="M11 0l9 9-9 9"/>
+                    <path d="M22 0l9 9-9 9"/>
                 </g>
             </svg>
         </div>
-    </div>
-</section>
-
-<section class="stats-bar reveal">
-    <div class="stat-item">
-        <span class="stat-number">120+</span>
-        <span class="stat-label">Fleet vehicles</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-number">8</span>
-        <span class="stat-label">Warehouses</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-number">99%</span>
-        <span class="stat-label">On-time delivery</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-number">15+</span>
-        <span class="stat-label">Years in business</span>
+        <div class="float-card float-card--status">
+            <div class="float-card-icon">{{ "clock"|svg_icon }}</div>
+            <div>
+                <div class="float-card-title">Fleet Active</div>
+                <div class="float-card-sub">24 vehicles en route</div>
+            </div>
+        </div>
+        <div class="float-card float-card--route">
+            <div class="float-card-icon">{{ "map-pin"|svg_icon }}</div>
+            <div>
+                <div class="float-card-title">Chicago &rarr; Dallas</div>
+                <div class="float-card-sub">ETA 6h 20m</div>
+            </div>
+        </div>
+        <div class="float-card float-card--ring">
+            <div class="ring" style="--val:99"><div class="ring-hole">99%</div></div>
+            <div>
+                <div class="float-card-title">On-Time Rate</div>
+                <div class="float-card-sub">Last 90 days</div>
+            </div>
+        </div>
     </div>
 </section>
 
 <section class="section">
     <div class="container">
         <div class="section-head reveal">
-            <h2>What we do</h2>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">All services <span class="btn-arrow">&rarr;</span></a>
+            <div>
+                <p class="eyebrow">Our services</p>
+                <h2>Complete Logistics Solutions</h2>
+            </div>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">Explore all services <span class="btn-arrow">&rarr;</span></a>
         </div>
-        <div class="grid grid-3">
+        <div class="grid grid-4">
             {% for service in services %}
-            <div class="card reveal">
-                <div class="card-icon">{{ service.icon|svg_icon }}</div>
-                <h3>{{ service.title }}</h3>
-                <p>{{ service.summary }}</p>
+            <div class="service-card reveal">
+                <div class="service-card-media">{{ service.icon|svg_icon }}</div>
+                <div class="service-card-body">
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.summary }}</p>
+                    <a href="{% url 'service_list' %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                </div>
             </div>
             {% empty %}
             <p class="muted">Services will show up here once added in the admin.</p>
             {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-dark">
+    <div class="container why-us-grid">
+        <div class="why-us-copy reveal">
+            <p class="eyebrow">Why choose us</p>
+            <h2>Built for Reliable Delivery. Designed for Your Business.</h2>
+            <p>We combine a modern fleet with an experienced dispatch team that understands the logistics industry.</p>
+            <ul class="checklist">
+                <li>{{ "check"|svg_icon }} Easy-to-book shipments</li>
+                <li>{{ "check"|svg_icon }} Reliable and secure cargo handling</li>
+                <li>{{ "check"|svg_icon }} Experienced dispatchers</li>
+                <li>{{ "check"|svg_icon }} Full customs compliance</li>
+                <li>{{ "check"|svg_icon }} Scalable for shipments of any size</li>
+            </ul>
+            <div class="stats-row-dark">
+                <div class="stat-item">
+                    <div class="stat-icon">{{ "truck"|svg_icon }}</div>
+                    <span class="stat-number">120+</span>
+                    <span class="stat-label">Fleet vehicles</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">{{ "clock"|svg_icon }}</div>
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Dispatch support</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">{{ "warehouse"|svg_icon }}</div>
+                    <span class="stat-number">8</span>
+                    <span class="stat-label">Warehouses</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">{{ "star"|svg_icon }}</div>
+                    <span class="stat-number">99%</span>
+                    <span class="stat-label">On-time delivery</span>
+                </div>
+            </div>
+        </div>
+        <div class="why-us-visual reveal">
+            <div class="hero-visual-frame">
+                <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M-20 260 70 170 160 260Z" fill="rgba(255,255,255,0.05)"/>
+                    <path d="M120 260 230 145 340 260Z" fill="rgba(255,255,255,0.08)"/>
+                    <path d="M20 340 160 195 240 195 380 340Z" fill="rgba(255,255,255,0.06)"/>
+                    <g fill="none" stroke="#3ddc84" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="130" y="170" width="110" height="80" rx="6"/>
+                        <path d="M240 250v-36h24l24 20v16z"/>
+                        <circle cx="165" cy="253" r="16" fill="#123322"/>
+                        <circle cx="255" cy="253" r="16" fill="#123322"/>
+                    </g>
+                    <g fill="#3ddc84">
+                        <circle cx="165" cy="253" r="5.5"/>
+                        <circle cx="255" cy="253" r="5.5"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container how-it-works-grid">
+        <div class="how-it-works-copy reveal">
+            <p class="eyebrow">How it works</p>
+            <h2>Simple Steps. Reliable Delivery.</h2>
+            <p class="lead">Get a quote in minutes and let us handle the rest, from pickup to final delivery.</p>
+            <div class="steps-row">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h3>Request a Quote</h3>
+                    <p>Tell us what you're shipping, where it's going, and when.</p>
+                </div>
+                <div class="step-arrow">{{ "arrow-right"|svg_icon }}</div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h3>We Plan the Route</h3>
+                    <p>We arrange freight, warehousing, and customs clearance.</p>
+                </div>
+                <div class="step-arrow">{{ "arrow-right"|svg_icon }}</div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h3>Cargo Delivered</h3>
+                    <p>Track your shipment in real time until it arrives.</p>
+                </div>
+            </div>
+            <div class="cta-row">
+                <a href="{% url 'contact' %}" class="btn btn-primary">Request a quote <span class="btn-arrow">&rarr;</span></a>
+            </div>
+        </div>
+        <div class="how-it-works-visual reveal">
+            <div class="device-mockup">
+                <div class="device-laptop">
+                    <div class="device-laptop-bar"><span></span><span></span><span></span></div>
+                    <div class="device-laptop-body">
+                        <div class="device-sidebar">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="device-main">
+                            <div class="device-stat-row"><span></span><span></span><span></span></div>
+                            <div class="device-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-phone">
+                    <div class="ring" style="--val:70"><div class="ring-hole">70%</div></div>
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -134,6 +232,35 @@
             {% empty %}
             <p class="muted">Projects will show up here once added in the admin.</p>
             {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-dark">
+    <div class="container">
+        <div class="testimonial-wrap reveal">
+            <div class="testimonial-quote-mark">&ldquo;</div>
+            <div class="testimonial-slide is-active">
+                <p class="testimonial-text">Since we started shipping with Triple Power Team, our deliveries are always on time and their dispatch team is easy to reach whenever we need them.</p>
+                <p class="testimonial-author">— Placeholder Client, Retail Distribution</p>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-text">Their customs team handled our import paperwork end to end. What used to take us days now takes hours.</p>
+                <p class="testimonial-author">— Placeholder Client, Import Business</p>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-text">Real-time tracking gives our customers confidence, and the warehousing team keeps our cold chain intact every time.</p>
+                <p class="testimonial-author">— Placeholder Client, Food Distributor</p>
+            </div>
+            <div class="testimonial-controls">
+                <button class="testimonial-arrow" data-testimonial-prev aria-label="Previous testimonial">&larr;</button>
+                <div class="testimonial-dots">
+                    <button class="testimonial-dot is-active" data-testimonial-dot="0" aria-label="Testimonial 1"></button>
+                    <button class="testimonial-dot" data-testimonial-dot="1" aria-label="Testimonial 2"></button>
+                    <button class="testimonial-dot" data-testimonial-dot="2" aria-label="Testimonial 3"></button>
+                </div>
+                <button class="testimonial-arrow" data-testimonial-next aria-label="Next testimonial">&rarr;</button>
+            </div>
         </div>
     </div>
 </section>
