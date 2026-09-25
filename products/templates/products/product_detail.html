@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.title }} — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <p class="eyebrow"><a href="{% url 'product_list' %}">&larr; All products</a></p>
+        <h1>{{ product.title }}</h1>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container product-detail-grid">
+        <div class="product-detail-media">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+            {% else %}
+                <img src="{% static 'img/placeholder.svg' %}" alt="">
+            {% endif %}
+        </div>
+        <div class="product-detail-body">
+            <div class="price-row price-row-lg">
+                {% if product.has_discount %}
+                    <span class="price-original">${{ product.price }}</span>
+                    <span class="price-current">${{ product.discount_price }}</span>
+                    <span class="discount-badge">-{{ product.discount_percent }}%</span>
+                {% else %}
+                    <span class="price-current">${{ product.price }}</span>
+                {% endif %}
+            </div>
+            <p>{{ product.description }}</p>
+
+            <h3>Request this product</h3>
+            <form method="post" class="form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="field-error">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Send request</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% if other_products %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Other products</h2>
+        </div>
+        <div class="grid grid-3">
+            {% for other in other_products %}
+            <a href="{% url 'product_detail' other.slug %}" class="card card-link reveal">
+                {% if other.image %}
+                    <img src="{{ other.image.url }}" alt="{{ other.title }}" class="card-image">
+                {% else %}
+                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                {% endif %}
+                <h3>{{ other.title }}</h3>
+                <div class="price-row">
+                    {% if other.has_discount %}
+                        <span class="price-original">${{ other.price }}</span>
+                        <span class="price-current">${{ other.discount_price }}</span>
+                    {% else %}
+                        <span class="price-current">${{ other.price }}</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

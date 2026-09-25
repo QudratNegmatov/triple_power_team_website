@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Products — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <p class="eyebrow">Shop</p>
+        <h1>Products</h1>
+        <p class="lead">ELD devices and fleet equipment. Request a quote and we'll get back to you.</p>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container">
+        <div class="grid grid-3">
+            {% for product in products %}
+            <a href="{% url 'product_detail' product.slug %}" class="card card-link reveal">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="card-image">
+                {% else %}
+                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                {% endif %}
+                <h3>{{ product.title }}</h3>
+                <div class="price-row">
+                    {% if product.has_discount %}
+                        <span class="price-original">${{ product.price }}</span>
+                        <span class="price-current">${{ product.discount_price }}</span>
+                        <span class="discount-badge">-{{ product.discount_percent }}%</span>
+                    {% else %}
+                        <span class="price-current">${{ product.price }}</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% empty %}
+            <p class="muted">No products added yet. Add some in the Django admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
