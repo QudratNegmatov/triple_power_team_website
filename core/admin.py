@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from common.admin import CreatedByAdminMixin
 
-from .models import ContactMessage, HeroSlide, WhyChooseUs, WhyChooseUsPoint, WhyChooseUsStat
+from .models import AboutPage, ContactMessage, HeroSlide, WhyChooseUs, WhyChooseUsPoint, WhyChooseUsStat
 
 
 class WhyChooseUsPointInline(admin.TabularInline):
@@ -28,6 +28,11 @@ class HeroSlideAdmin(CreatedByAdminMixin, admin.ModelAdmin):
     list_display = ("title_en", "order", "is_active", "created_by", "created_at")
     list_editable = ("order", "is_active")
     ordering = ("order",)
+
+
+@admin.register(AboutPage)
+class AboutPageAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    list_display = ("heading_en", "is_active")
 
 
 @admin.register(ContactMessage)

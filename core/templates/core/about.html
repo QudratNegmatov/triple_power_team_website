@@ -1,32 +1,38 @@
 {% extends "base.html" %}
+{% load i18n_extras %}
 
 {% block title %}About — Triple Power Team{% endblock %}
 
 {% block content %}
+{% if about_page %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">About us</p>
-        <h1>The team behind Triple Power Team</h1>
-        <p class="lead">
-            We're a logistics team that keeps freight, storage, and customs work running smoothly
-            so our clients can focus on their own business.
-        </p>
+        <p class="eyebrow">{% tr about_page "eyebrow" %}</p>
+        <h1>{% tr about_page "heading" %}</h1>
+        <p class="lead">{% tr about_page "lead" %}</p>
     </div>
 </section>
 
 <section class="section">
     <div class="container narrow">
-        <h2>Our story</h2>
-        <p>
-            Triple Power Team started with a simple idea: shippers deserve a logistics partner
-            that moves fast, communicates clearly, and treats every shipment like it matters.
-            (Replace this paragraph with your real story.)
-        </p>
-        <h2>Our mission</h2>
-        <p>
-            To give every client the power of a full logistics team — trucking, warehousing,
-            and customs — without having to manage separate vendors for each.
-        </p>
+        {% if about_page.image %}
+            <img src="{{ about_page.image.url }}" alt="{% tr about_page 'heading' %}" class="about-image">
+        {% endif %}
+        <h2>{% tr about_page "story_heading" %}</h2>
+        {% tr about_page "story" as story_text %}
+        {{ story_text|linebreaks }}
+        <h2>{% tr about_page "mission_heading" %}</h2>
+        {% tr about_page "mission" as mission_text %}
+        {{ mission_text|linebreaks }}
     </div>
 </section>
+{% else %}
+<section class="section page-header">
+    <div class="container">
+        <p class="eyebrow">About us</p>
+        <h1>About Triple Power Team</h1>
+        <p class="muted">Add an "About page" entry in the Django admin to fill this in.</p>
+    </div>
+</section>
+{% endif %}
 {% endblock %}

@@ -5,7 +5,7 @@ from portfolio.models import Project
 from services.models import Service
 
 from .forms import ContactForm
-from .models import ContactMessage, HeroSlide, WhyChooseUs
+from .models import AboutPage, ContactMessage, HeroSlide, WhyChooseUs
 
 
 def home(request):
@@ -21,7 +21,8 @@ def home(request):
 
 
 def about(request):
-    return render(request, "core/about.html")
+    about_page = AboutPage.objects.filter(is_active=True).first()
+    return render(request, "core/about.html", {"about_page": about_page})
 
 
 def contact(request):
