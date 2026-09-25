@@ -92,7 +92,7 @@
                 <div class="service-card-body">
                     <h3>{{ service.title }}</h3>
                     <p>{{ service.summary }}</p>
-                    <a href="{% url 'service_list' %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                    <a href="{% url 'service_detail' service.slug %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% empty %}
@@ -105,38 +105,33 @@
 <section class="section section-dark">
     <div class="container why-us-grid">
         <div class="why-us-copy reveal">
+            {% if why_us %}
+            <p class="eyebrow">{{ why_us.eyebrow }}</p>
+            <h2>{{ why_us.heading }}</h2>
+            <p>{{ why_us.intro }}</p>
+            {% if why_us.points.all %}
+            <ul class="checklist">
+                {% for point in why_us.points.all %}
+                <li>{{ "check"|svg_icon }} {{ point.text }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if why_us.stats.all %}
+            <div class="stats-row-dark">
+                {% for stat in why_us.stats.all %}
+                <div class="stat-item">
+                    <div class="stat-icon">{{ stat.icon|svg_icon }}</div>
+                    <span class="stat-number">{{ stat.number }}</span>
+                    <span class="stat-label">{{ stat.label }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% else %}
             <p class="eyebrow">Why choose us</p>
             <h2>Built for Reliable Delivery. Designed for Your Business.</h2>
-            <p>We combine a modern fleet with an experienced dispatch team that understands the logistics industry.</p>
-            <ul class="checklist">
-                <li>{{ "check"|svg_icon }} Easy-to-book shipments</li>
-                <li>{{ "check"|svg_icon }} Reliable and secure cargo handling</li>
-                <li>{{ "check"|svg_icon }} Experienced dispatchers</li>
-                <li>{{ "check"|svg_icon }} Full customs compliance</li>
-                <li>{{ "check"|svg_icon }} Scalable for shipments of any size</li>
-            </ul>
-            <div class="stats-row-dark">
-                <div class="stat-item">
-                    <div class="stat-icon">{{ "truck"|svg_icon }}</div>
-                    <span class="stat-number">120+</span>
-                    <span class="stat-label">Fleet vehicles</span>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon">{{ "clock"|svg_icon }}</div>
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Dispatch support</span>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon">{{ "warehouse"|svg_icon }}</div>
-                    <span class="stat-number">8</span>
-                    <span class="stat-label">Warehouses</span>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon">{{ "star"|svg_icon }}</div>
-                    <span class="stat-number">99%</span>
-                    <span class="stat-label">On-time delivery</span>
-                </div>
-            </div>
+            <p class="muted">Add a "Why Choose Us" section in the Django admin to fill this in.</p>
+            {% endif %}
         </div>
         <div class="why-us-visual reveal">
             <div class="hero-visual-frame">

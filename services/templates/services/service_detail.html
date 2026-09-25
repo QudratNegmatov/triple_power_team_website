@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static site_icons %}
+
+{% block title %}{{ service.title }} — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <p class="eyebrow"><a href="{% url 'service_list' %}">&larr; All services</a></p>
+        <div class="service-detail-head">
+            <div class="service-row-icon service-detail-icon">{{ service.icon|svg_icon }}</div>
+            <h1>{{ service.title }}</h1>
+        </div>
+        <p class="lead">{{ service.summary }}</p>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container narrow">
+        {% if service.image %}
+            <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-detail-image">
+        {% endif %}
+        <p>{{ service.description }}</p>
+
+        {% with points=service.key_points_list %}
+        {% if points %}
+        <ul class="checklist checklist-light">
+            {% for point in points %}
+            <li>{{ "check"|svg_icon }} {{ point }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <div class="cta-row" style="margin-top: 32px;">
+            <a href="{% url 'contact' %}" class="btn btn-primary">Request a quote <span class="btn-arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+{% if other_services %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Other services</h2>
+        </div>
+        <div class="grid grid-3">
+            {% for other in other_services %}
+            <div class="service-card reveal">
+                <div class="service-card-media">{{ other.icon|svg_icon }}</div>
+                <div class="service-card-body">
+                    <h3>{{ other.title }}</h3>
+                    <p>{{ other.summary }}</p>
+                    <a href="{% url 'service_detail' other.slug %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
