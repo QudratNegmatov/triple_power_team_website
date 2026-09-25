@@ -1,21 +1,25 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n_extras %}
 
-{% block title %}{{ product.title }} — Triple Power Team{% endblock %}
+{% block title %}{% tr product "title" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 <section class="section page-header">
     <div class="container">
         <p class="eyebrow"><a href="{% url 'product_list' %}">&larr; All products</a></p>
-        <h1>{{ product.title }}</h1>
+        <h1>{% tr product "title" %}</h1>
     </div>
 </section>
 
 <section class="section" style="padding-top: 0;">
     <div class="container product-detail-grid">
         <div class="product-detail-media">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+            {% if product.gallery.all %}
+                <div class="gallery-grid">
+                    {% for photo in product.gallery.all %}
+                    <img src="{{ photo.image.url }}" alt="{% tr product 'title' %}" class="gallery-image">
+                    {% endfor %}
+                </div>
             {% else %}
                 <img src="{% static 'img/placeholder.svg' %}" alt="">
             {% endif %}
@@ -30,7 +34,7 @@
                     <span class="price-current">${{ product.price }}</span>
                 {% endif %}
             </div>
-            <p>{{ product.description }}</p>
+            <p>{% tr product "description" %}</p>
 
             <h3>Request this product</h3>
             <form method="post" class="form">
@@ -58,13 +62,15 @@
         </div>
         <div class="grid grid-3">
             {% for other in other_products %}
-            <a href="{% url 'product_detail' other.slug %}" class="card card-link reveal">
-                {% if other.image %}
-                    <img src="{{ other.image.url }}" alt="{{ other.title }}" class="card-image">
+            <a href="{% url 'product_detail' other.id %}" class="card card-link reveal">
+                {% with cover=other.gallery.first %}
+                {% if cover %}
+                    <img src="{{ cover.image.url }}" alt="{% tr other 'title' %}" class="card-image">
                 {% else %}
                     <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
-                <h3>{{ other.title }}</h3>
+                {% endwith %}
+                <h3>{% tr other "title" %}</h3>
                 <div class="price-row">
                     {% if other.has_discount %}
                         <span class="price-original">${{ other.price }}</span>

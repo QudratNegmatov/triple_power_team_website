@@ -4,10 +4,10 @@ from .models import NewsPost
 
 
 def news_list(request):
-    posts = NewsPost.objects.filter(is_published=True)
+    posts = NewsPost.objects.filter(is_active=True)
     return render(request, "news/news_list.html", {"posts": posts})
 
 
-def news_detail(request, slug):
-    post = get_object_or_404(NewsPost, slug=slug, is_published=True)
+def news_detail(request, pk):
+    post = get_object_or_404(NewsPost, pk=pk, is_active=True)
     return render(request, "news/news_detail.html", {"post": post})

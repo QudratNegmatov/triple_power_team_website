@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n_extras %}
 
 {% block title %}Portfolio — Triple Power Team{% endblock %}
 
@@ -18,13 +18,13 @@
             {% for project in projects %}
             <div class="card reveal">
                 {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-image">
+                    <img src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
                 {% else %}
                     <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
-                <h3>{{ project.title }}</h3>
+                <h3>{% tr project "title" %}</h3>
                 {% if project.client %}<p class="muted">{{ project.client }}</p>{% endif %}
-                <p>{{ project.summary }}</p>
+                <p>{% tr project "summary" %}</p>
             </div>
             {% empty %}
             <p class="muted">No projects added yet. Add some in the Django admin.</p>

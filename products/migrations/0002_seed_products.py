@@ -4,36 +4,34 @@ from django.db import migrations
 
 PRODUCTS = [
     {
-        "title": "ELD Device — Standard",
-        "slug": "eld-device-standard",
-        "description": (
-            "FMCSA-compliant electronic logging device for single vehicles. "
-            "Plug-and-play installation with automatic hours-of-service "
-            "tracking."
-        ),
+        "title_en": "ELD Device — Standard",
+        "title_uz": "ELD qurilma — Standart",
+        "title_ru": "ELD-устройство — Стандарт",
+        "description_en": "FMCSA-compliant electronic logging device for single vehicles. Plug-and-play installation with automatic hours-of-service tracking.",
+        "description_uz": "Bitta transport vositasi uchun FMCSA talablariga javob beradigan elektron jurnal qurilmasi. O'rnatish oson, ish soatlari avtomatik kuzatiladi.",
+        "description_ru": "Электронное устройство регистрации, соответствующее требованиям FMCSA, для одного автомобиля. Простая установка и автоматический учёт часов работы.",
         "price": Decimal("149.00"),
         "discount_price": None,
         "order": 1,
     },
     {
-        "title": "ELD Device — Pro Fleet",
-        "slug": "eld-device-pro-fleet",
-        "description": (
-            "Our advanced ELD unit built for fleet operators: live GPS "
-            "tracking, driver behavior reports, and fleet dashboard access "
-            "included."
-        ),
+        "title_en": "ELD Device — Pro Fleet",
+        "title_uz": "ELD qurilma — Pro avtopark",
+        "title_ru": "ELD-устройство — Pro для автопарка",
+        "description_en": "Our advanced ELD unit built for fleet operators: live GPS tracking, driver behavior reports, and fleet dashboard access included.",
+        "description_uz": "Avtopark operatorlari uchun ilg'or ELD qurilmasi: jonli GPS kuzatuvi, haydovchi xatti-harakati hisobotlari va boshqaruv paneli kiritilgan.",
+        "description_ru": "Продвинутое ELD-устройство для автопарков: GPS-отслеживание в реальном времени, отчёты о поведении водителя и доступ к панели управления.",
         "price": Decimal("219.00"),
         "discount_price": Decimal("179.00"),
         "order": 2,
     },
     {
-        "title": "GPS Fleet Tracker",
-        "slug": "gps-fleet-tracker",
-        "description": (
-            "Standalone GPS tracking unit for trailers and equipment. Real-time "
-            "location updates and geofencing alerts."
-        ),
+        "title_en": "GPS Fleet Tracker",
+        "title_uz": "GPS avtopark kuzatuvchisi",
+        "title_ru": "GPS-трекер для автопарка",
+        "description_en": "Standalone GPS tracking unit for trailers and equipment. Real-time location updates and geofencing alerts.",
+        "description_uz": "Tirkamalar va uskunalar uchun mustaqil GPS kuzatuv qurilmasi. Real vaqtda joylashuv va geofencing ogohlantirishlari.",
+        "description_ru": "Автономный GPS-трекер для прицепов и оборудования. Обновления местоположения в реальном времени и геозоны.",
         "price": Decimal("89.00"),
         "discount_price": None,
         "order": 3,
@@ -41,15 +39,15 @@ PRODUCTS = [
 ]
 
 
-def seed_products(apps, schema_editor):
+def seed(apps, schema_editor):
     Product = apps.get_model("products", "Product")
     for data in PRODUCTS:
-        Product.objects.get_or_create(slug=data["slug"], defaults={**data, "is_active": True})
+        Product.objects.create(**data)
 
 
-def remove_products(apps, schema_editor):
+def unseed(apps, schema_editor):
     Product = apps.get_model("products", "Product")
-    Product.objects.filter(slug__in=[p["slug"] for p in PRODUCTS]).delete()
+    Product.objects.filter(title_en__in=[p["title_en"] for p in PRODUCTS]).delete()
 
 
 class Migration(migrations.Migration):
@@ -59,5 +57,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(seed_products, remove_products),
+        migrations.RunPython(seed, unseed),
     ]

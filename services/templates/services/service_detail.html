@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static site_icons %}
+{% load static site_icons i18n_extras %}
 
-{% block title %}{{ service.title }} — Triple Power Team{% endblock %}
+{% block title %}{% tr service "title" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -9,18 +9,23 @@
         <p class="eyebrow"><a href="{% url 'service_list' %}">&larr; All services</a></p>
         <div class="service-detail-head">
             <div class="service-row-icon service-detail-icon">{{ service.icon|svg_icon }}</div>
-            <h1>{{ service.title }}</h1>
+            <h1>{% tr service "title" %}</h1>
         </div>
-        <p class="lead">{{ service.summary }}</p>
+        <p class="lead">{% tr service "short_name" %}</p>
     </div>
 </section>
 
 <section class="section" style="padding-top: 0;">
     <div class="container narrow">
-        {% if service.image %}
-            <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-detail-image">
+        {% if service.gallery.all %}
+        <div class="gallery-grid">
+            {% for photo in service.gallery.all %}
+            <img src="{{ photo.image.url }}" alt="{% tr service 'title' %}" class="gallery-image">
+            {% endfor %}
+        </div>
         {% endif %}
-        <p>{{ service.description }}</p>
+
+        {% tr_html service "full_info" %}
 
         {% with points=service.key_points_list %}
         {% if points %}
@@ -38,8 +43,38 @@
     </div>
 </section>
 
-{% if other_services %}
+{% if prices %}
 <section class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Pricing</h2>
+        </div>
+        <div class="grid grid-3">
+            {% for price in prices %}
+            <div class="price-card reveal">
+                <h3>{% tr price "price_type_label" %}</h3>
+                <div class="price-row price-row-lg">
+                    <span class="price-current">${{ price.price }}</span>
+                    <span class="price-period">/ {{ price.get_period_display }}</span>
+                </div>
+                {% with features=price.features_list %}
+                {% if features %}
+                <ul class="checklist checklist-light">
+                    {% for feature in features %}
+                    <li>{{ "check"|svg_icon }} {{ feature }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if other_services %}
+<section class="section">
     <div class="container">
         <div class="section-head reveal">
             <h2>Other services</h2>
@@ -49,9 +84,9 @@
             <div class="service-card reveal">
                 <div class="service-card-media">{{ other.icon|svg_icon }}</div>
                 <div class="service-card-body">
-                    <h3>{{ other.title }}</h3>
-                    <p>{{ other.summary }}</p>
-                    <a href="{% url 'service_detail' other.slug %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                    <h3>{% tr other "title" %}</h3>
+                    <p>{% tr other "short_name" %}</p>
+                    <a href="{% url 'service_detail' other.id %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% endfor %}

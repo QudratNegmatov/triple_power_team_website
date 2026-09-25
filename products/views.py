@@ -10,17 +10,17 @@ def product_list(request):
     return render(request, "products/product_list.html", {"products": products})
 
 
-def product_detail(request, slug):
-    product = get_object_or_404(Product, slug=slug, is_active=True)
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk, is_active=True)
     if request.method == "POST":
         form = ProductInquiryForm(request.POST)
         if form.is_valid():
             ProductInquiry.objects.create(product=product, **form.cleaned_data)
             messages.success(request, "Thanks! We received your request and will contact you soon.")
-            return redirect("product_detail", slug=product.slug)
+            return redirect("product_detail", pk=product.pk)
     else:
         form = ProductInquiryForm()
-    other_products = Product.objects.filter(is_active=True).exclude(slug=slug)[:3]
+    other_products = Product.objects.filter(is_active=True).exclude(pk=pk)[:3]
     return render(
         request,
         "products/product_detail.html",

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static site_icons %}
+{% load static site_icons i18n_extras %}
 
 {% block title %}Triple Power Team — Home{% endblock %}
 
@@ -25,6 +25,37 @@
             <div class="feature-row-item">{{ "check"|svg_icon }} Fleet management</div>
         </div>
     </div>
+
+    {% if hero_slides %}
+    <div class="hero-split-visual reveal">
+        <div class="hero-slider">
+            {% for slide in hero_slides %}
+            <div class="hero-slide{% if forloop.first %} is-active{% endif %}">
+                {% if slide.video %}
+                    <video src="{{ slide.video.url }}" autoplay muted loop playsinline></video>
+                {% elif slide.image %}
+                    <img src="{{ slide.image.url }}" alt="{% tr slide 'title' %}">
+                {% endif %}
+                <div class="hero-slide-overlay">
+                    <h3>{% tr slide "title" %}</h3>
+                    <p>{% tr slide "description" %}</p>
+                    {% tr slide "button_name" as button_name %}
+                    {% if button_name and slide.button_url %}
+                        <a href="{{ slide.button_url }}" class="btn btn-primary">{{ button_name }}</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% if hero_slides|length > 1 %}
+            <div class="hero-slider-dots">
+                {% for slide in hero_slides %}
+                <button class="hero-slider-dot{% if forloop.first %} is-active{% endif %}" data-hero-dot="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
     <div class="hero-split-visual reveal">
         <div class="hero-visual-frame">
             <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
@@ -74,6 +105,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </section>
 
 <section class="section">
@@ -90,9 +122,9 @@
             <div class="service-card reveal">
                 <div class="service-card-media">{{ service.icon|svg_icon }}</div>
                 <div class="service-card-body">
-                    <h3>{{ service.title }}</h3>
-                    <p>{{ service.summary }}</p>
-                    <a href="{% url 'service_detail' service.slug %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                    <h3>{% tr service "title" %}</h3>
+                    <p>{% tr service "short_name" %}</p>
+                    <a href="{% url 'service_detail' service.id %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% empty %}
@@ -103,55 +135,44 @@
 </section>
 
 <section class="section section-dark">
-    <div class="container why-us-grid">
-        <div class="why-us-copy reveal">
-            {% if why_us %}
-            <p class="eyebrow">{{ why_us.eyebrow }}</p>
-            <h2>{{ why_us.heading }}</h2>
-            <p>{{ why_us.intro }}</p>
-            {% if why_us.points.all %}
-            <ul class="checklist">
-                {% for point in why_us.points.all %}
-                <li>{{ "check"|svg_icon }} {{ point.text }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if why_us.stats.all %}
-            <div class="stats-row-dark">
-                {% for stat in why_us.stats.all %}
-                <div class="stat-item">
-                    <div class="stat-icon">{{ stat.icon|svg_icon }}</div>
-                    <span class="stat-number">{{ stat.number }}</span>
-                    <span class="stat-label">{{ stat.label }}</span>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% else %}
-            <p class="eyebrow">Why choose us</p>
-            <h2>Built for Reliable Delivery. Designed for Your Business.</h2>
-            <p class="muted">Add a "Why Choose Us" section in the Django admin to fill this in.</p>
-            {% endif %}
+    <div class="container">
+        {% if why_us %}
+        <div class="why-us-head reveal">
+            <p class="eyebrow">{% tr why_us "eyebrow" %}</p>
+            <h2>{% tr why_us "heading" %}</h2>
+            <p class="lead">{% tr why_us "intro" %}</p>
         </div>
-        <div class="why-us-visual reveal">
-            <div class="hero-visual-frame">
-                <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M-20 260 70 170 160 260Z" fill="rgba(255,255,255,0.05)"/>
-                    <path d="M120 260 230 145 340 260Z" fill="rgba(255,255,255,0.08)"/>
-                    <path d="M20 340 160 195 240 195 380 340Z" fill="rgba(255,255,255,0.06)"/>
-                    <g fill="none" stroke="#3ddc84" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="130" y="170" width="110" height="80" rx="6"/>
-                        <path d="M240 250v-36h24l24 20v16z"/>
-                        <circle cx="165" cy="253" r="16" fill="#123322"/>
-                        <circle cx="255" cy="253" r="16" fill="#123322"/>
-                    </g>
-                    <g fill="#3ddc84">
-                        <circle cx="165" cy="253" r="5.5"/>
-                        <circle cx="255" cy="253" r="5.5"/>
-                    </g>
-                </svg>
+        {% if why_us.points.all %}
+        <div class="grid grid-3 why-us-points">
+            {% for point in why_us.points.all %}
+            <div class="why-us-point reveal">
+                {% if point.image %}
+                    <img src="{{ point.image.url }}" alt="{% tr point 'title' %}" class="why-us-point-image">
+                {% else %}
+                    <div class="why-us-point-icon">{{ point.icon|svg_icon }}</div>
+                {% endif %}
+                <h3>{% tr point "title" %}</h3>
+                <p>{% tr point "short_description" %}</p>
             </div>
+            {% endfor %}
         </div>
+        {% endif %}
+        {% if why_us.stats.all %}
+        <div class="stats-row-dark">
+            {% for stat in why_us.stats.all %}
+            <div class="stat-item">
+                <div class="stat-icon">{{ stat.icon|svg_icon }}</div>
+                <span class="stat-number">{{ stat.number }}</span>
+                <span class="stat-label">{% tr stat "label" %}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="eyebrow">Why choose us</p>
+        <h2>Built for Reliable Delivery. Designed for Your Business.</h2>
+        <p class="muted">Add a "Why Choose Us" section in the Django admin to fill this in.</p>
+        {% endif %}
     </div>
 </section>
 
@@ -217,12 +238,12 @@
             {% for project in projects %}
             <div class="card reveal">
                 {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-image">
+                    <img src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
                 {% else %}
                     <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
-                <h3>{{ project.title }}</h3>
-                <p>{{ project.summary }}</p>
+                <h3>{% tr project "title" %}</h3>
+                <p>{% tr project "summary" %}</p>
             </div>
             {% empty %}
             <p class="muted">Projects will show up here once added in the admin.</p>

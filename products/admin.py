@@ -1,14 +1,22 @@
 from django.contrib import admin
 
-from .models import Product, ProductInquiry
+from common.admin import CreatedByAdminMixin
+
+from .models import Product, ProductImage, ProductInquiry
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+    fields = ("image", "order", "is_active")
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ("title", "price", "discount_price", "is_active", "order")
+class ProductAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    list_display = ("title_en", "price", "discount_price", "is_active", "order")
     list_filter = ("is_active",)
-    prepopulated_fields = {"slug": ("title",)}
-    ordering = ("order", "title")
+    ordering = ("order", "title_en")
+    inlines = [ProductImageInline]
 
 
 @admin.register(ProductInquiry)

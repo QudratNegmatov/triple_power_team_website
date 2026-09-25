@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n_extras %}
 
 {% block title %}News — Triple Power Team{% endblock %}
 
@@ -16,15 +16,15 @@
     <div class="container">
         <div class="grid grid-3">
             {% for post in posts %}
-            <a href="{% url 'news_detail' post.slug %}" class="card card-link reveal">
+            <a href="{% url 'news_detail' post.id %}" class="card card-link reveal">
                 {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-image">
+                    <img src="{{ post.image.url }}" alt="{% tr post 'title' %}" class="card-image">
                 {% else %}
                     <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
                 <p class="news-meta">{{ post.published_at|date:"M j, Y" }}</p>
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.excerpt }}</p>
+                <h3>{% tr post "title" %}</h3>
+                <p>{% tr post "excerpt" %}</p>
             </a>
             {% empty %}
             <p class="muted">No news posted yet. Add some in the Django admin.</p>

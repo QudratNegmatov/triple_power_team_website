@@ -1,6 +1,6 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,15 +20,29 @@
                     <small>Freight &middot; Warehousing &middot; Customs</small>
                 </span>
             </a>
-            <nav class="nav">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'about' %}">About</a>
-                <a href="{% url 'service_list' %}">Services</a>
-                <a href="{% url 'product_list' %}">Products</a>
-                <a href="{% url 'project_list' %}">Portfolio</a>
-                <a href="{% url 'news_list' %}">News</a>
-                <a href="{% url 'contact' %}" class="nav-cta">Contact</a>
-            </nav>
+            <div class="header-right">
+                <nav class="nav">
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="{% url 'about' %}">About</a>
+                    <a href="{% url 'service_list' %}">Services</a>
+                    <a href="{% url 'product_list' %}">Products</a>
+                    <a href="{% url 'project_list' %}">Portfolio</a>
+                    <a href="{% url 'news_list' %}">News</a>
+                    <a href="{% url 'contact' %}" class="nav-cta">Contact</a>
+                </nav>
+                <div class="lang-switch">
+                    {% get_current_language as CURRENT_LANGUAGE %}
+                    {% get_available_languages as AVAILABLE_LANGUAGES %}
+                    {% for code, name in AVAILABLE_LANGUAGES %}
+                    <form action="{% url 'set_language' %}" method="post" class="lang-switch-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="language" value="{{ code }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="lang-switch-btn{% if code == CURRENT_LANGUAGE %} is-active{% endif %}">{{ code|upper }}</button>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </header>
 

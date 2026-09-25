@@ -4,14 +4,22 @@ from .models import Service
 
 
 def service_list(request):
-    return render(request, "services/service_list.html", {"services": Service.objects.all()})
+    return render(
+        request,
+        "services/service_list.html",
+        {"services": Service.objects.filter(is_active=True)},
+    )
 
 
-def service_detail(request, slug):
-    service = get_object_or_404(Service, slug=slug)
-    other_services = Service.objects.exclude(slug=slug)[:3]
+def service_detail(request, pk):
+    service = get_object_or_404(Service, pk=pk, is_active=True)
+    other_services = Service.objects.filter(is_active=True).exclude(pk=pk)[:3]
     return render(
         request,
         "services/service_detail.html",
-        {"service": service, "other_services": other_services},
+        {
+            "service": service,
+            "prices": service.prices.filter(is_active=True),
+            "other_services": other_services,
+        },
     )

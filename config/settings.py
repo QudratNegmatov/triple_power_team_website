@@ -55,17 +55,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "ckeditor",
+    "ckeditor_uploader",
+    "common",
     "core",
     "services",
     "products",
     "portfolio",
     "news",
+    "prices",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -83,6 +88,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -126,7 +132,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
+
+LANGUAGES = [
+    ("en", "English"),
+    ("uz", "O'zbekcha"),
+    ("ru", "Русский"),
+]
 
 TIME_ZONE = "UTC"
 
@@ -153,6 +165,22 @@ STORAGES = {
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# django-ckeditor (rich text editor for "Full Info" style fields)
+CKEDITOR_UPLOAD_PATH = "ckeditor_uploads/"
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Basic",
+        "toolbar_Basic": [
+            ["Bold", "Italic", "Underline"],
+            ["NumberedList", "BulletedList"],
+            ["Link", "Unlink"],
+            ["Image", "Table"],
+            ["Source"],
+        ],
+        "height": 260,
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

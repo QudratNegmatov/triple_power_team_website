@@ -5,14 +5,17 @@ from portfolio.models import Project
 from services.models import Service
 
 from .forms import ContactForm
-from .models import ContactMessage, WhyChooseUs
+from .models import ContactMessage, HeroSlide, WhyChooseUs
 
 
 def home(request):
     context = {
-        "services": Service.objects.all()[:4],
-        "projects": Project.objects.all()[:3],
-        "why_us": WhyChooseUs.objects.prefetch_related("points", "stats").first(),
+        "hero_slides": HeroSlide.objects.filter(is_active=True),
+        "services": Service.objects.filter(is_active=True)[:4],
+        "projects": Project.objects.filter(is_active=True)[:3],
+        "why_us": WhyChooseUs.objects.filter(is_active=True)
+        .prefetch_related("points", "stats")
+        .first(),
     }
     return render(request, "core/home.html", context)
 

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n_extras %}
 
 {% block title %}Products — Triple Power Team{% endblock %}
 
@@ -16,13 +16,15 @@
     <div class="container">
         <div class="grid grid-3">
             {% for product in products %}
-            <a href="{% url 'product_detail' product.slug %}" class="card card-link reveal">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="card-image">
+            <a href="{% url 'product_detail' product.id %}" class="card card-link reveal">
+                {% with cover=product.gallery.first %}
+                {% if cover %}
+                    <img src="{{ cover.image.url }}" alt="{% tr product 'title' %}" class="card-image">
                 {% else %}
                     <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
-                <h3>{{ product.title }}</h3>
+                {% endwith %}
+                <h3>{% tr product "title" %}</h3>
                 <div class="price-row">
                     {% if product.has_discount %}
                         <span class="price-original">${{ product.price }}</span>
