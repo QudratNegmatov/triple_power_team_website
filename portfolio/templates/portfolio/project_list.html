@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static i18n_extras %}
 
-{% block title %}Portfolio — Triple Power Team{% endblock %}
+{% block title %}{% st "portfolio_page.heading" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">Our work</p>
-        <h1>Portfolio</h1>
-        <p class="lead">A selection of projects we've delivered for our clients.</p>
+        <p class="eyebrow">{% st "portfolio_page.eyebrow" %}</p>
+        <h1>{% st "portfolio_page.heading" %}</h1>
+        <p class="lead">{% st "portfolio_page.lead" %}</p>
     </div>
 </section>
 

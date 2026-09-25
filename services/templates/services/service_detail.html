@@ -6,7 +6,7 @@
 {% block content %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow"><a href="{% url 'service_list' %}">&larr; All services</a></p>
+        <p class="eyebrow"><a href="{% url 'service_list' %}">&larr; {% st "services.back" %}</a></p>
         <div class="service-detail-head">
             <div class="service-row-icon service-detail-icon">{{ service.icon|svg_icon }}</div>
             <h1>{% tr service "title" %}</h1>
@@ -38,7 +38,7 @@
         {% endwith %}
 
         <div class="cta-row" style="margin-top: 32px;">
-            <a href="{% url 'contact' %}" class="btn btn-primary">Request a quote <span class="btn-arrow">&rarr;</span></a>
+            <a href="{% url 'contact' %}" class="btn btn-primary">{% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span></a>
         </div>
     </div>
 </section>
@@ -47,7 +47,7 @@
 <section class="section section-alt">
     <div class="container">
         <div class="section-head reveal">
-            <h2>Pricing</h2>
+            <h2>{% st "pricing.heading" %}</h2>
         </div>
         <div class="grid grid-3">
             {% for price in prices %}
@@ -73,11 +73,55 @@
 </section>
 {% endif %}
 
+{% if used_systems %}
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>{% st "systems.heading" %}</h2>
+        </div>
+        <div class="systems-grid">
+            {% for system in used_systems %}
+            <a href="{{ system.link|default:'#' }}" class="system-card reveal"{% if system.link %} target="_blank" rel="noopener"{% endif %}>
+                {% if system.image %}
+                    <img src="{{ system.image.url }}" alt="{{ system.name }}">
+                {% else %}
+                    <div class="system-card-fallback">{{ "package"|svg_icon }}</div>
+                {% endif %}
+                <span>{{ system.name }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if integrated_systems %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>{% st "systems.integrated_heading" %}</h2>
+        </div>
+        <div class="systems-grid">
+            {% for system in integrated_systems %}
+            <a href="{{ system.link|default:'#' }}" class="system-card reveal"{% if system.link %} target="_blank" rel="noopener"{% endif %}>
+                {% if system.image %}
+                    <img src="{{ system.image.url }}" alt="{{ system.name }}">
+                {% else %}
+                    <div class="system-card-fallback">{{ "globe"|svg_icon }}</div>
+                {% endif %}
+                <span>{{ system.name }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 {% if other_services %}
 <section class="section">
     <div class="container">
         <div class="section-head reveal">
-            <h2>Other services</h2>
+            <h2>{% st "services.other_heading" %}</h2>
         </div>
         <div class="grid grid-3">
             {% for other in other_services %}
@@ -86,7 +130,7 @@
                 <div class="service-card-body">
                     <h3>{% tr other "title" %}</h3>
                     <p>{% tr other "short_name" %}</p>
-                    <a href="{% url 'service_detail' other.id %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                    <a href="{% url 'service_detail' other.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% endfor %}

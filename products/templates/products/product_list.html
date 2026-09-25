@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static i18n_extras %}
 
-{% block title %}Products — Triple Power Team{% endblock %}
+{% block title %}{% st "products_page.heading" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">Shop</p>
-        <h1>Products</h1>
-        <p class="lead">ELD devices and fleet equipment. Request a quote and we'll get back to you.</p>
+        <p class="eyebrow">{% st "products_page.eyebrow" %}</p>
+        <h1>{% st "products_page.heading" %}</h1>
+        <p class="lead">{% st "products_page.lead" %}</p>
     </div>
 </section>
 

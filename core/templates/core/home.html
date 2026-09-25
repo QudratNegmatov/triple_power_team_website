@@ -6,23 +6,21 @@
 {% block content %}
 <section class="hero-split container">
     <div class="hero-split-copy">
-        <p class="eyebrow">All-in-one logistics solutions</p>
-        <h1>Your Cargo. Our Network.<br>Delivered On Time.</h1>
-        <p class="lead">
-            Triple Power Team plans and runs the freight, storage, and customs work behind your
-            supply chain — with real-time tracking, so your goods arrive on time, every time.
-        </p>
+        <p class="eyebrow">{% st "hero.eyebrow" %}</p>
+        {% st "hero.heading" as hero_heading %}
+        <h1>{{ hero_heading|linebreaksbr }}</h1>
+        <p class="lead">{% st "hero.lead" %}</p>
         <div class="cta-row">
             <a href="{% url 'contact' %}" class="btn btn-primary">
-                Request a quote <span class="btn-arrow">&rarr;</span>
+                {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>
             </a>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">See our services</a>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
         </div>
         <div class="feature-row">
-            <div class="feature-row-item">{{ "check"|svg_icon }} Real-time tracking</div>
-            <div class="feature-row-item">{{ "check"|svg_icon }} 24/7 dispatch</div>
-            <div class="feature-row-item">{{ "check"|svg_icon }} Customs handled</div>
-            <div class="feature-row-item">{{ "check"|svg_icon }} Fleet management</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature1" %}</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature2" %}</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature3" %}</div>
+            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature4" %}</div>
         </div>
     </div>
 
@@ -112,10 +110,10 @@
     <div class="container">
         <div class="section-head reveal">
             <div>
-                <p class="eyebrow">Our services</p>
-                <h2>Complete Logistics Solutions</h2>
+                <p class="eyebrow">{% st "services.eyebrow" %}</p>
+                <h2>{% st "services.heading" %}</h2>
             </div>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">Explore all services <span class="btn-arrow">&rarr;</span></a>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "services.explore" %} <span class="btn-arrow">&rarr;</span></a>
         </div>
         <div class="grid grid-4">
             {% for service in services %}
@@ -124,7 +122,7 @@
                 <div class="service-card-body">
                     <h3>{% tr service "title" %}</h3>
                     <p>{% tr service "short_name" %}</p>
-                    <a href="{% url 'service_detail' service.id %}" class="service-card-link">Learn more {{ "arrow-right"|svg_icon }}</a>
+                    <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% empty %}
@@ -133,6 +131,24 @@
         </div>
     </div>
 </section>
+
+{% if about_page %}
+<section class="section section-alt">
+    <div class="container about-preview">
+        <div class="about-preview-media reveal">
+            {% if about_page.image %}
+                <img src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}">
+            {% endif %}
+        </div>
+        <div class="about-preview-body reveal">
+            <p class="eyebrow">{% st "about.eyebrow" %}</p>
+            <h2>{% tr about_page "title" %}</h2>
+            <p class="lead">{% tr about_page "short_description" %}</p>
+            <a href="{% url 'about' %}" class="btn btn-primary">{% st "about.read_more" %} <span class="btn-arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 <section class="section section-dark">
     <div class="container">
@@ -169,8 +185,8 @@
         </div>
         {% endif %}
         {% else %}
-        <p class="eyebrow">Why choose us</p>
-        <h2>Built for Reliable Delivery. Designed for Your Business.</h2>
+        <p class="eyebrow">{% st "whyus.eyebrow_fallback" %}</p>
+        <h2>{% st "whyus.heading_fallback" %}</h2>
         <p class="muted">Add a "Why Choose Us" section in the Django admin to fill this in.</p>
         {% endif %}
     </div>
@@ -179,30 +195,30 @@
 <section class="section">
     <div class="container how-it-works-grid">
         <div class="how-it-works-copy reveal">
-            <p class="eyebrow">How it works</p>
-            <h2>Simple Steps. Reliable Delivery.</h2>
-            <p class="lead">Get a quote in minutes and let us handle the rest, from pickup to final delivery.</p>
+            <p class="eyebrow">{% st "howitworks.eyebrow" %}</p>
+            <h2>{% st "howitworks.heading" %}</h2>
+            <p class="lead">{% st "howitworks.lead" %}</p>
             <div class="steps-row">
                 <div class="step-item">
                     <div class="step-number">1</div>
-                    <h3>Request a Quote</h3>
-                    <p>Tell us what you're shipping, where it's going, and when.</p>
+                    <h3>{% st "howitworks.step1_title" %}</h3>
+                    <p>{% st "howitworks.step1_desc" %}</p>
                 </div>
                 <div class="step-arrow">{{ "arrow-right"|svg_icon }}</div>
                 <div class="step-item">
                     <div class="step-number">2</div>
-                    <h3>We Plan the Route</h3>
-                    <p>We arrange freight, warehousing, and customs clearance.</p>
+                    <h3>{% st "howitworks.step2_title" %}</h3>
+                    <p>{% st "howitworks.step2_desc" %}</p>
                 </div>
                 <div class="step-arrow">{{ "arrow-right"|svg_icon }}</div>
                 <div class="step-item">
                     <div class="step-number">3</div>
-                    <h3>Cargo Delivered</h3>
-                    <p>Track your shipment in real time until it arrives.</p>
+                    <h3>{% st "howitworks.step3_title" %}</h3>
+                    <p>{% st "howitworks.step3_desc" %}</p>
                 </div>
             </div>
             <div class="cta-row">
-                <a href="{% url 'contact' %}" class="btn btn-primary">Request a quote <span class="btn-arrow">&rarr;</span></a>
+                <a href="{% url 'contact' %}" class="btn btn-primary">{% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span></a>
             </div>
         </div>
         <div class="how-it-works-visual reveal">
@@ -231,8 +247,8 @@
 <section class="section section-alt">
     <div class="container">
         <div class="section-head reveal">
-            <h2>Recent work</h2>
-            <a href="{% url 'project_list' %}" class="btn btn-ghost">All projects <span class="btn-arrow">&rarr;</span></a>
+            <h2>{% st "portfolio.heading" %}</h2>
+            <a href="{% url 'project_list' %}" class="btn btn-ghost">{% st "portfolio.all" %} <span class="btn-arrow">&rarr;</span></a>
         </div>
         <div class="grid grid-3">
             {% for project in projects %}
@@ -252,32 +268,58 @@
     </div>
 </section>
 
-<section class="section section-dark">
+{% if used_systems %}
+<section class="section">
     <div class="container">
-        <div class="testimonial-wrap reveal">
-            <div class="testimonial-quote-mark">&ldquo;</div>
-            <div class="testimonial-slide is-active">
-                <p class="testimonial-text">Since we started shipping with Triple Power Team, our deliveries are always on time and their dispatch team is easy to reach whenever we need them.</p>
-                <p class="testimonial-author">— Placeholder Client, Retail Distribution</p>
-            </div>
-            <div class="testimonial-slide">
-                <p class="testimonial-text">Their customs team handled our import paperwork end to end. What used to take us days now takes hours.</p>
-                <p class="testimonial-author">— Placeholder Client, Import Business</p>
-            </div>
-            <div class="testimonial-slide">
-                <p class="testimonial-text">Real-time tracking gives our customers confidence, and the warehousing team keeps our cold chain intact every time.</p>
-                <p class="testimonial-author">— Placeholder Client, Food Distributor</p>
-            </div>
-            <div class="testimonial-controls">
-                <button class="testimonial-arrow" data-testimonial-prev aria-label="Previous testimonial">&larr;</button>
-                <div class="testimonial-dots">
-                    <button class="testimonial-dot is-active" data-testimonial-dot="0" aria-label="Testimonial 1"></button>
-                    <button class="testimonial-dot" data-testimonial-dot="1" aria-label="Testimonial 2"></button>
-                    <button class="testimonial-dot" data-testimonial-dot="2" aria-label="Testimonial 3"></button>
-                </div>
-                <button class="testimonial-arrow" data-testimonial-next aria-label="Next testimonial">&rarr;</button>
-            </div>
+        <div class="section-head reveal">
+            <h2>{% st "systems.heading" %}</h2>
+        </div>
+        <div class="systems-grid">
+            {% for system in used_systems %}
+            <a href="{{ system.link|default:'#' }}" class="system-card reveal"{% if system.link %} target="_blank" rel="noopener"{% endif %}>
+                {% if system.image %}
+                    <img src="{{ system.image.url }}" alt="{{ system.name }}">
+                {% else %}
+                    <div class="system-card-fallback">{{ "package"|svg_icon }}</div>
+                {% endif %}
+                <span>{{ system.name }}</span>
+            </a>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
+
+{% if testimonial_groups %}
+<section class="section section-dark">
+    <div class="container">
+        <p class="eyebrow" style="text-align: center;">{% st "testimonials.eyebrow" %}</p>
+        <div class="testimonial-wrap reveal">
+            {% for group in testimonial_groups %}
+            <div class="testimonial-slide-group{% if forloop.first %} is-active{% endif %}">
+                <div class="grid grid-3">
+                    {% for testimonial in group %}
+                    <div class="testimonial-card">
+                        {% if testimonial.image %}
+                            <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar">
+                        {% endif %}
+                        <p class="testimonial-text">&ldquo;{% tr testimonial "feedback" %}&rdquo;</p>
+                        <p class="testimonial-author">{{ testimonial.name }}</p>
+                        <p class="testimonial-role">{% tr testimonial "role" %}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            {% if testimonial_groups|length > 1 %}
+            <div class="testimonial-dots">
+                {% for group in testimonial_groups %}
+                <button class="testimonial-dot{% if forloop.first %} is-active{% endif %}" data-testimonial-dot="{{ forloop.counter0 }}" aria-label="Testimonials {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}

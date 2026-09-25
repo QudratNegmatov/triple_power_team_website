@@ -50,3 +50,41 @@ class ServiceImage(ContentModel):
 
     def __str__(self):
         return f"Image for {self.service.title_en}"
+
+
+class UsedSystem(ContentModel):
+    """A tool/system we use (e.g. an ELD brand) for a given service.
+
+    Shown on the homepage and on that service's detail page. Name is a
+    brand/product name, so it isn't translated.
+    """
+
+    service = models.ForeignKey(Service, related_name="used_systems", on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="systems/used/", blank=True, null=True)
+    link = models.URLField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.service.title_en})"
+
+
+class IntegratedSystem(ContentModel):
+    """A third-party system/partner we integrate with for a given service
+    (e.g. Highway, Amazon). Shown only on that service's detail page.
+    """
+
+    service = models.ForeignKey(Service, related_name="integrated_systems", on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="systems/integrated/", blank=True, null=True)
+    link = models.URLField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.service.title_en})"

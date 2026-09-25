@@ -3,7 +3,7 @@ from django.contrib import admin
 from common.admin import CreatedByAdminMixin
 from prices.models import Price
 
-from .models import Service, ServiceImage
+from .models import IntegratedSystem, Service, ServiceImage, UsedSystem
 
 
 class ServiceImageInline(admin.TabularInline):
@@ -27,9 +27,21 @@ class PriceInline(admin.TabularInline):
     )
 
 
+class UsedSystemInline(admin.TabularInline):
+    model = UsedSystem
+    extra = 1
+    fields = ("name", "image", "link", "order", "is_active")
+
+
+class IntegratedSystemInline(admin.TabularInline):
+    model = IntegratedSystem
+    extra = 1
+    fields = ("name", "image", "link", "order", "is_active")
+
+
 @admin.register(Service)
 class ServiceAdmin(CreatedByAdminMixin, admin.ModelAdmin):
     list_display = ("title_en", "order", "is_active", "created_by", "created_at")
     list_editable = ("order", "is_active")
     ordering = ("order", "title_en")
-    inlines = [ServiceImageInline, PriceInline]
+    inlines = [ServiceImageInline, PriceInline, UsedSystemInline, IntegratedSystemInline]

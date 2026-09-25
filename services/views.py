@@ -20,6 +20,8 @@ def service_detail(request, pk):
         {
             "service": service,
             "prices": service.prices.filter(is_active=True),
+            "used_systems": service.used_systems.filter(is_active=True),
+            "integrated_systems": service.integrated_systems.filter(is_active=True),
             "other_services": other_services,
         },
     )

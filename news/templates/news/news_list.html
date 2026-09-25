@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static i18n_extras %}
 
-{% block title %}News — Triple Power Team{% endblock %}
+{% block title %}{% st "news_page.heading" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">Latest updates</p>
-        <h1>News</h1>
-        <p class="lead">Updates from our fleet, warehouses, and operations.</p>
+        <p class="eyebrow">{% st "news_page.eyebrow" %}</p>
+        <h1>{% st "news_page.heading" %}</h1>
+        <p class="lead">{% st "news_page.lead" %}</p>
     </div>
 </section>
 

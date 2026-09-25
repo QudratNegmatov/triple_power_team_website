@@ -1,37 +1,66 @@
 {% extends "base.html" %}
 {% load i18n_extras %}
 
-{% block title %}About — Triple Power Team{% endblock %}
+{% block title %}{% st "about.nav_title" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 {% if about_page %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">{% tr about_page "eyebrow" %}</p>
-        <h1>{% tr about_page "heading" %}</h1>
-        <p class="lead">{% tr about_page "lead" %}</p>
+        <p class="eyebrow">{% st "about.eyebrow" %}</p>
+        <h1>{% tr about_page "title" %}</h1>
     </div>
 </section>
 
-<section class="section">
+<section class="section" style="padding-top: 0;">
     <div class="container narrow">
         {% if about_page.image %}
-            <img src="{{ about_page.image.url }}" alt="{% tr about_page 'heading' %}" class="about-image">
+            <img src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}" class="about-image">
         {% endif %}
-        <h2>{% tr about_page "story_heading" %}</h2>
-        {% tr about_page "story" as story_text %}
-        {{ story_text|linebreaks }}
-        <h2>{% tr about_page "mission_heading" %}</h2>
-        {% tr about_page "mission" as mission_text %}
-        {{ mission_text|linebreaks }}
+        {% tr_html about_page "full_description" %}
+        {% tr about_page "contact_label" as contact_label %}
+        {% if contact_label and about_page.contact_url %}
+        <div class="cta-row" style="margin-top: 24px;">
+            <a href="{{ about_page.contact_url }}" class="btn btn-primary">{{ contact_label }} <span class="btn-arrow">&rarr;</span></a>
+        </div>
+        {% endif %}
     </div>
 </section>
 {% else %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">About us</p>
-        <h1>About Triple Power Team</h1>
-        <p class="muted">Add an "About page" entry in the Django admin to fill this in.</p>
+        <p class="eyebrow">{% st "about.eyebrow" %}</p>
+        <h1>{% st "about.nav_title" %}</h1>
+        <p class="muted">Add an "About page (company info)" entry in the Django admin to fill this in.</p>
+    </div>
+</section>
+{% endif %}
+
+{% if founders %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>{% st "about.founders_heading" %}</h2>
+        </div>
+        <div class="founders-list">
+            {% for founder in founders %}
+            <div class="founder-row reveal{% if forloop.counter0|divisibleby:2 %} founder-row-reverse{% endif %}">
+                <div class="founder-media">
+                    {% if founder.image %}
+                        <img src="{{ founder.image.url }}" alt="{{ founder.name }}">
+                    {% endif %}
+                </div>
+                <div class="founder-body">
+                    <h3>{{ founder.name }}</h3>
+                    {% tr founder "description" as founder_desc %}
+                    {{ founder_desc|linebreaks }}
+                    {% if founder.contact %}
+                        <p class="founder-contact">{{ founder.contact }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 {% endif %}

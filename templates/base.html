@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n i18n_extras %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -22,13 +22,13 @@
             </a>
             <div class="header-right">
                 <nav class="nav">
-                    <a href="{% url 'home' %}">Home</a>
-                    <a href="{% url 'about' %}">About</a>
-                    <a href="{% url 'service_list' %}">Services</a>
-                    <a href="{% url 'product_list' %}">Products</a>
-                    <a href="{% url 'project_list' %}">Portfolio</a>
-                    <a href="{% url 'news_list' %}">News</a>
-                    <a href="{% url 'contact' %}" class="nav-cta">Contact</a>
+                    <a href="{% url 'home' %}">{% st "nav.home" %}</a>
+                    <a href="{% url 'about' %}">{% st "nav.about" %}</a>
+                    <a href="{% url 'service_list' %}">{% st "nav.services" %}</a>
+                    <a href="{% url 'product_list' %}">{% st "nav.products" %}</a>
+                    <a href="{% url 'project_list' %}">{% st "nav.portfolio" %}</a>
+                    <a href="{% url 'news_list' %}">{% st "nav.news" %}</a>
+                    <a href="{% url 'contact' %}" class="nav-cta">{% st "nav.contact" %}</a>
                 </nav>
                 <div class="lang-switch">
                     {% get_current_language as CURRENT_LANGUAGE %}
@@ -49,8 +49,8 @@
     <div class="marquee" aria-hidden="true">
         <div class="marquee-track">
             {% for i in "12" %}
-            <span>Freight</span><span>Warehousing</span><span>Customs Clearance</span>
-            <span>Fleet Tracking</span><span>Cold Chain</span><span>Import &amp; Export</span>
+            <span>{% st "marquee.item1" %}</span><span>{% st "marquee.item2" %}</span><span>{% st "marquee.item3" %}</span>
+            <span>{% st "marquee.item4" %}</span><span>{% st "marquee.item5" %}</span><span>{% st "marquee.item6" %}</span>
             {% endfor %}
         </div>
     </div>
@@ -69,18 +69,27 @@
 
     <footer class="site-footer">
         <div class="container footer-cta">
-            <p class="eyebrow">Let's talk logistics</p>
-            <h2>Ready to move your next shipment?</h2>
+            <p class="eyebrow">{% st "footer.cta_eyebrow" %}</p>
+            <h2>{% st "footer.cta_heading" %}</h2>
             <a href="{% url 'contact' %}" class="btn btn-primary">
-                Get in touch <span class="btn-arrow">&rarr;</span>
+                {% st "footer.cta_button" %} <span class="btn-arrow">&rarr;</span>
             </a>
         </div>
+        {% if site_contact_info %}
+        <div class="container footer-contact">
+            {% if site_contact_info.email %}<a href="mailto:{{ site_contact_info.email }}">{{ site_contact_info.email }}</a>{% endif %}
+            {% if site_contact_info.phone %}<a href="tel:{{ site_contact_info.phone }}">{{ site_contact_info.phone }}</a>{% endif %}
+            {% for location in site_contact_info.locations.all %}
+                <span>{% tr location "address" %}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
         <div class="container footer-bottom">
-            <p>&copy; {% now "Y" %} Triple Power Team. All rights reserved.</p>
+            <p>&copy; {% now "Y" %} Triple Power Team. {% st "footer.rights" %}</p>
             <div class="footer-bottom-links">
-                <a href="{% url 'news_list' %}">News</a>
-                <a href="{% url 'service_list' %}">Services</a>
-                <a href="{% url 'contact' %}">Contact</a>
+                <a href="{% url 'news_list' %}">{% st "nav.news" %}</a>
+                <a href="{% url 'service_list' %}">{% st "nav.services" %}</a>
+                <a href="{% url 'contact' %}">{% st "nav.contact" %}</a>
             </div>
         </div>
     </footer>

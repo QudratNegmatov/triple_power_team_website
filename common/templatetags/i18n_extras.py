@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from common.i18n import get_translated
+from common.i18n import get_site_text, get_translated
 
 register = template.Library()
 
@@ -16,3 +16,9 @@ def tr(obj, field_name):
 def tr_html(obj, field_name):
     """Same as tr, but marks the result safe for rich-text (CKEditor) fields."""
     return mark_safe(get_translated(obj, field_name))
+
+
+@register.simple_tag
+def st(key):
+    """Usage: {% st "nav.home" %} -> the SiteText value for the current language."""
+    return get_site_text(key)

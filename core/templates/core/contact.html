@@ -1,18 +1,19 @@
 {% extends "base.html" %}
+{% load i18n_extras %}
 
-{% block title %}Contact — Triple Power Team{% endblock %}
+{% block title %}{% st "contact.heading" %} — Triple Power Team{% endblock %}
 
 {% block content %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow">Get in touch</p>
-        <h1>Let's talk about your project</h1>
-        <p class="lead">Tell us a bit about what you need and we'll get back to you shortly.</p>
+        <p class="eyebrow">{% st "contact.eyebrow" %}</p>
+        <h1>{% st "contact.heading" %}</h1>
+        <p class="lead">{% st "contact.lead" %}</p>
     </div>
 </section>
 
 <section class="section">
-    <div class="container narrow">
+    <div class="container narrow contact-grid">
         <form method="post" class="form">
             {% csrf_token %}
             {% for field in form %}
@@ -24,8 +25,37 @@
                 {% endif %}
             </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary">Send message</button>
+            <button type="submit" class="btn btn-primary">{% st "contact.submit" %}</button>
         </form>
+
+        {% if site_contact_info %}
+        <div class="contact-details">
+            {% if site_contact_info.email %}
+            <div class="contact-detail-item">
+                <span class="muted">{% st "contact.email_label" %}</span>
+                <a href="mailto:{{ site_contact_info.email }}">{{ site_contact_info.email }}</a>
+            </div>
+            {% endif %}
+            {% if site_contact_info.phone %}
+            <div class="contact-detail-item">
+                <span class="muted">{% st "contact.phone_label" %}</span>
+                <a href="tel:{{ site_contact_info.phone }}">{{ site_contact_info.phone }}</a>
+            </div>
+            {% endif %}
+            {% if site_contact_info.locations.all %}
+            <div class="contact-detail-item">
+                <span class="muted">{% st "contact.locations_label" %}</span>
+                {% for location in site_contact_info.locations.all %}
+                    {% if location.map_url %}
+                        <a href="{{ location.map_url }}" target="_blank" rel="noopener">{% tr location "address" %}</a>
+                    {% else %}
+                        <span>{% tr location "address" %}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

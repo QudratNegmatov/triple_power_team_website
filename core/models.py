@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 
 from common.models import ContentModel, SubmissionModel
@@ -93,35 +94,98 @@ class HeroSlide(ContentModel):
 
 
 class AboutPage(ContentModel):
-    eyebrow_en = models.CharField(max_length=100, default="About us")
-    eyebrow_uz = models.CharField(max_length=100, default="Biz haqimizda")
-    eyebrow_ru = models.CharField(max_length=100, default="О нас")
-    heading_en = models.CharField(max_length=200)
-    heading_uz = models.CharField(max_length=200)
-    heading_ru = models.CharField(max_length=200)
-    lead_en = models.TextField()
-    lead_uz = models.TextField()
-    lead_ru = models.TextField()
-    story_heading_en = models.CharField(max_length=100, default="Our story")
-    story_heading_uz = models.CharField(max_length=100, default="Bizning tariximiz")
-    story_heading_ru = models.CharField(max_length=100, default="Наша история")
-    story_en = models.TextField()
-    story_uz = models.TextField()
-    story_ru = models.TextField()
-    mission_heading_en = models.CharField(max_length=100, default="Our mission")
-    mission_heading_uz = models.CharField(max_length=100, default="Bizning maqsadimiz")
-    mission_heading_ru = models.CharField(max_length=100, default="Наша миссия")
-    mission_en = models.TextField()
-    mission_uz = models.TextField()
-    mission_ru = models.TextField()
+    """The company's own info block on the About page (and its homepage preview)."""
+
+    title_en = models.CharField(max_length=200)
+    title_uz = models.CharField(max_length=200)
+    title_ru = models.CharField(max_length=200)
+    short_description_en = models.TextField(help_text="Shown on the homepage preview card.")
+    short_description_uz = models.TextField()
+    short_description_ru = models.TextField()
+    full_description_en = RichTextField(help_text="Full write-up shown on the About page.")
+    full_description_uz = RichTextField()
+    full_description_ru = RichTextField()
+    contact_label_en = models.CharField(max_length=50, blank=True, help_text='e.g. "Contact us"')
+    contact_label_uz = models.CharField(max_length=50, blank=True)
+    contact_label_ru = models.CharField(max_length=50, blank=True)
+    contact_url = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to="about/", blank=True, null=True)
 
     class Meta:
-        verbose_name = "About page"
-        verbose_name_plural = "About page"
+        verbose_name = "About page (company info)"
+        verbose_name_plural = "About page (company info)"
 
     def __str__(self):
-        return self.heading_en
+        return self.title_en
+
+
+class Founder(ContentModel):
+    """One of the company's founders, shown on the About page in an alternating layout."""
+
+    name = models.CharField(max_length=150, help_text="Full name — not translated.")
+    description_en = models.TextField(help_text="What they say about themselves.")
+    description_uz = models.TextField()
+    description_ru = models.TextField()
+    contact = models.CharField(
+        max_length=150, blank=True, help_text="Email, phone, or a social/profile link."
+    )
+    image = models.ImageField(upload_to="founders/", blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+
+    def __str__(self):
+        return self.name
+
+
+class Testimonial(ContentModel):
+    """A client quote shown on the homepage (up to 6, rotating 3 at a time)."""
+
+    name = models.CharField(max_length=150, help_text="Full name — not translated.")
+    role_en = models.CharField(max_length=150, help_text='Who they are, e.g. "Fleet Owner, Sunrise Logistics"')
+    role_uz = models.CharField(max_length=150)
+    role_ru = models.CharField(max_length=150)
+    feedback_en = models.TextField()
+    feedback_uz = models.TextField()
+    feedback_ru = models.TextField()
+    image = models.ImageField(upload_to="testimonials/", blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+
+    def __str__(self):
+        return self.name
+
+
+class ContactInfo(ContentModel):
+    """Sitewide contact details (email/phone are data, not translated content)."""
+
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=50, blank=True)
+
+    class Meta:
+        verbose_name = "Contact info"
+        verbose_name_plural = "Contact info"
+
+    def __str__(self):
+        return self.email or self.phone or "Contact info"
+
+
+class ContactLocation(ContentModel):
+    contact_info = models.ForeignKey(ContactInfo, related_name="locations", on_delete=models.CASCADE)
+    address_en = models.CharField(max_length=250)
+    address_uz = models.CharField(max_length=250)
+    address_ru = models.CharField(max_length=250)
+    map_url = models.CharField(max_length=300, blank=True, help_text="Optional link to a map.")
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+
+    def __str__(self):
+        return self.address_en
 
 
 class ContactMessage(SubmissionModel):

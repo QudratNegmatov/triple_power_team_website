@@ -6,7 +6,7 @@
 {% block content %}
 <section class="section page-header">
     <div class="container narrow news-article">
-        <p class="eyebrow"><a href="{% url 'news_list' %}">&larr; Back to News</a></p>
+        <p class="eyebrow"><a href="{% url 'news_list' %}">&larr; {% st "news.back" %}</a></p>
         <p class="news-meta">{{ post.published_at|date:"M j, Y" }}</p>
         <h1>{% tr post "title" %}</h1>
         {% if post.image %}

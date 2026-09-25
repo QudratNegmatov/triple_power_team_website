@@ -2,7 +2,18 @@ from django.contrib import admin
 
 from common.admin import CreatedByAdminMixin
 
-from .models import AboutPage, ContactMessage, HeroSlide, WhyChooseUs, WhyChooseUsPoint, WhyChooseUsStat
+from .models import (
+    AboutPage,
+    ContactInfo,
+    ContactLocation,
+    ContactMessage,
+    Founder,
+    HeroSlide,
+    Testimonial,
+    WhyChooseUs,
+    WhyChooseUsPoint,
+    WhyChooseUsStat,
+)
 
 
 class WhyChooseUsPointInline(admin.TabularInline):
@@ -32,7 +43,33 @@ class HeroSlideAdmin(CreatedByAdminMixin, admin.ModelAdmin):
 
 @admin.register(AboutPage)
 class AboutPageAdmin(CreatedByAdminMixin, admin.ModelAdmin):
-    list_display = ("heading_en", "is_active")
+    list_display = ("title_en", "is_active")
+
+
+@admin.register(Founder)
+class FounderAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    list_display = ("name", "order", "is_active")
+    list_editable = ("order", "is_active")
+    ordering = ("order",)
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    list_display = ("name", "role_en", "order", "is_active")
+    list_editable = ("order", "is_active")
+    ordering = ("order",)
+
+
+class ContactLocationInline(admin.TabularInline):
+    model = ContactLocation
+    extra = 1
+    fields = ("address_en", "address_uz", "address_ru", "map_url", "order", "is_active")
+
+
+@admin.register(ContactInfo)
+class ContactInfoAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    list_display = ("email", "phone", "is_active")
+    inlines = [ContactLocationInline]
 
 
 @admin.register(ContactMessage)

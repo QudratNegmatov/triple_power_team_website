@@ -6,7 +6,7 @@
 {% block content %}
 <section class="section page-header">
     <div class="container">
-        <p class="eyebrow"><a href="{% url 'product_list' %}">&larr; All products</a></p>
+        <p class="eyebrow"><a href="{% url 'product_list' %}">&larr; {% st "products.back" %}</a></p>
         <h1>{% tr product "title" %}</h1>
     </div>
 </section>
@@ -36,7 +36,7 @@
             </div>
             <p>{% tr product "description" %}</p>
 
-            <h3>Request this product</h3>
+            <h3>{% st "products.request_heading" %}</h3>
             <form method="post" class="form">
                 {% csrf_token %}
                 {% for field in form %}
@@ -48,7 +48,7 @@
                     {% endif %}
                 </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-primary">Send request</button>
+                <button type="submit" class="btn btn-primary">{% st "products.submit" %}</button>
             </form>
         </div>
     </div>
@@ -58,7 +58,7 @@
 <section class="section section-alt">
     <div class="container">
         <div class="section-head reveal">
-            <h2>Other products</h2>
+            <h2>{% st "products.other_heading" %}</h2>
         </div>
         <div class="grid grid-3">
             {% for other in other_products %}

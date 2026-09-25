@@ -28,26 +28,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    var slides = document.querySelectorAll(".testimonial-slide");
-    var dots = document.querySelectorAll(".testimonial-dot");
-    if (slides.length) {
-        var current = 0;
-        var show = function (index) {
-            current = (index + slides.length) % slides.length;
-            slides.forEach(function (slide, i) {
-                slide.classList.toggle("is-active", i === current);
+    var testimonialGroups = document.querySelectorAll(".testimonial-slide-group");
+    var testimonialDots = document.querySelectorAll(".testimonial-dot");
+    if (testimonialGroups.length > 1) {
+        var testimonialCurrent = 0;
+        var showTestimonials = function (index) {
+            testimonialCurrent = (index + testimonialGroups.length) % testimonialGroups.length;
+            testimonialGroups.forEach(function (group, i) {
+                group.classList.toggle("is-active", i === testimonialCurrent);
             });
-            dots.forEach(function (dot, i) {
-                dot.classList.toggle("is-active", i === current);
+            testimonialDots.forEach(function (dot, i) {
+                dot.classList.toggle("is-active", i === testimonialCurrent);
             });
         };
-        var prevBtn = document.querySelector("[data-testimonial-prev]");
-        var nextBtn = document.querySelector("[data-testimonial-next]");
-        if (prevBtn) prevBtn.addEventListener("click", function () { show(current - 1); });
-        if (nextBtn) nextBtn.addEventListener("click", function () { show(current + 1); });
-        dots.forEach(function (dot, i) {
-            dot.addEventListener("click", function () { show(i); });
+        testimonialDots.forEach(function (dot, i) {
+            dot.addEventListener("click", function () { showTestimonials(i); });
         });
+        setInterval(function () { showTestimonials(testimonialCurrent + 1); }, 7000);
     }
 
     var heroSlides = document.querySelectorAll(".hero-slide");
