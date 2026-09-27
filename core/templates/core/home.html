@@ -52,6 +52,20 @@
             </div>
             {% endif %}
         </div>
+        <div class="float-card float-card--status">
+            <div class="float-card-icon">{{ "clock"|svg_icon }}</div>
+            <div>
+                <div class="float-card-title">On Duty</div>
+                <div class="float-card-sub">Hours of service tracked</div>
+            </div>
+        </div>
+        <div class="float-card float-card--tracking">
+            <div class="float-card-icon">{{ "dashboard"|svg_icon }}</div>
+            <div>
+                <div class="float-card-title">Live Fleet Tracking</div>
+                <div class="float-card-sub">Vehicles online now</div>
+            </div>
+        </div>
     </div>
     {% else %}
     <div class="hero-split-visual reveal">

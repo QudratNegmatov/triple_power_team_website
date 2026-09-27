@@ -611,6 +611,7 @@ a:hover { text-decoration: underline; }
 .float-card--status { top: 8%; left: -6%; }
 .float-card--route { bottom: 22%; left: -10%; }
 .float-card--ring { bottom: -6%; right: 4%; }
+.float-card--tracking { top: 8%; right: -6%; }
 
 .ring {
     position: relative;
@@ -635,10 +636,11 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 960px) {
     .hero-split { flex-direction: column; padding: 48px 0 32px; }
-    .hero-split-visual { max-width: 380px; margin: 0 auto; }
+    .hero-split-visual { width: 100%; max-width: 380px; margin: 0 auto; }
     .float-card { max-width: 170px; padding: 10px 12px; font-size: 0.75rem; }
     .float-card--status { left: -4%; }
     .float-card--route { left: -6%; }
+    .float-card--tracking { right: -4%; }
 }
 
 /* Service cards with media panel */
