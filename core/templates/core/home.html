@@ -4,8 +4,50 @@
 {% block title %}Triple Power Team — Home{% endblock %}
 
 {% block content %}
-<section class="hero-split container">
-    <div class="hero-split-copy">
+<section class="hero-banner">
+    <div class="hero-banner-media">
+        {% if hero_slides %}
+            {% for slide in hero_slides %}
+            <div class="hero-slide{% if forloop.first %} is-active{% endif %}">
+                {% if slide.video %}
+                    <video src="{{ slide.video.url }}" autoplay muted loop playsinline></video>
+                {% elif slide.image %}
+                    <img src="{{ slide.image.url }}" alt="{% tr slide 'title' %}">
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="hero-slide is-active hero-slide--illustration">
+                <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M-20 260 70 170 160 260Z" fill="rgba(255,255,255,0.05)"/>
+                    <path d="M120 260 230 145 340 260Z" fill="rgba(255,255,255,0.08)"/>
+                    <path d="M20 340 160 195 240 195 380 340Z" fill="rgba(255,255,255,0.06)"/>
+                    <path d="M200 340V200" stroke="rgba(255,255,255,0.3)" stroke-width="4" stroke-dasharray="14 12"/>
+                    <g fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="105" y="150" width="140" height="100" rx="6"/>
+                        <path d="M245 250v-45h30l30 25v20z"/>
+                        <line x1="205" y1="152" x2="205" y2="248" stroke-width="2" opacity="0.5"/>
+                        <circle cx="150" cy="253" r="20" fill="#123322"/>
+                        <circle cx="272" cy="253" r="20" fill="#123322"/>
+                    </g>
+                    <g fill="#22c55e">
+                        <circle cx="150" cy="253" r="7"/>
+                        <circle cx="272" cy="253" r="7"/>
+                    </g>
+                    <circle cx="300" cy="228" r="4" fill="#ffd28a"/>
+                    <rect x="105" y="200" width="140" height="14" fill="#22c55e" opacity="0.15"/>
+                    <g stroke="#22c55e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(155,175)">
+                        <path d="M0 0l9 9-9 9"/>
+                        <path d="M11 0l9 9-9 9"/>
+                        <path d="M22 0l9 9-9 9"/>
+                    </g>
+                </svg>
+            </div>
+        {% endif %}
+        <div class="hero-banner-scrim"></div>
+    </div>
+
+    <div class="hero-banner-content reveal">
         <p class="eyebrow">{% st "hero.eyebrow" %}</p>
         {% st "hero.heading" as hero_heading %}
         <h1>{{ hero_heading|linebreaksbr }}</h1>
@@ -24,34 +66,7 @@
         </div>
     </div>
 
-    {% if hero_slides %}
-    <div class="hero-split-visual reveal">
-        <div class="hero-slider">
-            {% for slide in hero_slides %}
-            <div class="hero-slide{% if forloop.first %} is-active{% endif %}">
-                {% if slide.video %}
-                    <video src="{{ slide.video.url }}" autoplay muted loop playsinline></video>
-                {% elif slide.image %}
-                    <img src="{{ slide.image.url }}" alt="{% tr slide 'title' %}">
-                {% endif %}
-                <div class="hero-slide-overlay">
-                    <h3>{% tr slide "title" %}</h3>
-                    <p>{% tr slide "description" %}</p>
-                    {% tr slide "button_name" as button_name %}
-                    {% if button_name and slide.button_url %}
-                        <a href="{{ slide.button_url }}" class="btn btn-primary">{{ button_name }}</a>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-            {% if hero_slides|length > 1 %}
-            <div class="hero-slider-dots">
-                {% for slide in hero_slides %}
-                <button class="hero-slider-dot{% if forloop.first %} is-active{% endif %}" data-hero-dot="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
+    <div class="hero-banner-cards">
         <div class="float-card float-card--status">
             <div class="float-card-icon">{{ "clock"|svg_icon }}</div>
             <div>
@@ -63,59 +78,23 @@
             <div class="float-card-icon">{{ "dashboard"|svg_icon }}</div>
             <div>
                 <div class="float-card-title">Live Fleet Tracking</div>
-                <div class="float-card-sub">Vehicles online now</div>
-            </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="hero-split-visual reveal">
-        <div class="hero-visual-frame">
-            <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-                <path d="M-20 260 70 170 160 260Z" fill="rgba(255,255,255,0.05)"/>
-                <path d="M120 260 230 145 340 260Z" fill="rgba(255,255,255,0.08)"/>
-                <path d="M20 340 160 195 240 195 380 340Z" fill="rgba(255,255,255,0.06)"/>
-                <path d="M200 340V200" stroke="rgba(255,255,255,0.3)" stroke-width="4" stroke-dasharray="14 12"/>
-                <g fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="105" y="150" width="140" height="100" rx="6"/>
-                    <path d="M245 250v-45h30l30 25v20z"/>
-                    <line x1="205" y1="152" x2="205" y2="248" stroke-width="2" opacity="0.5"/>
-                    <circle cx="150" cy="253" r="20" fill="#123322"/>
-                    <circle cx="272" cy="253" r="20" fill="#123322"/>
-                </g>
-                <g fill="#22c55e">
-                    <circle cx="150" cy="253" r="7"/>
-                    <circle cx="272" cy="253" r="7"/>
-                </g>
-                <circle cx="300" cy="228" r="4" fill="#ffd28a"/>
-                <rect x="105" y="200" width="140" height="14" fill="#22c55e" opacity="0.15"/>
-                <g stroke="#22c55e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(155,175)">
-                    <path d="M0 0l9 9-9 9"/>
-                    <path d="M11 0l9 9-9 9"/>
-                    <path d="M22 0l9 9-9 9"/>
-                </g>
-            </svg>
-        </div>
-        <div class="float-card float-card--status">
-            <div class="float-card-icon">{{ "clock"|svg_icon }}</div>
-            <div>
-                <div class="float-card-title">Fleet Active</div>
-                <div class="float-card-sub">24 vehicles en route</div>
+                <div class="float-card-sub">24 vehicles online</div>
             </div>
         </div>
         <div class="float-card float-card--route">
-            <div class="float-card-icon">{{ "map-pin"|svg_icon }}</div>
-            <div>
-                <div class="float-card-title">Chicago &rarr; Dallas</div>
-                <div class="float-card-sub">ETA 6h 20m</div>
-            </div>
-        </div>
-        <div class="float-card float-card--ring">
             <div class="ring" style="--val:99"><div class="ring-hole">99%</div></div>
             <div>
                 <div class="float-card-title">On-Time Rate</div>
                 <div class="float-card-sub">Last 90 days</div>
             </div>
         </div>
+    </div>
+
+    {% if hero_slides|length > 1 %}
+    <div class="hero-slider-dots">
+        {% for slide in hero_slides %}
+        <button class="hero-slider-dot{% if forloop.first %} is-active{% endif %}" data-hero-dot="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
     </div>
     {% endif %}
 </section>
