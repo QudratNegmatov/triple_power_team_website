@@ -76,3 +76,6 @@ class ContactInfoAdmin(CreatedByAdminMixin, admin.ModelAdmin):
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "created_at")
     readonly_fields = ("name", "email", "message", "created_at")
+
+    def has_add_permission(self, request):
+        return False
