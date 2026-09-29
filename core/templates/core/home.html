@@ -48,10 +48,22 @@
     </div>
 
     <div class="hero-banner-content reveal">
-        <p class="eyebrow">{% st "hero.eyebrow" %}</p>
-        {% st "hero.heading" as hero_heading %}
-        <h1>{{ hero_heading|linebreaksbr }}</h1>
-        <p class="lead">{% st "hero.lead" %}</p>
+        {% if hero_slides %}
+            {% for slide in hero_slides %}
+            <div class="hero-copy-slide{% if forloop.first %} is-active{% endif %}">
+                <p class="eyebrow">{% st "hero.eyebrow" %}</p>
+                {% tr slide "title" as slide_title %}
+                <h1>{{ slide_title|linebreaksbr }}</h1>
+                {% tr slide "description" as slide_description %}
+                <p class="lead">{{ slide_description }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="eyebrow">{% st "hero.eyebrow" %}</p>
+            {% st "hero.heading" as hero_heading %}
+            <h1>{{ hero_heading|linebreaksbr }}</h1>
+            <p class="lead">{% st "hero.lead" %}</p>
+        {% endif %}
         <div class="cta-row">
             <a href="{% url 'contact' %}" class="btn btn-primary">
                 {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>

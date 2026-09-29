@@ -524,6 +524,9 @@ a:hover { text-decoration: underline; }
     padding: 96px 24px 96px max(24px, calc((100% - 1140px) / 2));
 }
 
+.hero-copy-slide { display: none; }
+.hero-copy-slide.is-active { display: block; }
+
 .hero-banner-cards {
     position: absolute;
     inset: 0;

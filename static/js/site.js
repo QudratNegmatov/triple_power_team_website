@@ -48,12 +48,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     var heroSlides = document.querySelectorAll(".hero-slide");
+    var heroCopySlides = document.querySelectorAll(".hero-copy-slide");
     var heroDots = document.querySelectorAll(".hero-slider-dot");
     if (heroSlides.length > 1) {
         var heroCurrent = 0;
         var showHero = function (index) {
             heroCurrent = (index + heroSlides.length) % heroSlides.length;
             heroSlides.forEach(function (slide, i) {
+                slide.classList.toggle("is-active", i === heroCurrent);
+            });
+            heroCopySlides.forEach(function (slide, i) {
                 slide.classList.toggle("is-active", i === heroCurrent);
             });
             heroDots.forEach(function (dot, i) {
