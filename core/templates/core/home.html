@@ -87,50 +87,6 @@
     {% endif %}
 </section>
 
-<section class="section">
-    <div class="container">
-        <div class="section-head reveal">
-            <div>
-                <p class="eyebrow">{% st "services.eyebrow" %}</p>
-                <h2>{% st "services.heading" %}</h2>
-            </div>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "services.explore" %} <span class="btn-arrow">&rarr;</span></a>
-        </div>
-        <div class="grid grid-4">
-            {% for service in services %}
-            <div class="service-card reveal">
-                <div class="service-card-media">{{ service.icon|svg_icon }}</div>
-                <div class="service-card-body">
-                    <h3>{% tr service "title" %}</h3>
-                    <p>{% tr service "short_name" %}</p>
-                    <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
-                </div>
-            </div>
-            {% empty %}
-            <p class="muted">Services will show up here once added in the admin.</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-{% if about_page %}
-<section class="section section-alt">
-    <div class="container about-preview">
-        <div class="about-preview-media reveal">
-            {% if about_page.image %}
-                <img src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}">
-            {% endif %}
-        </div>
-        <div class="about-preview-body reveal">
-            <p class="eyebrow">{% st "about.eyebrow" %}</p>
-            <h2>{% tr about_page "title" %}</h2>
-            <p class="lead">{% tr about_page "short_description" %}</p>
-            <a href="{% url 'about' %}" class="btn btn-primary">{% st "about.read_more" %} <span class="btn-arrow">&rarr;</span></a>
-        </div>
-    </div>
-</section>
-{% endif %}
-
 <section class="section section-dark">
     <div class="container">
         {% if why_us %}
@@ -174,6 +130,32 @@
 </section>
 
 <section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <div>
+                <p class="eyebrow">{% st "services.eyebrow" %}</p>
+                <h2>{% st "services.heading" %}</h2>
+            </div>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "services.explore" %} <span class="btn-arrow">&rarr;</span></a>
+        </div>
+        <div class="grid grid-4">
+            {% for service in services %}
+            <div class="service-card reveal">
+                <div class="service-card-media">{{ service.icon|svg_icon }}</div>
+                <div class="service-card-body">
+                    <h3>{% tr service "title" %}</h3>
+                    <p>{% tr service "short_name" %}</p>
+                    <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="muted">Services will show up here once added in the admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt">
     <div class="container how-it-works-grid">
         <div class="how-it-works-copy reveal">
             <p class="eyebrow">{% st "howitworks.eyebrow" %}</p>
@@ -225,30 +207,6 @@
     </div>
 </section>
 
-<section class="section section-alt">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>{% st "portfolio.heading" %}</h2>
-            <a href="{% url 'project_list' %}" class="btn btn-ghost">{% st "portfolio.all" %} <span class="btn-arrow">&rarr;</span></a>
-        </div>
-        <div class="grid grid-3">
-            {% for project in projects %}
-            <div class="card reveal">
-                {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
-                {% else %}
-                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
-                {% endif %}
-                <h3>{% tr project "title" %}</h3>
-                <p>{% tr project "summary" %}</p>
-            </div>
-            {% empty %}
-            <p class="muted">Projects will show up here once added in the admin.</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
 {% if used_systems %}
 <section class="section">
     <div class="container">
@@ -264,6 +222,43 @@
                     <div class="system-card-fallback">{{ "package"|svg_icon }}</div>
                 {% endif %}
                 <span>{{ system.name }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if products %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-head reveal">
+            <div>
+                <p class="eyebrow">{% st "products.eyebrow" %}</p>
+                <h2>{% st "products.heading" %}</h2>
+            </div>
+            <a href="{% url 'product_list' %}" class="btn btn-ghost">{% st "products.explore" %} <span class="btn-arrow">&rarr;</span></a>
+        </div>
+        <div class="grid grid-4">
+            {% for product in products %}
+            <a href="{% url 'product_detail' product.id %}" class="card card-link reveal">
+                {% with cover=product.gallery.all|first %}
+                    {% if cover %}
+                        <img src="{{ cover.image.url }}" alt="{% tr product 'title' %}" class="card-image">
+                    {% else %}
+                        <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                    {% endif %}
+                {% endwith %}
+                <h3>{% tr product "title" %}</h3>
+                <div class="price-row">
+                    {% if product.has_discount %}
+                        <span class="price-original">${{ product.price }}</span>
+                        <span class="price-current">${{ product.discount_price }}</span>
+                        <span class="discount-badge">-{{ product.discount_percent }}%</span>
+                    {% else %}
+                        <span class="price-current">${{ product.price }}</span>
+                    {% endif %}
+                </div>
             </a>
             {% endfor %}
         </div>
@@ -303,4 +298,46 @@
     </div>
 </section>
 {% endif %}
+
+{% if about_page %}
+<section class="section section-alt">
+    <div class="container about-preview">
+        <div class="about-preview-media reveal">
+            {% if about_page.image %}
+                <img src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}">
+            {% endif %}
+        </div>
+        <div class="about-preview-body reveal">
+            <p class="eyebrow">{% st "about.eyebrow" %}</p>
+            <h2>{% tr about_page "title" %}</h2>
+            <p class="lead">{% tr about_page "short_description" %}</p>
+            <a href="{% url 'about' %}" class="btn btn-primary">{% st "about.read_more" %} <span class="btn-arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>{% st "portfolio.heading" %}</h2>
+            <a href="{% url 'project_list' %}" class="btn btn-ghost">{% st "portfolio.all" %} <span class="btn-arrow">&rarr;</span></a>
+        </div>
+        <div class="grid grid-3">
+            {% for project in projects %}
+            <div class="card reveal">
+                {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
+                {% else %}
+                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                {% endif %}
+                <h3>{% tr project "title" %}</h3>
+                <p>{% tr project "summary" %}</p>
+            </div>
+            {% empty %}
+            <p class="muted">Projects will show up here once added in the admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

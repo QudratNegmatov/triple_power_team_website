@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 
 from portfolio.models import Project
+from products.models import Product
 from services.models import Service, UsedSystem
 
 from .forms import ContactForm
@@ -16,6 +17,7 @@ def home(request):
         "hero_slides": HeroSlide.objects.filter(is_active=True),
         "services": Service.objects.filter(is_active=True)[:4],
         "projects": Project.objects.filter(is_active=True)[:3],
+        "products": Product.objects.filter(is_active=True).prefetch_related("gallery")[:4],
         "why_us": WhyChooseUs.objects.filter(is_active=True)
         .prefetch_related("points", "stats")
         .first(),
