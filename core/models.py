@@ -4,6 +4,20 @@ from django.db import models
 from common.models import ContentModel, SubmissionModel
 
 
+def hero_video_storage():
+    """HeroSlide.video needs Cloudinary's video resource type, not its
+    image-only default - using the plain "default" storage for a video
+    upload makes Cloudinary reject it."""
+    from django.conf import settings
+    from django.core.files.storage import default_storage
+
+    if getattr(settings, "CLOUDINARY_CLOUD_NAME", None):
+        from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+
+        return VideoMediaCloudinaryStorage()
+    return default_storage
+
+
 class WhyChooseUs(ContentModel):
     eyebrow_en = models.CharField(max_length=100, default="Why choose us")
     eyebrow_uz = models.CharField(max_length=100, default="Nega bizni tanlashadi")
@@ -77,7 +91,7 @@ class HeroSlide(ContentModel):
     button_name_ru = models.CharField(max_length=50, blank=True)
     button_url = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to="hero/", blank=True, null=True)
-    video = models.FileField(upload_to="hero/", blank=True, null=True)
+    video = models.FileField(upload_to="hero/", blank=True, null=True, storage=hero_video_storage)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
