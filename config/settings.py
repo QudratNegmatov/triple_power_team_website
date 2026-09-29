@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     "storages",
+    "cloudinary_storage",
+    "cloudinary",
     "common",
     "core",
     "services",
@@ -169,11 +171,21 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Uploaded files (HeroSlide images, Founder photos, etc.) on Render's free tier
-# live on a disk that is wiped on every redeploy/restart. Point them at any
-# S3-compatible bucket (Cloudflare R2, AWS S3, ...) instead, by setting these
-# env vars; local dev is untouched since AWS_STORAGE_BUCKET_NAME stays unset.
+# live on a disk that is wiped on every redeploy/restart. Point them at an
+# external host instead, by setting env vars; local dev is untouched since
+# neither CLOUDINARY_CLOUD_NAME nor AWS_STORAGE_BUCKET_NAME is set there.
+CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-if AWS_STORAGE_BUCKET_NAME:
+
+if CLOUDINARY_CLOUD_NAME:
+    STORAGES["default"] = {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"}
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
+        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    }
+elif AWS_STORAGE_BUCKET_NAME:
+    # Any S3-compatible bucket (Cloudflare R2, AWS S3, ...).
     STORAGES["default"] = {"BACKEND": "storages.backends.s3.S3Storage"}
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
