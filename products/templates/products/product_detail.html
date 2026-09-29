@@ -15,10 +15,19 @@
     <div class="container product-detail-grid">
         <div class="product-detail-media">
             {% if product.gallery.all %}
-                <div class="gallery-grid">
+                <div class="gallery-slider">
                     {% for photo in product.gallery.all %}
-                    <img src="{{ photo.image.url }}" alt="{% tr product 'title' %}" class="gallery-image">
+                    <div class="gallery-slide{% if forloop.first %} is-active{% endif %}">
+                        <img src="{{ photo.image.url }}" alt="{% tr product 'title' %}">
+                    </div>
                     {% endfor %}
+                    {% if product.gallery.all|length > 1 %}
+                    <div class="gallery-dots">
+                        {% for photo in product.gallery.all %}
+                        <button class="gallery-dot{% if forloop.first %} is-active{% endif %}" data-gallery-dot="{{ forloop.counter0 }}" aria-label="Image {{ forloop.counter }}"></button>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
             {% else %}
                 <img src="{% static 'img/placeholder.svg' %}" alt="">

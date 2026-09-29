@@ -11,7 +11,7 @@ def product_list(request):
 
 
 def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk, is_active=True)
+    product = get_object_or_404(Product.objects.prefetch_related("gallery"), pk=pk, is_active=True)
     if request.method == "POST":
         form = ProductInquiryForm(request.POST)
         if form.is_valid():

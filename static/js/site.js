@@ -69,4 +69,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         setInterval(function () { showHero(heroCurrent + 1); }, 6000);
     }
+
+    document.querySelectorAll(".gallery-slider").forEach(function (slider) {
+        var slides = slider.querySelectorAll(".gallery-slide");
+        var dots = slider.querySelectorAll(".gallery-dot");
+        if (slides.length > 1) {
+            var current = 0;
+            var show = function (index) {
+                current = (index + slides.length) % slides.length;
+                slides.forEach(function (slide, i) {
+                    slide.classList.toggle("is-active", i === current);
+                });
+                dots.forEach(function (dot, i) {
+                    dot.classList.toggle("is-active", i === current);
+                });
+            };
+            dots.forEach(function (dot, i) {
+                dot.addEventListener("click", function () { show(i); });
+            });
+            setInterval(function () { show(current + 1); }, 5000);
+        }
+    });
 });

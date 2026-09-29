@@ -12,7 +12,7 @@ def service_list(request):
 
 
 def service_detail(request, pk):
-    service = get_object_or_404(Service, pk=pk, is_active=True)
+    service = get_object_or_404(Service.objects.prefetch_related("gallery"), pk=pk, is_active=True)
     other_services = Service.objects.filter(is_active=True).exclude(pk=pk)[:3]
     return render(
         request,

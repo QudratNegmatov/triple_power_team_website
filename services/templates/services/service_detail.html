@@ -18,10 +18,19 @@
 <section class="section" style="padding-top: 0;">
     <div class="container narrow">
         {% if service.gallery.all %}
-        <div class="gallery-grid">
+        <div class="gallery-slider">
             {% for photo in service.gallery.all %}
-            <img src="{{ photo.image.url }}" alt="{% tr service 'title' %}" class="gallery-image">
+            <div class="gallery-slide{% if forloop.first %} is-active{% endif %}">
+                <img src="{{ photo.image.url }}" alt="{% tr service 'title' %}">
+            </div>
             {% endfor %}
+            {% if service.gallery.all|length > 1 %}
+            <div class="gallery-dots">
+                {% for photo in service.gallery.all %}
+                <button class="gallery-dot{% if forloop.first %} is-active{% endif %}" data-gallery-dot="{{ forloop.counter0 }}" aria-label="Image {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
         {% endif %}
 
