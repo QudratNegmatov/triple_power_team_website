@@ -78,30 +78,6 @@
         </div>
     </div>
 
-    <div class="hero-banner-cards">
-        <div class="float-card float-card--status">
-            <div class="float-card-icon">{{ "clock"|svg_icon }}</div>
-            <div>
-                <div class="float-card-title">On Duty</div>
-                <div class="float-card-sub">Hours of service tracked</div>
-            </div>
-        </div>
-        <div class="float-card float-card--tracking">
-            <div class="float-card-icon">{{ "dashboard"|svg_icon }}</div>
-            <div>
-                <div class="float-card-title">Live Fleet Tracking</div>
-                <div class="float-card-sub">24 vehicles online</div>
-            </div>
-        </div>
-        <div class="float-card float-card--route">
-            <div class="ring" style="--val:99"><div class="ring-hole">99%</div></div>
-            <div>
-                <div class="float-card-title">On-Time Rate</div>
-                <div class="float-card-sub">Last 90 days</div>
-            </div>
-        </div>
-    </div>
-
     {% if hero_slides|length > 1 %}
     <div class="hero-slider-dots">
         {% for slide in hero_slides %}
@@ -302,7 +278,7 @@
         <div class="testimonial-wrap reveal">
             {% for group in testimonial_groups %}
             <div class="testimonial-slide-group{% if forloop.first %} is-active{% endif %}">
-                <div class="grid grid-3">
+                <div class="grid grid-4">
                     {% for testimonial in group %}
                     <div class="testimonial-card">
                         {% if testimonial.image %}

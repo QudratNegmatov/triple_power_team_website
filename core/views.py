@@ -9,8 +9,8 @@ from .models import AboutPage, ContactMessage, Founder, HeroSlide, Testimonial, 
 
 
 def home(request):
-    testimonials = list(Testimonial.objects.filter(is_active=True)[:6])
-    testimonial_groups = [testimonials[i : i + 3] for i in range(0, len(testimonials), 3)]
+    testimonials = list(Testimonial.objects.filter(is_active=True))
+    testimonial_groups = [testimonials[i : i + 4] for i in range(0, len(testimonials), 4)]
 
     context = {
         "hero_slides": HeroSlide.objects.filter(is_active=True),

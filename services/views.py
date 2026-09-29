@@ -7,7 +7,7 @@ def service_list(request):
     return render(
         request,
         "services/service_list.html",
-        {"services": Service.objects.filter(is_active=True)},
+        {"services": Service.objects.filter(is_active=True).prefetch_related("gallery")},
     )
 
 

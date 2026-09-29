@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load site_icons i18n_extras %}
+{% load static site_icons i18n_extras %}
 
 {% block title %}{% st "services_page.heading" %} — Triple Power Team{% endblock %}
 
@@ -14,17 +14,20 @@
 
 <section class="section" style="padding-top: 0;">
     <div class="container">
-        <div class="service-rows">
+        <div class="grid grid-2">
             {% for service in services %}
-            <a href="{% url 'service_detail' service.id %}" class="service-row reveal">
-                <span class="service-index">{{ forloop.counter|stringformat:"02d" }}</span>
-                <div class="service-row-icon">{{ service.icon|svg_icon }}</div>
-                <div class="service-row-body">
-                    <h3>{% tr service "title" %}</h3>
-                    <p>{% tr service "short_name" %}</p>
-                </div>
-                <span class="service-row-arrow">&rarr;</span>
-            </a>
+            <div class="card service-list-card reveal">
+                {% with cover=service.gallery.all|first %}
+                    {% if cover %}
+                        <img src="{{ cover.image.url }}" alt="{% tr service 'title' %}" class="card-image">
+                    {% else %}
+                        <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                    {% endif %}
+                {% endwith %}
+                <h3>{% tr service "title" %}</h3>
+                <p>{% tr service "short_name" %}</p>
+                <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
+            </div>
             {% empty %}
             <p class="muted">No services added yet. Add some in the Django admin.</p>
             {% endfor %}

@@ -12,6 +12,28 @@
     </div>
 </section>
 
+{% if featured %}
+<section class="section" style="padding-bottom: 0;">
+    <div class="container">
+        <a href="{% url 'news_detail' featured.id %}" class="about-preview card-link reveal">
+            <div class="about-preview-media">
+                {% if featured.image %}
+                    <img src="{{ featured.image.url }}" alt="{% tr featured 'title' %}">
+                {% else %}
+                    <img src="{% static 'img/placeholder.svg' %}" alt="">
+                {% endif %}
+            </div>
+            <div class="about-preview-body">
+                <p class="eyebrow">{% st "news_page.latest" %}</p>
+                <p class="news-meta">{{ featured.published_at|date:"M j, Y" }}</p>
+                <h2>{% tr featured "title" %}</h2>
+                <p>{% tr featured "excerpt" %}</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endif %}
+
 <section class="section">
     <div class="container">
         <div class="grid grid-3">
@@ -27,7 +49,9 @@
                 <p>{% tr post "excerpt" %}</p>
             </a>
             {% empty %}
+            {% if not featured %}
             <p class="muted">No news posted yet. Add some in the Django admin.</p>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

@@ -200,15 +200,9 @@ elif AWS_STORAGE_BUCKET_NAME:
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads/"
 CKEDITOR_CONFIGS = {
     "default": {
-        "toolbar": "Basic",
-        "toolbar_Basic": [
-            ["Bold", "Italic", "Underline"],
-            ["NumberedList", "BulletedList"],
-            ["Link", "Unlink"],
-            ["Image", "Table"],
-            ["Source"],
-        ],
-        "height": 260,
+        "toolbar": "Full",
+        "width": "100%",
+        "height": 400,
     },
 }
 
