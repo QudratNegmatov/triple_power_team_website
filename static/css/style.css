@@ -166,21 +166,6 @@ a:hover { text-decoration: underline; }
     .marquee-track { animation: none; }
 }
 
-/* Hero */
-.hero { padding: 88px 0 72px; overflow: hidden; }
-.hero-inner {
-    display: flex;
-    align-items: center;
-    gap: 48px;
-}
-.hero-copy { flex: 1 1 480px; max-width: 640px; }
-.hero-art { flex: 1 1 380px; max-width: 460px; }
-.hero-art svg { width: 100%; height: auto; }
-
-@media (max-width: 900px) {
-    .hero-inner { flex-direction: column; }
-    .hero-art { max-width: 320px; order: -1; }
-}
 .eyebrow {
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -236,7 +221,6 @@ a:hover { text-decoration: underline; }
     .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .header-inner { flex-direction: column; gap: 12px; }
     .nav { flex-wrap: wrap; justify-content: center; }
-    .hero { padding: 48px 0 32px; }
 }
 
 /* Stats */
@@ -679,6 +663,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 760px) {
     .founder-row, .founder-row-reverse { flex-direction: column; }
     .founder-media { max-width: none; width: 100%; }
+    .founder-body { width: 100%; }
 }
 
 .stats-row-dark {
@@ -705,7 +690,6 @@ a:hover { text-decoration: underline; }
 .stats-row-dark .stat-label { color: var(--color-text-muted); }
 
 @media (max-width: 900px) {
-    .why-us-grid { flex-direction: column; }
     .stats-row-dark { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -746,6 +730,8 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 960px) {
     .how-it-works-grid { flex-direction: column; }
+    .how-it-works-copy { width: 100%; }
+    .how-it-works-visual { width: 100%; max-width: none; }
 }
 
 /* Device mockup */
@@ -839,6 +825,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 900px) {
     .about-preview { flex-direction: column; }
     .about-preview-media { max-width: none; width: 100%; }
+    .about-preview-body { width: 100%; }
 }
 
 /* Systems grid (used/integrated tools) */
@@ -952,5 +939,6 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 900px) {
     .product-detail-grid { flex-direction: column; }
-    .product-detail-media { max-width: none; }
+    .product-detail-media { max-width: none; width: 100%; }
+    .product-detail-body { width: 100%; }
 }
