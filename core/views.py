@@ -15,7 +15,7 @@ def home(request):
 
     context = {
         "hero_slides": HeroSlide.objects.filter(is_active=True),
-        "services": Service.objects.filter(is_active=True)[:4],
+        "services": Service.objects.filter(is_active=True).prefetch_related("gallery")[:4],
         "projects": Project.objects.filter(is_active=True)[:3],
         "products": Product.objects.filter(is_active=True).prefetch_related("gallery")[:4],
         "why_us": WhyChooseUs.objects.filter(is_active=True)

@@ -141,7 +141,9 @@
         <div class="grid grid-4">
             {% for service in services %}
             <div class="service-card reveal">
-                <div class="service-card-media">{{ service.icon|svg_icon }}</div>
+                <div class="service-card-media">
+                    {% with cover=service.gallery.all|first %}{% if cover %}<img src="{{ cover.image.url }}" alt="{% tr service 'title' %}">{% else %}{{ service.icon|svg_icon }}{% endif %}{% endwith %}
+                </div>
                 <div class="service-card-body">
                     <h3>{% tr service "title" %}</h3>
                     {% if service.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
