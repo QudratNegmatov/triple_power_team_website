@@ -25,6 +25,7 @@
                     {% endif %}
                 {% endwith %}
                 <h3>{% tr service "title" %}</h3>
+                {% if service.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
                 <p>{% tr service "short_name" %}</p>
                 <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
             </div>

@@ -17,15 +17,15 @@
                 </svg>
                 <span class="logo-text">
                     Triple Power Team
-                    <small>Freight &middot; Warehousing &middot; Customs</small>
+                    <small>{% st "footer.tagline" %}</small>
                 </span>
             </a>
             <div class="header-right">
                 <nav class="nav">
                     <a href="{% url 'home' %}">{% st "nav.home" %}</a>
-                    <a href="{% url 'about' %}">{% st "nav.about" %}</a>
                     <a href="{% url 'service_list' %}">{% st "nav.services" %}</a>
                     <a href="{% url 'product_list' %}">{% st "nav.products" %}</a>
+                    <a href="{% url 'about' %}">{% st "nav.about" %}</a>
                     <a href="{% url 'news_list' %}">{% st "nav.news" %}</a>
                     <a href="{% url 'contact' %}" class="nav-cta">{% st "nav.contact" %}</a>
                 </nav>

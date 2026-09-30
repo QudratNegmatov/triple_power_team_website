@@ -24,6 +24,10 @@ class Service(ContentModel):
         blank=True,
         help_text="Icon keyword shown next to the title.",
     )
+    is_coming_soon = models.BooleanField(
+        default=False,
+        help_text="Show a \"Coming soon\" badge - the service page stays visible, but is marked as not yet available.",
+    )
     order = models.PositiveIntegerField(default=0)
 
     class Meta:

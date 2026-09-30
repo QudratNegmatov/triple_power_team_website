@@ -942,3 +942,26 @@ a:hover { text-decoration: underline; }
     .product-detail-media { max-width: none; width: 100%; }
     .product-detail-body { width: 100%; }
 }
+
+/* "Coming soon" services */
+.badge-soon {
+    display: inline-block;
+    background: rgba(250, 204, 21, 0.14);
+    color: #facc15;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+.service-detail-head + .badge-soon { margin: 4px 0 14px; }
+.coming-soon-note {
+    margin-top: 28px;
+    padding: 14px 18px;
+    border: 1px solid rgba(250, 204, 21, 0.35);
+    border-radius: var(--radius);
+    background: rgba(250, 204, 21, 0.06);
+    color: var(--color-text);
+}

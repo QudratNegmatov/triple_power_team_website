@@ -11,6 +11,7 @@
             <div class="service-row-icon service-detail-icon">{{ service.icon|svg_icon }}</div>
             <h1>{% tr service "title" %}</h1>
         </div>
+        {% if service.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
         <p class="lead">{% tr service "short_name" %}</p>
     </div>
 </section>
@@ -46,8 +47,12 @@
         {% endif %}
         {% endwith %}
 
+        {% if service.is_coming_soon %}
+        <p class="coming-soon-note">{% st "services.coming_soon_note" %}</p>
+        {% endif %}
+
         <div class="cta-row" style="margin-top: 32px;">
-            <a href="{% url 'contact' %}" class="btn btn-primary">{% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span></a>
+            <a href="{% url 'contact' %}" class="btn btn-primary">{% if service.is_coming_soon %}{% st "services.notify_me" %}{% else %}{% st "hero.cta_quote" %}{% endif %} <span class="btn-arrow">&rarr;</span></a>
         </div>
     </div>
 </section>
@@ -138,6 +143,7 @@
                 <div class="service-card-media">{{ other.icon|svg_icon }}</div>
                 <div class="service-card-body">
                     <h3>{% tr other "title" %}</h3>
+                    {% if other.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
                     <p>{% tr other "short_name" %}</p>
                     <a href="{% url 'service_detail' other.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
                 </div>

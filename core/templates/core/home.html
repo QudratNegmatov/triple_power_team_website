@@ -144,6 +144,7 @@
                 <div class="service-card-media">{{ service.icon|svg_icon }}</div>
                 <div class="service-card-body">
                     <h3>{% tr service "title" %}</h3>
+                    {% if service.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
                     <p>{% tr service "short_name" %}</p>
                     <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
                 </div>
@@ -317,6 +318,7 @@
 </section>
 {% endif %}
 
+{% if projects %}
 <section class="section">
     <div class="container">
         <div class="section-head reveal">
@@ -334,10 +336,9 @@
                 <h3>{% tr project "title" %}</h3>
                 <p>{% tr project "summary" %}</p>
             </div>
-            {% empty %}
-            <p class="muted">Projects will show up here once added in the admin.</p>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 {% endblock %}
