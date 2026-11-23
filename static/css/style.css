@@ -82,7 +82,7 @@ a:hover { text-decoration: underline; }
     color: var(--color-text);
     text-decoration: none;
 }
-.logo-mark { width: 22px; height: 22px; flex-shrink: 0; }
+.logo-mark { width: 28px; height: 37px; flex-shrink: 0; display: block; }
 .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
 .logo-text small {
     font-size: 0.65rem;
