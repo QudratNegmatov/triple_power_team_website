@@ -36,6 +36,17 @@ class SeoTests(TestCase):
         self.assertEqual(response.status_code, 301)
         self.assertEqual(response["Location"], f"/ru/services/{self.service.slug}/")
 
+    def test_every_detail_page_renders(self):
+        from django.utils import translation
+
+        from products.models import Product
+
+        for obj in [*Service.objects.all(), *NewsPost.objects.all(), *Product.objects.all()]:
+            for lang in ("en", "uz", "ru"):
+                with translation.override(lang):
+                    url = obj.get_absolute_url()
+                self.assertEqual(self.client.get(url).status_code, 200, url)
+
     def test_news_slug(self):
         post = NewsPost.objects.filter(is_active=True).first()
         self.assertEqual(self.client.get(post.get_absolute_url()).status_code, 200)
