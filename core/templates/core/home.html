@@ -56,6 +56,17 @@
                 <h1>{{ slide_title|linebreaksbr }}</h1>
                 {% tr slide "description" as slide_description %}
                 <p class="lead">{{ slide_description }}</p>
+                <div class="cta-row">
+                    <a href="{% url 'contact' %}" class="btn btn-primary">
+                        {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>
+                    </a>
+                    {% tr slide "button_name" as slide_button %}
+                    {% if slide_button and slide.button_url %}
+                        <a href="{{ slide.button_url }}" class="btn btn-ghost">{{ slide_button }}</a>
+                    {% else %}
+                        <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
+                    {% endif %}
+                </div>
             </div>
             {% endfor %}
         {% else %}
@@ -63,13 +74,13 @@
             {% st "hero.heading" as hero_heading %}
             <h1>{{ hero_heading|linebreaksbr }}</h1>
             <p class="lead">{% st "hero.lead" %}</p>
+            <div class="cta-row">
+                <a href="{% url 'contact' %}" class="btn btn-primary">
+                    {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>
+                </a>
+                <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
+            </div>
         {% endif %}
-        <div class="cta-row">
-            <a href="{% url 'contact' %}" class="btn btn-primary">
-                {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>
-            </a>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
-        </div>
         <div class="feature-row">
             <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature1" %}</div>
             <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature2" %}</div>
