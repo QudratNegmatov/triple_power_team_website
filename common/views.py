@@ -20,9 +20,11 @@ def robots_txt(request):
 
 
 @require_GET
-@cache_control(max_age=604800, public=True)
+@cache_control(max_age=3600, public=True)
 def favicon(request):
     from django.shortcuts import redirect
     from django.templatetags.static import static
 
-    return redirect(static("img/favicon.svg"), permanent=True)
+    # Temporary redirect: the target's hashed name changes whenever the icon
+    # does, so browsers must not remember this redirect forever.
+    return redirect(static("img/favicon.svg"))
