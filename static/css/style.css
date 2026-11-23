@@ -468,13 +468,18 @@ a:hover { text-decoration: underline; }
     background: linear-gradient(100deg, rgba(7, 11, 9, 0.95) 0%, rgba(7, 11, 9, 0.82) 32%, rgba(7, 11, 9, 0.45) 56%, rgba(7, 11, 9, 0.08) 78%);
 }
 
-.hero-banner-content {
+.hero-banner-inner {
     position: relative;
     z-index: 2;
     flex: 1 1 auto;
     width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 96px 24px;
+}
+
+.hero-banner-content {
     max-width: 660px;
-    padding: 96px 24px 96px max(24px, calc((100% - var(--max-width)) / 2));
 }
 
 .hero-copy-slide { display: none; }
@@ -545,7 +550,8 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 760px) {
     .hero-banner { display: block; min-height: auto; }
-    .hero-banner-content { max-width: 100%; padding: 56px 20px 24px; }
+    .hero-banner-inner { width: 100%; padding: 56px 20px 24px; }
+    .hero-banner-content { max-width: 100%; }
     .hero-banner-scrim { background: linear-gradient(180deg, rgba(7, 11, 9, 0.55) 0%, rgba(7, 11, 9, 0.88) 55%, rgba(7, 11, 9, 0.97) 100%); }
     .hero-slide--illustration svg { width: 100%; opacity: 0.55; }
     .hero-slider-dots { bottom: 8px; }

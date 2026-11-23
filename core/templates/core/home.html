@@ -47,34 +47,36 @@
         <div class="hero-banner-scrim"></div>
     </div>
 
-    <div class="hero-banner-content reveal">
-        {% if hero_slides %}
-            {% for slide in hero_slides %}
-            <div class="hero-copy-slide{% if forloop.first %} is-active{% endif %}">
+    <div class="hero-banner-inner">
+        <div class="hero-banner-content reveal">
+            {% if hero_slides %}
+                {% for slide in hero_slides %}
+                <div class="hero-copy-slide{% if forloop.first %} is-active{% endif %}">
+                    <p class="eyebrow">{% st "hero.eyebrow" %}</p>
+                    {% tr slide "title" as slide_title %}
+                    <h1>{{ slide_title|linebreaksbr }}</h1>
+                    {% tr slide "description" as slide_description %}
+                    <p class="lead">{{ slide_description }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
                 <p class="eyebrow">{% st "hero.eyebrow" %}</p>
-                {% tr slide "title" as slide_title %}
-                <h1>{{ slide_title|linebreaksbr }}</h1>
-                {% tr slide "description" as slide_description %}
-                <p class="lead">{{ slide_description }}</p>
+                {% st "hero.heading" as hero_heading %}
+                <h1>{{ hero_heading|linebreaksbr }}</h1>
+                <p class="lead">{% st "hero.lead" %}</p>
+            {% endif %}
+            <div class="cta-row">
+                <a href="{% url 'contact' %}" class="btn btn-primary">
+                    {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>
+                </a>
+                <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
             </div>
-            {% endfor %}
-        {% else %}
-            <p class="eyebrow">{% st "hero.eyebrow" %}</p>
-            {% st "hero.heading" as hero_heading %}
-            <h1>{{ hero_heading|linebreaksbr }}</h1>
-            <p class="lead">{% st "hero.lead" %}</p>
-        {% endif %}
-        <div class="cta-row">
-            <a href="{% url 'contact' %}" class="btn btn-primary">
-                {% st "hero.cta_quote" %} <span class="btn-arrow">&rarr;</span>
-            </a>
-            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
-        </div>
-        <div class="feature-row">
-            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature1" %}</div>
-            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature2" %}</div>
-            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature3" %}</div>
-            <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature4" %}</div>
+            <div class="feature-row">
+                <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature1" %}</div>
+                <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature2" %}</div>
+                <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature3" %}</div>
+                <div class="feature-row-item">{{ "check"|svg_icon }} {% st "hero.feature4" %}</div>
+            </div>
         </div>
     </div>
 
