@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12241a"/><stop offset="1" stop-color="#070b09"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#22c55e" stop-opacity="0.18"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <!-- map blocks -->
+  <g fill="#22c55e" fill-opacity="0.05" stroke="#22c55e" stroke-opacity="0.12">
+    <path d="M120 90 260 70 300 170 180 200Z"/><path d="M320 60 470 80 450 190 330 170Z"/>
+    <path d="M500 90 680 110 660 230 520 210Z"/><path d="M150 260 300 240 320 380 170 400Z"/>
+    <path d="M360 250 500 270 490 410 350 390Z"/><path d="M540 260 690 280 670 420 530 400Z"/>
+  </g>
+  <!-- route -->
+  <path d="M210 360C280 300 300 230 380 225S520 260 560 200 620 160 620 160" fill="none" stroke="#22c55e" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 16"/>
+  <!-- pickup pin -->
+  <g transform="translate(210 360)">
+    <circle r="16" fill="#0b1410" stroke="#22c55e" stroke-width="5"/>
+    <rect x="-52" y="22" width="104" height="26" rx="13" fill="#0b1410" stroke="#1f3327" stroke-width="2"/>
+    <text y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#f1f7f3">PICKUP</text>
+  </g>
+  <!-- delivery pin -->
+  <g transform="translate(620 160)">
+    <path d="M0 0C-22 -26 -30 -40 -30 -56A30 30 0 0 1 30 -56C30 -40 22 -26 0 0Z" fill="#22c55e"/>
+    <circle cy="-56" r="11" fill="#06120b"/>
+    <rect x="-58" y="12" width="116" height="26" rx="13" fill="#0b1410" stroke="#1f3327" stroke-width="2"/>
+    <text y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#f1f7f3">DELIVERY</text>
+  </g>
+  <!-- truck on route -->
+  <g transform="translate(345 195)" fill="none" stroke="#22c55e" stroke-width="4" stroke-linejoin="round">
+    <rect x="0" y="0" width="64" height="38" rx="4" fill="#0b1410"/>
+    <path d="M64 38V14h20l14 14v10z" fill="#0b1410"/>
+    <circle cx="18" cy="42" r="8" fill="#0b1410"/><circle cx="82" cy="42" r="8" fill="#0b1410"/>
+  </g>
+  <!-- load card -->
+  <g transform="translate(470 300)">
+    <rect width="200" height="96" rx="14" fill="#0b1410" stroke="#22c55e" stroke-width="3"/>
+    <text x="18" y="30" font-family="Arial, sans-serif" font-size="13" fill="#93ab9d">ACTIVE LOAD</text>
+    <text x="18" y="58" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#f1f7f3">$2,850</text>
+    <rect x="18" y="72" width="164" height="8" rx="4" fill="#1f3327"/>
+    <rect x="18" y="72" width="110" height="8" rx="4" fill="#22c55e"/>
+  </g>
+  <!-- headset -->
+  <g transform="translate(150 140)" fill="none" stroke="#22c55e" stroke-width="5" stroke-linecap="round">
+    <path d="M-34 10A34 34 0 0 1 34 10"/>
+    <rect x="-44" y="6" width="18" height="30" rx="8" fill="#22c55e"/>
+    <rect x="26" y="6" width="18" height="30" rx="8" fill="#22c55e"/>
+    <path d="M35 36C35 52 20 58 4 58"/>
+  </g>
+</svg>

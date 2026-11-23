@@ -142,7 +142,7 @@
             {% for service in services %}
             <div class="service-card reveal">
                 <div class="service-card-media">
-                    {% with cover=service.gallery.all|first %}{% if cover %}<img src="{{ cover.image.url }}" alt="{% tr service 'title' %}">{% else %}{{ service.icon|svg_icon }}{% endif %}{% endwith %}
+                    {% with cover=service.gallery.all|first %}{% if cover %}<img src="{{ cover.image.url }}" alt="{% tr service 'title' %}">{% elif service.illustration %}<img src="{% static service.illustration %}" alt="{% tr service 'title' %}">{% else %}{{ service.icon|svg_icon }}{% endif %}{% endwith %}
                 </div>
                 <div class="service-card-body">
                     <h3>{% tr service "title" %}</h3>

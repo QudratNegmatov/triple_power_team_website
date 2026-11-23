@@ -39,6 +39,13 @@ class Service(ContentModel):
     def get_absolute_url(self):
         return reverse("service_detail", args=[self.id])
 
+    # Built-in illustration per service icon, used until a gallery photo is uploaded.
+    ILLUSTRATIONS = {"clock": "eld", "map-pin": "dispatch", "shield": "safety", "truck": "fleet"}
+
+    def illustration(self):
+        name = self.ILLUSTRATIONS.get(self.icon)
+        return f"img/services/{name}.svg" if name else ""
+
     def key_points_list(self):
         text = get_translated(self, "key_points")
         return [line.strip() for line in text.splitlines() if line.strip()]

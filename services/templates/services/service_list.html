@@ -20,6 +20,8 @@
                 {% with cover=service.gallery.all|first %}
                     {% if cover %}
                         <img src="{{ cover.image.url }}" alt="{% tr service 'title' %}" class="card-image">
+                    {% elif service.illustration %}
+                        <img src="{% static service.illustration %}" alt="{% tr service 'title' %}" class="card-image">
                     {% else %}
                         <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                     {% endif %}
