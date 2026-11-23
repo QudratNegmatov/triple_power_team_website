@@ -49,6 +49,7 @@
 
     <div class="hero-banner-content reveal">
         {% if hero_slides %}
+            <div class="hero-copy-stack">
             {% for slide in hero_slides %}
             <div class="hero-copy-slide{% if forloop.first %} is-active{% endif %}">
                 <p class="eyebrow">{% st "hero.eyebrow" %}</p>
@@ -69,6 +70,7 @@
                 </div>
             </div>
             {% endfor %}
+            </div>
         {% else %}
             <p class="eyebrow">{% st "hero.eyebrow" %}</p>
             {% st "hero.heading" as hero_heading %}

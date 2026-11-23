@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n_extras %}
+
+{% block title %}404 — Triple Power Team{% endblock %}
+
+{% block content %}
+<section class="section error-page">
+    <div class="container narrow">
+        <p class="eyebrow">404</p>
+        <h1>{% st "error404.heading" %}</h1>
+        <p class="lead">{% st "error404.text" %}</p>
+        <div class="cta-row">
+            <a href="{% url 'home' %}" class="btn btn-primary">{% st "error404.button" %} <span class="btn-arrow">&rarr;</span></a>
+            <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "nav.services" %}</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

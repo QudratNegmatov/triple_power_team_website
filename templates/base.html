@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Triple Power Team{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -20,7 +21,10 @@
                     <small>{% st "footer.tagline" %}</small>
                 </span>
             </a>
-            <div class="header-right">
+            <button type="button" class="nav-toggle" aria-label="{% st "nav.menu" %}" aria-expanded="false" aria-controls="site-menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="header-right" id="site-menu">
                 <nav class="nav">
                     <a href="{% url 'home' %}">{% st "nav.home" %}</a>
                     <a href="{% url 'service_list' %}">{% st "nav.services" %}</a>
@@ -86,8 +90,10 @@
         <div class="container footer-bottom">
             <p>&copy; {% now "Y" %} Triple Power Team. {% st "footer.rights" %}</p>
             <div class="footer-bottom-links">
-                <a href="{% url 'news_list' %}">{% st "nav.news" %}</a>
                 <a href="{% url 'service_list' %}">{% st "nav.services" %}</a>
+                <a href="{% url 'product_list' %}">{% st "nav.products" %}</a>
+                <a href="{% url 'about' %}">{% st "nav.about" %}</a>
+                <a href="{% url 'news_list' %}">{% st "nav.news" %}</a>
                 <a href="{% url 'contact' %}">{% st "nav.contact" %}</a>
             </div>
         </div>

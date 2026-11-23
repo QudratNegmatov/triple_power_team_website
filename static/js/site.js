@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
         window.addEventListener("scroll", onScroll, { passive: true });
     }
 
+    var navToggle = document.querySelector(".nav-toggle");
+    if (header && navToggle) {
+        navToggle.addEventListener("click", function () {
+            var open = header.classList.toggle("nav-open");
+            navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+    }
+
     var revealEls = document.querySelectorAll(".reveal");
     if (revealEls.length) {
         if ("IntersectionObserver" in window) {
