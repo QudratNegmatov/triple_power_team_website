@@ -13,6 +13,7 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title_en",)}
     list_display = ("title_en", "price", "discount_price", "is_active", "order")
     list_filter = ("is_active",)
     ordering = ("order", "title_en")

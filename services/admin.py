@@ -41,6 +41,7 @@ class IntegratedSystemInline(admin.TabularInline):
 
 @admin.register(Service)
 class ServiceAdmin(CreatedByAdminMixin, admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title_en",)}
     list_display = ("title_en", "order", "is_coming_soon", "is_active", "created_by", "created_at")
     list_editable = ("order", "is_coming_soon", "is_active")
     ordering = ("order", "title_en")

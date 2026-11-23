@@ -22,14 +22,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-%g%jfg%=4g9)45seosm$^4*%n+8*rop3#@0l#ru+hzbtgy$n(i",
-)
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+if not SECRET_KEY:
+    if not DEBUG:
+        from django.core.exceptions import ImproperlyConfigured
+
+        raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set in production.")
+    SECRET_KEY = "django-insecure-local-development-only"
+
+# Admin address. Set DJANGO_ADMIN_URL (e.g. "tpt-panel-7k2/") on the server so
+# bots scanning for /admin/ never find the login page.
+ADMIN_URL = os.environ.get("DJANGO_ADMIN_URL", "admin/").strip("/") + "/"
+
+# Optional: the code from Google Search Console's "HTML tag" verification.
+GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -58,6 +68,17 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SSL_REDIRECT", "False") == "True"
+    # Browsers remember to use HTTPS only. Starts at 1 year; subdomains are not
+    # included so a future plain-HTTP subdomain is not locked out.
+    SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_HSTS_SECONDS", "31536000"))
+    SECURE_HSTS_PRELOAD = False
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+SESSION_COOKIE_HTTPONLY = True
+# Admin sessions end after 8 hours, and when the browser closes.
+SESSION_COOKIE_AGE = 60 * 60 * 8
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # Application definition
@@ -69,6 +90,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
     "ckeditor",
     "ckeditor_uploader",
     "storages",
@@ -93,6 +115,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "common.middleware.SecurityHeadersMiddleware",
+    "common.middleware.AdminLoginThrottleMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -109,6 +133,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "core.context_processors.contact_info",
+                "common.context_processors.seo",
             ],
         },
     },

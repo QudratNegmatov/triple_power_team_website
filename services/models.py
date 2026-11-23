@@ -3,10 +3,10 @@ from django.db import models
 from django.urls import reverse
 
 from common.i18n import get_translated
-from common.models import ContentModel
+from common.models import ContentModel, SlugModel
 
 
-class Service(ContentModel):
+class Service(SlugModel, ContentModel):
     title_en = models.CharField(max_length=100)
     title_uz = models.CharField(max_length=100)
     title_ru = models.CharField(max_length=100)
@@ -37,7 +37,7 @@ class Service(ContentModel):
         return self.title_en
 
     def get_absolute_url(self):
-        return reverse("service_detail", args=[self.id])
+        return reverse("service_detail", args=[self.slug])
 
     # Built-in illustration per service icon, used until a gallery photo is uploaded.
     ILLUSTRATIONS = {"clock": "eld", "map-pin": "dispatch", "shield": "safety", "truck": "fleet"}

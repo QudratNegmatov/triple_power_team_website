@@ -1,7 +1,16 @@
 {% extends "base.html" %}
-{% load static site_icons i18n_extras %}
+{% load static site_icons i18n_extras seo_tags %}
 
 {% block title %}{% tr service "title" %} — Triple Power Team{% endblock %}
+{% block og_title %}{% tr service "title" %} — Triple Power Team{% endblock %}
+{% block meta_description %}{% tr service "short_name" as d %}{% tr service "full_info" as f %}{{ d|add:" "|add:f|meta_text }}{% endblock %}
+{% block og_description %}{% tr service "short_name" as d %}{{ d|meta_text }}{% endblock %}
+{% block og_image %}{% with cover=service.gallery.all|first %}{% if cover %}{{ cover.image.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
+{% block structured_data %}
+{% jsonld_service service %}
+{% url 'service_list' as list_url %}{% st "nav.services" as list_label %}{% tr service "title" as here %}
+{% jsonld_breadcrumbs list_label list_url here "" %}
+{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -22,7 +31,7 @@
         <div class="gallery-slider">
             {% for photo in service.gallery.all %}
             <div class="gallery-slide{% if forloop.first %} is-active{% endif %}">
-                <img src="{{ photo.image.url }}" alt="{% tr service 'title' %}">
+                <img loading="lazy" decoding="async" src="{{ photo.image.url }}" alt="{% tr service 'title' %}">
             </div>
             {% endfor %}
             {% if service.gallery.all|length > 1 %}
@@ -36,7 +45,7 @@
         {% elif service.illustration %}
         <div class="gallery-slider">
             <div class="gallery-slide is-active">
-                <img src="{% static service.illustration %}" alt="{% tr service 'title' %}">
+                <img loading="lazy" decoding="async" src="{% static service.illustration %}" alt="{% tr service 'title' %}">
             </div>
         </div>
         {% endif %}
@@ -103,7 +112,7 @@
             {% for system in used_systems %}
             <a href="{{ system.link|default:'#' }}" class="system-card reveal"{% if system.link %} target="_blank" rel="noopener"{% endif %}>
                 {% if system.image %}
-                    <img src="{{ system.image.url }}" alt="{{ system.name }}">
+                    <img loading="lazy" decoding="async" src="{{ system.image.url }}" alt="{{ system.name }}">
                 {% else %}
                     <div class="system-card-fallback">{{ "package"|svg_icon }}</div>
                 {% endif %}
@@ -125,7 +134,7 @@
             {% for system in integrated_systems %}
             <a href="{{ system.link|default:'#' }}" class="system-card reveal"{% if system.link %} target="_blank" rel="noopener"{% endif %}>
                 {% if system.image %}
-                    <img src="{{ system.image.url }}" alt="{{ system.name }}">
+                    <img loading="lazy" decoding="async" src="{{ system.image.url }}" alt="{{ system.name }}">
                 {% else %}
                     <div class="system-card-fallback">{{ "globe"|svg_icon }}</div>
                 {% endif %}
@@ -147,13 +156,13 @@
             {% for other in other_services %}
             <div class="service-card reveal">
                 <div class="service-card-media">
-                    {% with cover=other.gallery.all|first %}{% if cover %}<img src="{{ cover.image.url }}" alt="{% tr other 'title' %}">{% elif other.illustration %}<img src="{% static other.illustration %}" alt="{% tr other 'title' %}">{% else %}{{ other.icon|svg_icon }}{% endif %}{% endwith %}
+                    {% with cover=other.gallery.all|first %}{% if cover %}<img loading="lazy" decoding="async" src="{{ cover.image.url }}" alt="{% tr other 'title' %}">{% elif other.illustration %}<img loading="lazy" decoding="async" src="{% static other.illustration %}" alt="{% tr other 'title' %}">{% else %}{{ other.icon|svg_icon }}{% endif %}{% endwith %}
                 </div>
                 <div class="service-card-body">
                     <h3>{% tr other "title" %}</h3>
                     {% if other.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
                     <p>{% tr other "short_name" %}</p>
-                    <a href="{% url 'service_detail' other.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
+                    <a href="{{ other.get_absolute_url }}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% endfor %}

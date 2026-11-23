@@ -2,6 +2,7 @@
 {% load static i18n_extras %}
 
 {% block title %}{% st "portfolio_page.heading" %} — Triple Power Team{% endblock %}
+{% block meta_robots %}noindex, follow{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -18,9 +19,9 @@
             {% for project in projects %}
             <div class="card reveal">
                 {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
+                    <img loading="lazy" decoding="async" src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
                 {% else %}
-                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                    <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
                 <h3>{% tr project "title" %}</h3>
                 {% if project.client %}<p class="muted">{{ project.client }}</p>{% endif %}

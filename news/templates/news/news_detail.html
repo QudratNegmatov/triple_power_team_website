@@ -1,7 +1,17 @@
 {% extends "base.html" %}
-{% load i18n_extras %}
+{% load i18n_extras seo_tags %}
 
 {% block title %}{% tr post "title" %} — Triple Power Team{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{% tr post "title" %}{% endblock %}
+{% block meta_description %}{% tr post "excerpt" as d %}{{ d|meta_text }}{% endblock %}
+{% block og_description %}{% tr post "excerpt" as d %}{{ d|meta_text }}{% endblock %}
+{% block og_image %}{% if post.image %}{{ post.image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+{% block structured_data %}
+{% if post.image %}{% jsonld_article post post.image.url %}{% else %}{% jsonld_article post %}{% endif %}
+{% url 'news_list' as list_url %}{% st "nav.news" as list_label %}{% tr post "title" as here %}
+{% jsonld_breadcrumbs list_label list_url here "" %}
+{% endblock %}
 
 {% block content %}
 <section class="section page-header">

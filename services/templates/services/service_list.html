@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static site_icons i18n_extras %}
 
-{% block title %}{% st "services_page.heading" %} — Triple Power Team{% endblock %}
+{% block title %}{% st "seo.services_title" %}{% endblock %}
+{% block og_title %}{% st "seo.services_title" %}{% endblock %}
+{% block meta_description %}{% st "seo.services_description" %}{% endblock %}
+{% block og_description %}{% st "seo.services_description" %}{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -19,17 +22,17 @@
             <div class="card service-list-card reveal">
                 {% with cover=service.gallery.all|first %}
                     {% if cover %}
-                        <img src="{{ cover.image.url }}" alt="{% tr service 'title' %}" class="card-image">
+                        <img loading="lazy" decoding="async" src="{{ cover.image.url }}" alt="{% tr service 'title' %}" class="card-image">
                     {% elif service.illustration %}
-                        <img src="{% static service.illustration %}" alt="{% tr service 'title' %}" class="card-image">
+                        <img loading="lazy" decoding="async" src="{% static service.illustration %}" alt="{% tr service 'title' %}" class="card-image">
                     {% else %}
-                        <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                        <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                     {% endif %}
                 {% endwith %}
                 <h3>{% tr service "title" %}</h3>
                 {% if service.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
                 <p>{% tr service "short_name" %}</p>
-                <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
+                <a href="{{ service.get_absolute_url }}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
             </div>
             {% empty %}
             <p class="muted">No services added yet. Add some in the Django admin.</p>

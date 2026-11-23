@@ -37,6 +37,39 @@ class SubmissionModel(models.Model):
         abstract = True
 
 
+def unique_slug(instance, source, max_length=110):
+    """slugify(source), made unique among instance's model by adding -2, -3, ..."""
+    from django.utils.text import slugify
+
+    base = (slugify(source or "") or "item")[:max_length].strip("-")
+    model = type(instance)
+    slug, n = base, 2
+    while model.objects.filter(slug=slug).exclude(pk=instance.pk).exists():
+        slug = f"{base}-{n}"
+        n += 1
+    return slug
+
+
+class SlugModel(models.Model):
+    """Adds a readable, SEO-friendly `slug` (e.g. "eld-service") used in URLs.
+    Filled from the English title when left blank."""
+
+    slug = models.SlugField(
+        max_length=120,
+        unique=True,
+        blank=True,
+        help_text='Part of the page address, e.g. "eld-service". Leave blank to fill it from the English title.',
+    )
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = unique_slug(self, getattr(self, "title_en", ""))
+        super().save(*args, **kwargs)
+
+
 class SiteText(models.Model):
     """A single piece of static UI copy (nav labels, button text, headings, …),
     editable from the admin without touching templates. Looked up by `key`

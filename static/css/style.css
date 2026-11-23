@@ -124,7 +124,7 @@ a:hover { text-decoration: underline; }
     cursor: pointer;
     border-radius: 6px;
 }
-.lang-switch-btn:hover { color: var(--color-text); }
+.lang-switch-btn:hover { color: var(--color-text); text-decoration: none; }
 .lang-switch-btn.is-active { color: var(--color-primary); background: rgba(31, 157, 85, 0.1); }
 
 @media (max-width: 900px) {
@@ -1045,3 +1045,13 @@ a:hover { text-decoration: underline; }
 .error-page { padding: 120px 0; text-align: center; }
 .error-page .cta-row { justify-content: center; }
 .error-page .eyebrow { font-size: 1rem; }
+
+/* Form spam trap: invisible to people, bots fill it in */
+.form-hp {
+    position: absolute !important;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+.alert-error { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.35); }

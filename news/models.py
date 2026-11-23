@@ -1,10 +1,10 @@
 from django.db import models
 from django.urls import reverse
 
-from common.models import ContentModel
+from common.models import ContentModel, SlugModel
 
 
-class NewsPost(ContentModel):
+class NewsPost(SlugModel, ContentModel):
     title_en = models.CharField(max_length=150)
     title_uz = models.CharField(max_length=150)
     title_ru = models.CharField(max_length=150)
@@ -24,4 +24,4 @@ class NewsPost(ContentModel):
         return self.title_en
 
     def get_absolute_url(self):
-        return reverse("news_detail", args=[self.id])
+        return reverse("news_detail", args=[self.slug])

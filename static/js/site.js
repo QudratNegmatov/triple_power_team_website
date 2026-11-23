@@ -64,6 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
             heroCurrent = (index + heroSlides.length) % heroSlides.length;
             heroSlides.forEach(function (slide, i) {
                 slide.classList.toggle("is-active", i === heroCurrent);
+                // Videos of later slides only download when their slide is shown.
+                var video = slide.querySelector("video[data-src]");
+                if (video && i === heroCurrent) {
+                    video.src = video.getAttribute("data-src");
+                    video.removeAttribute("data-src");
+                    video.play().catch(function () {});
+                }
             });
             heroCopySlides.forEach(function (slide, i) {
                 slide.classList.toggle("is-active", i === heroCurrent);

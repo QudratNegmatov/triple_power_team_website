@@ -2,6 +2,9 @@
 {% load static i18n_extras %}
 
 {% block title %}{% st "products_page.heading" %} — Triple Power Team{% endblock %}
+{% block og_title %}{% st "products_page.heading" %} — Triple Power Team{% endblock %}
+{% block meta_description %}{% st "seo.products_description" %}{% endblock %}
+{% block og_description %}{% st "seo.products_description" %}{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -16,12 +19,12 @@
     <div class="container">
         <div class="grid grid-3">
             {% for product in products %}
-            <a href="{% url 'product_detail' product.id %}" class="card card-link reveal">
+            <a href="{{ product.get_absolute_url }}" class="card card-link reveal">
                 {% with cover=product.gallery.first %}
                 {% if cover %}
-                    <img src="{{ cover.image.url }}" alt="{% tr product 'title' %}" class="card-image">
+                    <img loading="lazy" decoding="async" src="{{ cover.image.url }}" alt="{% tr product 'title' %}" class="card-image">
                 {% else %}
-                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                    <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
                 {% endwith %}
                 <h3>{% tr product "title" %}</h3>

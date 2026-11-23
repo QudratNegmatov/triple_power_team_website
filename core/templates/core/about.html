@@ -2,6 +2,9 @@
 {% load i18n_extras %}
 
 {% block title %}{% st "about.nav_title" %} — Triple Power Team{% endblock %}
+{% block og_title %}{% st "about.nav_title" %} — Triple Power Team{% endblock %}
+{% block meta_description %}{% st "seo.about_description" %}{% endblock %}
+{% block og_description %}{% st "seo.about_description" %}{% endblock %}
 
 {% block content %}
 {% if about_page %}
@@ -15,7 +18,7 @@
 <section class="section" style="padding-top: 0;">
     <div class="container narrow">
         {% if about_page.image %}
-            <img src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}" class="about-image">
+            <img loading="lazy" decoding="async" src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}" class="about-image">
         {% endif %}
         {% tr_html about_page "full_description" %}
         {% tr about_page "contact_label" as contact_label %}
@@ -47,7 +50,7 @@
             <div class="founder-row reveal{% if forloop.counter0|divisibleby:2 %} founder-row-reverse{% endif %}">
                 <div class="founder-media">
                     {% if founder.image %}
-                        <img src="{{ founder.image.url }}" alt="{{ founder.name }}">
+                        <img loading="lazy" decoding="async" src="{{ founder.image.url }}" alt="{{ founder.name }}">
                     {% endif %}
                 </div>
                 <div class="founder-body">

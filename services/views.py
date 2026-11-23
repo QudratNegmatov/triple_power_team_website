@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Service
 
@@ -11,9 +11,14 @@ def service_list(request):
     )
 
 
-def service_detail(request, pk):
-    service = get_object_or_404(Service.objects.prefetch_related("gallery"), pk=pk, is_active=True)
-    other_services = Service.objects.filter(is_active=True).exclude(pk=pk).prefetch_related("gallery")[:3]
+def service_detail_by_id(request, pk):
+    obj = get_object_or_404(Service, pk=pk, is_active=True)
+    return redirect(obj, permanent=True)
+
+
+def service_detail(request, slug):
+    service = get_object_or_404(Service.objects.prefetch_related("gallery"), slug=slug, is_active=True)
+    other_services = Service.objects.filter(is_active=True).exclude(pk=service.pk).prefetch_related("gallery")[:3]
     return render(
         request,
         "services/service_detail.html",

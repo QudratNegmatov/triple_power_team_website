@@ -5,6 +5,9 @@ from portfolio.models import Project
 from products.models import Product
 from services.models import Service, UsedSystem
 
+from common.forms import rate_limited
+from common.i18n import get_site_text
+
 from .forms import ContactForm
 from .models import AboutPage, ContactMessage, Founder, HeroSlide, Testimonial, WhyChooseUs
 
@@ -38,8 +41,15 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            ContactMessage.objects.create(**form.cleaned_data)
-            messages.success(request, "Thanks for reaching out! We'll get back to you soon.")
+            if form.is_spam():
+                # Pretend it worked so bots don't learn to adapt.
+                messages.success(request, get_site_text("contact.success"))
+                return redirect("contact")
+            if rate_limited(request, "contact"):
+                messages.error(request, get_site_text("form.too_many"))
+                return redirect("contact")
+            ContactMessage.objects.create(**form.submission_data())
+            messages.success(request, get_site_text("contact.success"))
             return redirect("contact")
     else:
         form = ContactForm()

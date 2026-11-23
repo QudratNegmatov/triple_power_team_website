@@ -1,12 +1,40 @@
-{% load static i18n i18n_extras %}
+{% load static i18n i18n_extras seo_tags %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Triple Power Team{% endblock %}</title>
+    {% st "seo.default_description" as default_description %}
+    <meta name="description" content="{% block meta_description %}{{ default_description }}{% endblock %}">
+    <meta name="robots" content="{% block meta_robots %}index, follow, max-image-preview:large{% endblock %}">
+    {% if google_site_verification %}<meta name="google-site-verification" content="{{ google_site_verification }}">{% endif %}
+    <meta name="theme-color" content="#070b09">
+
+    {% block canonical %}
+    <link rel="canonical" href="{{ seo_canonical }}">
+    {% for alt in seo_alternates %}
+    <link rel="alternate" hreflang="{{ alt.code }}" href="{{ alt.url }}">
+    {% endfor %}
+    <link rel="alternate" hreflang="x-default" href="{{ seo_x_default }}">
+    {% endblock %}
+
+    <meta property="og:site_name" content="Triple Power Team">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{% st "seo.home_title" %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ default_description }}{% endblock %}">
+    <meta property="og:url" content="{{ seo_canonical }}">
+    <meta property="og:image" content="{% block og_image %}{{ seo_site_root|slice:":-1" }}{% static 'img/og-image.png' %}{% endblock %}">
+    <meta property="og:locale" content="{{ seo_og_locale }}">
+    {% for loc in seo_og_locale_alternates %}<meta property="og:locale:alternate" content="{{ loc }}">
+    {% endfor %}
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% jsonld_site %}
+    {% block structured_data %}{% endblock %}
 </head>
 <body>
     <header class="site-header">
@@ -35,14 +63,8 @@
                 </nav>
                 <div class="lang-switch">
                     {% get_current_language as CURRENT_LANGUAGE %}
-                    {% get_available_languages as AVAILABLE_LANGUAGES %}
-                    {% for code, name in AVAILABLE_LANGUAGES %}
-                    <form action="{% url 'set_language' %}" method="post" class="lang-switch-form">
-                        {% csrf_token %}
-                        <input type="hidden" name="language" value="{{ code }}">
-                        <input type="hidden" name="next" value="{{ request.path }}">
-                        <button type="submit" class="lang-switch-btn{% if code == CURRENT_LANGUAGE %} is-active{% endif %}">{{ code|upper }}</button>
-                    </form>
+                    {% for alt in seo_alternates %}
+                    <a href="{{ alt.url }}" hreflang="{{ alt.code }}" lang="{{ alt.code }}" class="lang-switch-btn{% if alt.code == CURRENT_LANGUAGE %} is-active{% endif %}"{% if alt.code == CURRENT_LANGUAGE %} aria-current="page"{% endif %}>{{ alt.code|upper }}</a>
                     {% endfor %}
                 </div>
             </div>

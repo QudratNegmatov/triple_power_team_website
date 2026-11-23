@@ -2,6 +2,9 @@
 {% load i18n_extras %}
 
 {% block title %}{% st "contact.heading" %} — Triple Power Team{% endblock %}
+{% block og_title %}{% st "contact.heading" %} — Triple Power Team{% endblock %}
+{% block meta_description %}{% st "seo.contact_description" %}{% endblock %}
+{% block og_description %}{% st "seo.contact_description" %}{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -17,6 +20,9 @@
         <form method="post" class="form">
             {% csrf_token %}
             {% for field in form %}
+            {% if field.is_hidden %}{{ field }}{% elif field.name == "website" %}
+            <div class="form-hp" aria-hidden="true"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}</div>
+            {% else %}
             <div class="form-field">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
@@ -24,6 +30,7 @@
                     <p class="field-error">{{ field.errors|striptags }}</p>
                 {% endif %}
             </div>
+            {% endif %}
             {% endfor %}
             <button type="submit" class="btn btn-primary">{% st "contact.submit" %}</button>
         </form>

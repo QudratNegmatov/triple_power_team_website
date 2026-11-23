@@ -1,10 +1,10 @@
 from django.db import models
 from django.urls import reverse
 
-from common.models import ContentModel, SubmissionModel
+from common.models import ContentModel, SlugModel, SubmissionModel
 
 
-class Product(ContentModel):
+class Product(SlugModel, ContentModel):
     title_en = models.CharField(max_length=150)
     title_uz = models.CharField(max_length=150)
     title_ru = models.CharField(max_length=150)
@@ -28,7 +28,7 @@ class Product(ContentModel):
         return self.title_en
 
     def get_absolute_url(self):
-        return reverse("product_detail", args=[self.id])
+        return reverse("product_detail", args=[self.slug])
 
     @property
     def has_discount(self):

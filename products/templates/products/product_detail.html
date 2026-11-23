@@ -1,7 +1,15 @@
 {% extends "base.html" %}
-{% load static i18n_extras %}
+{% load static i18n_extras seo_tags %}
 
 {% block title %}{% tr product "title" %} — Triple Power Team{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block og_title %}{% tr product "title" %} — Triple Power Team{% endblock %}
+{% block meta_description %}{% tr product "description" as d %}{{ d|meta_text }}{% endblock %}
+{% block og_description %}{% tr product "description" as d %}{{ d|meta_text }}{% endblock %}
+{% block og_image %}{% with cover=product.gallery.all|first %}{% if cover %}{{ cover.image.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
+{% block structured_data %}
+{% with cover=product.gallery.all|first %}{% if cover %}{% jsonld_product product cover.image.url %}{% else %}{% jsonld_product product %}{% endif %}{% endwith %}
+{% endblock %}
 
 {% block content %}
 <section class="section page-header">
@@ -18,8 +26,9 @@
                 <div class="gallery-slider">
                     {% for photo in product.gallery.all %}
                     <div class="gallery-slide{% if forloop.first %} is-active{% endif %}">
-                        <img src="{{ photo.image.url }}" alt="{% tr product 'title' %}">
+                        <img loading="lazy" decoding="async" src="{{ photo.image.url }}" alt="{% tr product 'title' %}">
                     </div>
+                    {% endif %}
                     {% endfor %}
                     {% if product.gallery.all|length > 1 %}
                     <div class="gallery-dots">
@@ -30,7 +39,7 @@
                     {% endif %}
                 </div>
             {% else %}
-                <img src="{% static 'img/placeholder.svg' %}" alt="">
+                <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="">
             {% endif %}
         </div>
         <div class="product-detail-body">
@@ -49,6 +58,9 @@
             <form method="post" class="form">
                 {% csrf_token %}
                 {% for field in form %}
+                {% if field.is_hidden %}{{ field }}{% elif field.name == "website" %}
+                <div class="form-hp" aria-hidden="true"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}</div>
+                {% else %}
                 <div class="form-field">
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
@@ -71,12 +83,12 @@
         </div>
         <div class="grid grid-3">
             {% for other in other_products %}
-            <a href="{% url 'product_detail' other.id %}" class="card card-link reveal">
+            <a href="{{ other.get_absolute_url }}" class="card card-link reveal">
                 {% with cover=other.gallery.first %}
                 {% if cover %}
-                    <img src="{{ cover.image.url }}" alt="{% tr other 'title' %}" class="card-image">
+                    <img loading="lazy" decoding="async" src="{{ cover.image.url }}" alt="{% tr other 'title' %}" class="card-image">
                 {% else %}
-                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                    <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
                 {% endwith %}
                 <h3>{% tr other "title" %}</h3>

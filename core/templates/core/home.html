@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static site_icons i18n_extras %}
 
-{% block title %}Triple Power Team — Home{% endblock %}
+{% block title %}{% st "seo.home_title" %}{% endblock %}
 
 {% block content %}
 <section class="hero-banner">
@@ -10,9 +10,9 @@
             {% for slide in hero_slides %}
             <div class="hero-slide{% if forloop.first %} is-active{% endif %}">
                 {% if slide.video %}
-                    <video src="{{ slide.video.url }}" autoplay muted loop playsinline></video>
+                    <video {% if forloop.first %}src{% else %}data-src{% endif %}="{{ slide.video.url }}" autoplay muted loop playsinline preload="{% if forloop.first %}auto{% else %}none{% endif %}" aria-hidden="true"></video>
                 {% elif slide.image %}
-                    <img src="{{ slide.image.url }}" alt="{% tr slide 'title' %}">
+                    <img src="{{ slide.image.url }}" alt="{% tr slide 'title' %}"{% if not forloop.first %} loading="lazy"{% endif %}>
                 {% endif %}
             </div>
             {% endfor %}
@@ -63,7 +63,7 @@
                     </a>
                     {% tr slide "button_name" as slide_button %}
                     {% if slide_button and slide.button_url %}
-                        <a href="{{ slide.button_url }}" class="btn btn-ghost">{{ slide_button }}</a>
+                        <a href="{{ slide.button_url|localize_url }}" class="btn btn-ghost">{{ slide_button }}</a>
                     {% else %}
                         <a href="{% url 'service_list' %}" class="btn btn-ghost">{% st "hero.cta_services" %}</a>
                     {% endif %}
@@ -113,7 +113,7 @@
             {% for point in why_us.points.all %}
             <div class="why-us-point reveal">
                 {% if point.image %}
-                    <img src="{{ point.image.url }}" alt="{% tr point 'title' %}" class="why-us-point-image">
+                    <img loading="lazy" decoding="async" src="{{ point.image.url }}" alt="{% tr point 'title' %}" class="why-us-point-image">
                 {% else %}
                     <div class="why-us-point-icon">{{ point.icon|svg_icon }}</div>
                 {% endif %}
@@ -155,13 +155,13 @@
             {% for service in services %}
             <div class="service-card reveal">
                 <div class="service-card-media">
-                    {% with cover=service.gallery.all|first %}{% if cover %}<img src="{{ cover.image.url }}" alt="{% tr service 'title' %}">{% elif service.illustration %}<img src="{% static service.illustration %}" alt="{% tr service 'title' %}">{% else %}{{ service.icon|svg_icon }}{% endif %}{% endwith %}
+                    {% with cover=service.gallery.all|first %}{% if cover %}<img loading="lazy" decoding="async" src="{{ cover.image.url }}" alt="{% tr service 'title' %}">{% elif service.illustration %}<img loading="lazy" decoding="async" src="{% static service.illustration %}" alt="{% tr service 'title' %}">{% else %}{{ service.icon|svg_icon }}{% endif %}{% endwith %}
                 </div>
                 <div class="service-card-body">
                     <h3>{% tr service "title" %}</h3>
                     {% if service.is_coming_soon %}<span class="badge-soon">{% st "services.coming_soon" %}</span>{% endif %}
                     <p>{% tr service "short_name" %}</p>
-                    <a href="{% url 'service_detail' service.id %}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
+                    <a href="{{ service.get_absolute_url }}" class="service-card-link">{% st "common.learn_more" %} {{ "arrow-right"|svg_icon }}</a>
                 </div>
             </div>
             {% empty %}
@@ -233,7 +233,7 @@
             {% for system in used_systems %}
             <a href="{{ system.link|default:'#' }}" class="system-card reveal"{% if system.link %} target="_blank" rel="noopener"{% endif %}>
                 {% if system.image %}
-                    <img src="{{ system.image.url }}" alt="{{ system.name }}">
+                    <img loading="lazy" decoding="async" src="{{ system.image.url }}" alt="{{ system.name }}">
                 {% else %}
                     <div class="system-card-fallback">{{ "package"|svg_icon }}</div>
                 {% endif %}
@@ -257,12 +257,12 @@
         </div>
         <div class="grid grid-4">
             {% for product in products %}
-            <a href="{% url 'product_detail' product.id %}" class="card card-link reveal">
+            <a href="{{ product.get_absolute_url }}" class="card card-link reveal">
                 {% with cover=product.gallery.all|first %}
                     {% if cover %}
-                        <img src="{{ cover.image.url }}" alt="{% tr product 'title' %}" class="card-image">
+                        <img loading="lazy" decoding="async" src="{{ cover.image.url }}" alt="{% tr product 'title' %}" class="card-image">
                     {% else %}
-                        <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                        <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                     {% endif %}
                 {% endwith %}
                 <h3>{% tr product "title" %}</h3>
@@ -293,7 +293,7 @@
                     {% for testimonial in group %}
                     <div class="testimonial-card">
                         {% if testimonial.image %}
-                            <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar">
+                            <img loading="lazy" decoding="async" src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar">
                         {% endif %}
                         <p class="testimonial-text">&ldquo;{% tr testimonial "feedback" %}&rdquo;</p>
                         <p class="testimonial-author">{{ testimonial.name }}</p>
@@ -320,7 +320,7 @@
     <div class="container about-preview">
         <div class="about-preview-media reveal">
             {% if about_page.image %}
-                <img src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}">
+                <img loading="lazy" decoding="async" src="{{ about_page.image.url }}" alt="{% tr about_page 'title' %}">
             {% endif %}
         </div>
         <div class="about-preview-body reveal">
@@ -344,9 +344,9 @@
             {% for project in projects %}
             <div class="card reveal">
                 {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
+                    <img loading="lazy" decoding="async" src="{{ project.image.url }}" alt="{% tr project 'title' %}" class="card-image">
                 {% else %}
-                    <img src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
+                    <img loading="lazy" decoding="async" src="{% static 'img/placeholder.svg' %}" alt="" class="card-image">
                 {% endif %}
                 <h3>{% tr project "title" %}</h3>
                 <p>{% tr project "summary" %}</p>
