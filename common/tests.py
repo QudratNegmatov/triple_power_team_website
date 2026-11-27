@@ -179,3 +179,16 @@ class PricingAndSiteTextTests(TestCase):
 
         admin = site._registry[SiteText]
         self.assertIn("key", admin.get_readonly_fields(None, SiteText.objects.first()))
+
+
+class PopularPlanTests(TestCase):
+    def test_most_popular_badge(self):
+        from prices.models import Price
+
+        plan = Price.objects.get(price_type="basic")
+        self.assertNotContains(self.client.get(plan.service.get_absolute_url()), "pricing-badge")
+        plan.is_featured = True
+        plan.save()
+        page = self.client.get("/uz" + plan.service.get_absolute_url())
+        self.assertContains(page, "pricing-card is-featured")
+        self.assertContains(page, "Eng ko&#x27;p tanlanadi")

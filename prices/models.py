@@ -45,6 +45,11 @@ class Price(ContentModel):
     features_uz = models.TextField(blank=True)
     features_ru = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=0)
+    is_featured = models.BooleanField(
+        "Most popular",
+        default=False,
+        help_text='Highlight this plan with a "Most popular" badge. Tick it on one plan per service.',
+    )
 
     class Meta:
         ordering = ["order", "price"]

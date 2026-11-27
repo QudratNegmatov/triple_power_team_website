@@ -8,7 +8,8 @@
         </div>
         <div class="pricing-grid">
             {% for price in prices %}
-            <div class="pricing-card reveal">
+            <div class="pricing-card{% if price.is_featured %} is-featured{% endif %} reveal">
+                {% if price.is_featured %}<span class="pricing-badge">{% st "pricing.popular" %}</span>{% endif %}
                 <h3 class="pricing-plan">{% tr price "price_type_label" %}</h3>
                 {% if show_service and price.service %}<p class="pricing-service">{% tr price.service "title" %}</p>{% endif %}
                 <div class="pricing-amount">${{ price.price_whole }}{% if price.price_cents %}<sup>.{{ price.price_cents }}</sup>{% endif %}</div>
