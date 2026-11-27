@@ -1,0 +1,25 @@
+{% load panel_tags %}{% comment %}One form row: a plain field, or a translated field shown per language.{% endcomment %}
+{% if row.translated %}
+<div class="field field-tr{% for code, label, bf in row.fields %}{% if bf.errors %} has-error{% endif %}{% endfor %}">
+    <label>{{ row.label }}{% for code, label, bf in row.fields %}{% if bf.field.required %}{% if forloop.first %} <span class="req">*</span>{% endif %}{% endif %}{% endfor %}</label>
+    {% for code, label, bf in row.fields %}
+    <div class="tr-input" data-lang-input="{{ code }}">
+        <span class="lang-chip">{{ label }}</span>
+        {{ bf }}
+        {% for e in bf.errors %}<p class="err">{{ label }}: {{ e }}</p>{% endfor %}
+    </div>
+    {% endfor %}
+    {% if row.help %}<p class="hint">{{ row.help }}</p>{% endif %}
+</div>
+{% else %}{% with bf=row.field %}
+<div class="field{% if bf|is_checkbox %} field-check{% endif %}{% if bf.errors %} has-error{% endif %}">
+    {% if bf|is_checkbox %}
+    <label class="switch">{{ bf }}<span class="switch-ui"></span> {{ bf.label }}</label>
+    {% else %}
+    <label for="{{ bf.id_for_label }}">{{ bf.label }}{% if bf.field.required %} <span class="req">*</span>{% endif %}</label>
+    {{ bf }}
+    {% endif %}
+    {% for e in bf.errors %}<p class="err">{{ e }}</p>{% endfor %}
+    {% if bf.help_text %}<p class="hint">{{ bf.help_text }}</p>{% endif %}
+</div>
+{% endwith %}{% endif %}

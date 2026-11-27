@@ -1,0 +1,12 @@
+<div class="upload" data-upload>
+    <div class="upload-controls">
+        {% if widget.is_initial %}<p class="small">Hozirgi fayl: <a href="{{ widget.value.url }}" target="_blank" rel="noopener">ochish ↗</a></p>{% endif %}
+        <label class="btn btn-ghost btn-small upload-btn">{% if widget.is_initial %}Boshqa fayl tanlash{% else %}Fayl tanlash{% endif %}
+            <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+        </label>
+        <span class="muted small" data-file-name></span>
+        {% if widget.is_initial and not widget.required %}
+        <label class="clear-check"><input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"> Faylni olib tashlash</label>
+        {% endif %}
+    </div>
+</div>

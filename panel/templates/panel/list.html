@@ -1,0 +1,78 @@
+{% extends "panel/base.html" %}
+{% load panel_tags %}
+{% block title %}{{ resource.title }}{% endblock %}
+{% block heading %}{{ resource.title }}{% endblock %}
+{% block content %}
+<div class="toolbar">
+    <form method="get" class="filters">
+        {% if resource.search %}<input type="search" name="q" value="{{ query }}" placeholder="Qidirish…">{% endif %}
+        {% for f in filters %}
+        <select name="{{ f.name }}" data-autosubmit>
+            <option value="">{{ f.label }}: hammasi</option>
+            {% for o in f.options %}<option value="{{ o.pk }}"{% if o.pk|stringformat:"s" == f.selected %} selected{% endif %}>{{ o }}</option>{% endfor %}
+        </select>
+        {% endfor %}
+        {% if has_active %}
+        <select name="active" data-autosubmit>
+            <option value="">Holat: hammasi</option>
+            <option value="1"{% if active == "1" %} selected{% endif %}>Saytda ko'rinadi</option>
+            <option value="0"{% if active == "0" %} selected{% endif %}>Yashirilgan</option>
+        </select>
+        {% endif %}
+        {% if resource.search %}<button type="submit" class="btn btn-ghost">Qidirish</button>{% endif %}
+    </form>
+    {% if resource.can_add and not resource.readonly %}
+    <a href="{% url 'panel:add' resource.slug %}" class="btn btn-primary">+ {{ resource.singular }} qo'shish</a>
+    {% endif %}
+</div>
+
+<div class="card table-card">
+    {% if rows %}
+    <table class="table">
+        <thead><tr>{% for h in headers %}<th>{{ h }}</th>{% endfor %}<th></th></tr></thead>
+        <tbody>
+        {% for row in rows %}
+        <tr>
+            {% for cell in row.cells %}
+            <td>
+                {% if cell.kind == "thumb" %}
+                    {% if cell.url %}<img src="{{ cell.url }}" alt="" class="thumb" loading="lazy">{% else %}<span class="thumb thumb-empty"></span>{% endif %}
+                {% elif cell.kind == "toggle" %}
+                    <form method="post" action="{% url 'panel:toggle' resource.slug row.obj.pk %}">{% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <button type="submit" class="pill {% if cell.value %}pill-on{% else %}pill-off{% endif %}" title="Bosib o'zgartiring">{% if cell.value %}Ha{% else %}Yo'q{% endif %}</button>
+                    </form>
+                {% elif cell.kind == "bool" %}
+                    <span class="pill {% if cell.value %}pill-on{% else %}pill-muted{% endif %}">{% if cell.value %}Ha{% else %}—{% endif %}</span>
+                {% elif cell.kind == "email" %}
+                    <a href="mailto:{{ cell.value }}">{{ cell.value }}</a>
+                {% elif forloop.first or forloop.counter == 2 and row.cells.0.kind == "thumb" %}
+                    <a href="{% url 'panel:edit' resource.slug row.obj.pk %}" class="row-title">{{ cell.value }}</a>
+                {% else %}
+                    {{ cell.value }}
+                {% endif %}
+            </td>
+            {% endfor %}
+            <td class="row-actions">
+                <a href="{% url 'panel:edit' resource.slug row.obj.pk %}" class="btn btn-small btn-ghost">{% if resource.readonly %}Ko'rish{% else %}Tahrirlash{% endif %}</a>
+                <a href="{% url 'panel:delete' resource.slug row.obj.pk %}" class="btn btn-small btn-danger-ghost">O'chirish</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty">{% if query %}"{{ query }}" bo'yicha hech narsa topilmadi.{% else %}Hozircha hech narsa yo'q.{% endif %}</p>
+    {% endif %}
+</div>
+
+{% if page.has_other_pages %}
+<nav class="pager">
+    {% if page.has_previous %}<a href="{% page_url page.previous_page_number %}" class="btn btn-ghost btn-small">← Oldingi</a>{% endif %}
+    <span class="muted">{{ page.number }} / {{ page.paginator.num_pages }} sahifa · jami {{ page.paginator.count }}</span>
+    {% if page.has_next %}<a href="{% page_url page.next_page_number %}" class="btn btn-ghost btn-small">Keyingi →</a>{% endif %}
+</nav>
+{% else %}
+<p class="muted small count-line">Jami: {{ page.paginator.count }}</p>
+{% endif %}
+{% endblock %}

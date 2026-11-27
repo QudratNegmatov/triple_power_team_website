@@ -1,0 +1,47 @@
+{% extends "panel/base.html" %}
+{% load panel_tags %}
+{% block heading %}Bosh panel{% endblock %}
+{% block content %}
+<div class="stat-grid">
+    {% for label, value, slug in stats %}
+    <a href="{% url 'panel:list' slug %}" class="stat-card">
+        <span class="stat-value">{{ value }}</span>
+        <span class="stat-label">{{ label }}</span>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="two-col">
+    <section class="card">
+        <div class="card-head"><h2>So'nggi aloqa xabarlari</h2><a href="{% url 'panel:list' 'messages' %}">Hammasi →</a></div>
+        {% for m in latest_messages %}
+        <a href="{% url 'panel:edit' 'messages' m.pk %}" class="mini-row">
+            <strong>{{ m.name }}</strong> <span class="muted">{{ m.email }}</span>
+            <span class="mini-text">{{ m.message|truncatechars:90 }}</span>
+            <span class="muted small">{{ m.created_at|date:"d.m.Y H:i" }}</span>
+        </a>
+        {% empty %}<p class="muted">Hozircha xabar yo'q.</p>{% endfor %}
+    </section>
+    <section class="card">
+        <div class="card-head"><h2>So'nggi mahsulot so'rovlari</h2><a href="{% url 'panel:list' 'inquiries' %}">Hammasi →</a></div>
+        {% for q in latest_inquiries %}
+        <a href="{% url 'panel:edit' 'inquiries' q.pk %}" class="mini-row">
+            <strong>{{ q.name }}</strong> <span class="muted">{{ q.product }}</span>
+            <span class="mini-text">{{ q.phone|default:q.email }}</span>
+            <span class="muted small">{{ q.created_at|date:"d.m.Y H:i" }}</span>
+        </a>
+        {% empty %}<p class="muted">Hozircha so'rov yo'q.</p>{% endfor %}
+    </section>
+</div>
+
+<section class="card">
+    <div class="card-head"><h2>Tezkor amallar</h2></div>
+    <div class="quick-actions">
+        <a href="{% url 'panel:add' 'hero' %}" class="btn btn-ghost">+ Hero slayd</a>
+        <a href="{% url 'panel:add' 'news' %}" class="btn btn-ghost">+ Yangilik</a>
+        <a href="{% url 'panel:add' 'prices' %}" class="btn btn-ghost">+ Tarif</a>
+        <a href="{% url 'panel:add' 'services' %}" class="btn btn-ghost">+ Xizmat</a>
+        <a href="{% url 'panel:list' 'site-texts' %}" class="btn btn-ghost">Sayt matnlarini tahrirlash</a>
+    </div>
+</section>
+{% endblock %}

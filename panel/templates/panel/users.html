@@ -1,0 +1,30 @@
+{% extends "panel/base.html" %}
+{% block title %}Administratorlar{% endblock %}
+{% block heading %}Administratorlar{% endblock %}
+{% block content %}
+<div class="toolbar"><span></span><a href="{% url 'panel:user_add' %}" class="btn btn-primary">+ Administrator qo'shish</a></div>
+<div class="card table-card">
+    <table class="table">
+        <thead><tr><th>Login</th><th>Email</th><th>Huquq</th><th>Oxirgi kirish</th><th>Holat</th><th></th></tr></thead>
+        <tbody>
+        {% for p in people %}
+        <tr>
+            <td><strong>{{ p.username }}</strong>{% if p == request.user %} <span class="muted small">(siz)</span>{% endif %}</td>
+            <td>{{ p.email|default:"—" }}</td>
+            <td>{% if p.is_superuser %}Bosh administrator{% else %}Muharrir{% endif %}</td>
+            <td>{{ p.last_login|date:"d.m.Y H:i"|default:"—" }}</td>
+            <td><span class="pill {% if p.is_active %}pill-on{% else %}pill-off{% endif %}">{% if p.is_active %}Faol{% else %}Bloklangan{% endif %}</span></td>
+            <td class="row-actions">
+                <a href="{% url 'panel:user_password' p.pk %}" class="btn btn-small btn-ghost">Yangi parol</a>
+                {% if p != request.user %}
+                <form method="post" action="{% url 'panel:user_toggle' p.pk %}">{% csrf_token %}
+                    <button type="submit" class="btn btn-small {% if p.is_active %}btn-danger-ghost{% else %}btn-ghost{% endif %}">{% if p.is_active %}Bloklash{% else %}Faollashtirish{% endif %}</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

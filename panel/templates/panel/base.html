@@ -1,0 +1,58 @@
+{% load static panel_tags %}<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{% block title %}Boshqaruv paneli{% endblock %} — Triple Power Team</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'panel/panel.css' %}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+{% block layout %}
+<div class="shell">
+    <aside class="sidebar" id="sidebar">
+        <a href="{% url 'panel:dashboard' %}" class="brand">
+            <img src="{% static 'img/logo-mark.svg' %}" alt="" width="26" height="35">
+            <span>Triple Power Team<small>Boshqaruv paneli</small></span>
+        </a>
+        <nav class="side-nav">
+            <a href="{% url 'panel:dashboard' %}" class="{% if not current and request.resolver_match.url_name == 'dashboard' %}is-active{% endif %}">{{ "home"|panel_icon }} Bosh panel</a>
+            {% for group, items in nav %}
+            <p class="side-group">{{ group }}</p>
+            {% for r in items %}
+            <a href="{% url 'panel:list' r.slug %}" class="{% if current.slug == r.slug %}is-active{% endif %}">{{ r.icon|panel_icon }} {{ r.title }}</a>
+            {% endfor %}
+            {% endfor %}
+            {% if request.user.is_superuser %}
+            <p class="side-group">Kirish</p>
+            <a href="{% url 'panel:users' %}" class="{% if request.resolver_match.url_name == 'users' %}is-active{% endif %}">{{ "users"|panel_icon }} Administratorlar</a>
+            {% endif %}
+        </nav>
+    </aside>
+    <div class="main">
+        <header class="topbar">
+            <button type="button" class="menu-btn" data-sidebar-toggle aria-label="Menyu">☰</button>
+            <div class="topbar-title">{% block heading %}{% endblock %}</div>
+            <div class="topbar-actions">
+                <a href="/" target="_blank" rel="noopener" class="ghost-link">{{ "site"|panel_icon }} <span>Saytni ochish</span></a>
+                <a href="{% url 'panel:password' %}" class="ghost-link">{{ "key"|panel_icon }} <span>{{ request.user.get_username }}</span></a>
+                <form method="post" action="{% url 'panel:logout' %}">{% csrf_token %}
+                    <button type="submit" class="ghost-link">{{ "out"|panel_icon }} <span>Chiqish</span></button>
+                </form>
+            </div>
+        </header>
+        <main class="content">
+            {% if messages %}
+            <div class="flash-list">
+                {% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+<script src="{% static 'panel/panel.js' %}"></script>
+</body>
+</html>

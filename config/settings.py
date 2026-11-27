@@ -34,9 +34,13 @@ if not SECRET_KEY:
         raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set in production.")
     SECRET_KEY = "django-insecure-local-development-only"
 
-# Admin address. Set DJANGO_ADMIN_URL (e.g. "tpt-panel-7k2/") on the server so
-# bots scanning for /admin/ never find the login page.
+# Address of our own management panel (the `panel` app). Set DJANGO_ADMIN_URL
+# (e.g. "tpt-panel-7k2/") on the server so bots scanning for /admin/ never find
+# the login page.
 ADMIN_URL = os.environ.get("DJANGO_ADMIN_URL", "admin/").strip("/") + "/"
+# Django's built-in admin, kept only as a backup for the superuser.
+DJANGO_ADMIN_URL = os.environ.get("DJANGO_BUILTIN_ADMIN_URL", "django-admin/").strip("/") + "/"
+LOGIN_URL = "panel:login"
 
 # Optional: the code from Google Search Console's "HTML tag" verification.
 GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
@@ -103,6 +107,7 @@ INSTALLED_APPS = [
     "portfolio",
     "news",
     "prices",
+    "panel",
 ]
 
 MIDDLEWARE = [

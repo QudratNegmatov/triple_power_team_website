@@ -1,0 +1,15 @@
+{% extends "panel/base.html" %}
+{% block title %}O'chirish{% endblock %}
+{% block heading %}<a href="{% url 'panel:list' resource.slug %}" class="crumb">{{ resource.title }}</a> / O'chirish{% endblock %}
+{% block content %}
+<section class="card form-card danger-card">
+    <h2>"{{ obj }}" o'chirilsinmi?</h2>
+    <p>Bu amalni qaytarib bo'lmaydi. Unga bog'liq ma'lumotlar (masalan rasmlar galereyasi) ham o'chadi.</p>
+    {% if obj.is_active is not None %}<p class="muted">Saytdan vaqtincha yashirish kerak bo'lsa, o'chirish o'rniga ro'yxatdagi "Saytda" tugmasini bosing.</p>{% endif %}
+    <form method="post" class="save-bar">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Ha, o'chirish</button>
+        <a href="{% url 'panel:list' resource.slug %}" class="btn btn-ghost">Bekor qilish</a>
+    </form>
+</section>
+{% endblock %}

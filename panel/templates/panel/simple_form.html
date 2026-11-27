@@ -1,0 +1,23 @@
+{% extends "panel/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block heading %}{{ title }}{% endblock %}
+{% block content %}
+<form method="post" class="edit-form" novalidate>
+    {% csrf_token %}
+    <section class="card form-card narrow-card">
+        {% if form.non_field_errors %}<div class="flash flash-error">{% for e in form.non_field_errors %}{{ e }} {% endfor %}</div>{% endif %}
+        {% for bf in form %}
+        <div class="field{% if bf.errors %} has-error{% endif %}">
+            <label for="{{ bf.id_for_label }}">{{ bf.label }}</label>
+            {{ bf }}
+            {% for e in bf.errors %}<p class="err">{{ e }}</p>{% endfor %}
+            {% if bf.help_text %}<div class="hint">{{ bf.help_text|safe }}</div>{% endif %}
+        </div>
+        {% endfor %}
+        {% if superuser_checkbox %}
+        <div class="field field-check"><label class="switch"><input type="checkbox" name="is_superuser"><span class="switch-ui"></span> Bosh administrator (administratorlarni boshqara oladi)</label></div>
+        {% endif %}
+        <div class="save-bar"><button type="submit" class="btn btn-primary">{{ button }}</button></div>
+    </section>
+</form>
+{% endblock %}

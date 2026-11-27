@@ -9,7 +9,8 @@ from common.sitemaps import SITEMAPS
 from common.views import favicon, robots_txt
 
 urlpatterns = [
-    path(settings.ADMIN_URL, admin.site.urls),
+    path(settings.ADMIN_URL, include("panel.urls")),
+    path(settings.DJANGO_ADMIN_URL, admin.site.urls),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
     path("robots.txt", robots_txt, name="robots_txt"),

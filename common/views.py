@@ -10,6 +10,7 @@ def robots_txt(request):
     lines = [
         "User-agent: *",
         f"Disallow: /{settings.ADMIN_URL}",
+        f"Disallow: /{settings.DJANGO_ADMIN_URL}",
         "Disallow: /ckeditor/",
         "Disallow: /i18n/",
         "",

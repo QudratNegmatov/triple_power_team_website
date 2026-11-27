@@ -1,0 +1,16 @@
+<div class="rte" data-rte>
+    <div class="rte-toolbar">
+        <button type="button" data-cmd="bold" title="Qalin"><b>B</b></button>
+        <button type="button" data-cmd="italic" title="Qiya"><i>I</i></button>
+        <button type="button" data-cmd="formatBlock" data-arg="h3" title="Sarlavha">H</button>
+        <button type="button" data-cmd="formatBlock" data-arg="p" title="Oddiy matn">¶</button>
+        <button type="button" data-cmd="insertUnorderedList" title="Ro'yxat">• ro'yxat</button>
+        <button type="button" data-cmd="insertOrderedList" title="Raqamli ro'yxat">1. ro'yxat</button>
+        <button type="button" data-cmd="createLink" title="Havola">havola</button>
+        <button type="button" data-cmd="unlink" title="Havolani olib tashlash">havolasiz</button>
+        <button type="button" data-cmd="removeFormat" title="Formatni tozalash">tozalash</button>
+        <button type="button" data-html-toggle class="rte-html-btn" title="HTML kodni ko'rish">HTML</button>
+    </div>
+    <div class="rte-area" contenteditable="true"></div>
+    <textarea name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} class="rte-source">{% if widget.value %}{{ widget.value }}{% endif %}</textarea>
+</div>

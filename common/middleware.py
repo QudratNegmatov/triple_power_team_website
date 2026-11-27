@@ -8,7 +8,7 @@ CONTENT_SECURITY_POLICY = "; ".join(
         "default-src 'self'",
         "script-src 'self'",
         "style-src 'self' 'unsafe-inline'",
-        "img-src 'self' data: https:",
+        "img-src 'self' data: blob: https:",
         "media-src 'self' https:",
         "font-src 'self' data:",
         "connect-src 'self'",
@@ -29,7 +29,9 @@ class SecurityHeadersMiddleware:
 
     def __init__(self, get_response):
         self.get_response = get_response
-        self.skip_prefixes = (f"/{settings.ADMIN_URL}", "/ckeditor/")
+        # Our panel follows the policy; Django's backup admin and CKEditor use
+        # inline scripts, so they are left alone.
+        self.skip_prefixes = (f"/{settings.DJANGO_ADMIN_URL}", "/ckeditor/")
 
     def __call__(self, request):
         response = self.get_response(request)
@@ -57,7 +59,7 @@ class AdminLoginThrottleMiddleware:
         from django.contrib.auth.signals import user_login_failed
 
         self.get_response = get_response
-        self.login_path = f"/{settings.ADMIN_URL}login/"
+        self.login_paths = {f"/{settings.ADMIN_URL}login/", f"/{settings.DJANGO_ADMIN_URL}login/"}
         user_login_failed.connect(self._on_failure, dispatch_uid="admin-login-throttle")
 
     @staticmethod
@@ -70,7 +72,7 @@ class AdminLoginThrottleMiddleware:
         cache.set(key, cache.get(key, 0) + 1, LOGIN_FAIL_WINDOW)
 
     def __call__(self, request):
-        if request.method == "POST" and request.path == self.login_path:
+        if request.method == "POST" and request.path in self.login_paths:
             from django.core.cache import cache
             from django.http import HttpResponse
 

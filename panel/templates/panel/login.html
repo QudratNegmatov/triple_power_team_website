@@ -1,0 +1,21 @@
+{% extends "panel/base.html" %}
+{% load static %}
+{% block title %}Kirish{% endblock %}
+{% block body_class %}login-page{% endblock %}
+{% block layout %}
+<main class="login-wrap">
+    <form method="post" class="login-card">
+        {% csrf_token %}
+        <img src="{% static 'img/logo-mark.svg' %}" alt="" class="login-logo" width="56" height="75">
+        <h1>Boshqaruv paneli</h1>
+        <p class="muted">Triple Power Team</p>
+        {% if error %}<div class="flash flash-error">{{ error }}</div>{% endif %}
+        <label for="id_username">Login</label>
+        <input type="text" name="username" id="id_username" autocomplete="username" required autofocus value="{{ form.username.value|default:'' }}">
+        <label for="id_password">Parol</label>
+        <input type="password" name="password" id="id_password" autocomplete="current-password" required>
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-primary btn-block">Kirish</button>
+    </form>
+</main>
+{% endblock %}

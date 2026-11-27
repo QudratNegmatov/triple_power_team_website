@@ -1,0 +1,19 @@
+{% extends "panel/base.html" %}
+{% block title %}{{ obj }}{% endblock %}
+{% block heading %}<a href="{% url 'panel:list' resource.slug %}" class="crumb">{{ resource.title }}</a> / {{ obj|truncatechars:60 }}{% endblock %}
+{% block content %}
+<section class="card form-card">
+    <dl class="detail">
+        {% for label, value, name in fields %}
+        <dt>{{ label }}</dt>
+        <dd>{% if name == "email" %}<a href="mailto:{{ value }}">{{ value }}</a>{% elif name == "phone" and value %}<a href="tel:{{ value }}">{{ value }}</a>{% else %}{{ value|default:"—"|linebreaksbr }}{% endif %}</dd>
+        {% endfor %}
+    </dl>
+</section>
+<div class="save-bar">
+    {% if obj.email %}<a href="mailto:{{ obj.email }}" class="btn btn-primary">Email orqali javob berish</a>{% endif %}
+    <a href="{% url 'panel:list' resource.slug %}" class="btn btn-ghost">← Ro'yxatga qaytish</a>
+    <span class="spacer"></span>
+    <a href="{% url 'panel:delete' resource.slug obj.pk %}" class="btn btn-danger-ghost">O'chirish</a>
+</div>
+{% endblock %}

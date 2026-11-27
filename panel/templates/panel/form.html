@@ -1,0 +1,64 @@
+{% extends "panel/base.html" %}
+{% block title %}{% if obj %}{{ obj }}{% else %}Yangi: {{ resource.singular }}{% endif %}{% endblock %}
+{% block heading %}<a href="{% url 'panel:list' resource.slug %}" class="crumb">{{ resource.title }}</a> / {% if obj %}{{ obj|truncatechars:60 }}{% else %}Yangi {{ resource.singular|lower }}{% endif %}{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="edit-form" data-lang="en" novalidate>
+    {% csrf_token %}
+    {% if has_translations %}
+    <div class="lang-bar">
+        <span class="muted">Til:</span>
+        <button type="button" data-lang-btn="en" class="is-active">EN · English</button>
+        <button type="button" data-lang-btn="uz">UZ · O'zbekcha</button>
+        <button type="button" data-lang-btn="ru">RU · Русский</button>
+        <span class="muted small">Uchala tilni ham to'ldiring.</span>
+    </div>
+    {% endif %}
+
+    {% if form.non_field_errors %}<div class="flash flash-error">{% for e in form.non_field_errors %}{{ e }} {% endfor %}</div>{% endif %}
+
+    {% for name, value in readonly_values %}
+    <div class="card readonly-card"><span class="muted">{{ name|capfirst }}:</span> <code>{{ value }}</code></div>
+    {% endfor %}
+
+    {% for section in sections %}
+    <section class="card form-card">
+        <h2>{{ section.title }}</h2>
+        {% for row in section.rows %}{% include "panel/_field.html" %}{% endfor %}
+    </section>
+    {% endfor %}
+
+    {% for block in inline_blocks %}
+    <section class="card form-card inline-block" data-inline="{{ block.inline.name }}">
+        <h2>{{ block.inline.title }}</h2>
+        {{ block.formset.management_form }}
+        {% for e in block.formset.non_form_errors %}<p class="err">{{ e }}</p>{% endfor %}
+        <div class="inline-items">
+            {% for item in block.forms %}
+            <div class="inline-item">
+                {% for hidden in item.form.hidden_fields %}{{ hidden }}{% endfor %}
+                <div class="inline-grid">{% for row in item.rows %}{% include "panel/_field.html" %}{% endfor %}</div>
+                {% if item.form.DELETE %}<label class="inline-delete">{{ item.form.DELETE }} O'chirish</label>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <template data-empty-form>
+            <div class="inline-item is-new">
+                {% for hidden in block.empty.form.hidden_fields %}{{ hidden }}{% endfor %}
+                <div class="inline-grid">{% for row in block.empty.rows %}{% include "panel/_field.html" %}{% endfor %}</div>
+                <button type="button" class="btn btn-small btn-danger-ghost" data-remove-new>Olib tashlash</button>
+            </div>
+        </template>
+        <button type="button" class="btn btn-ghost" data-add-inline>+ {{ block.inline.add_label }}</button>
+    </section>
+    {% endfor %}
+
+    <div class="save-bar">
+        <button type="submit" class="btn btn-primary">Saqlash</button>
+        <button type="submit" name="_continue" class="btn btn-ghost">Saqlab, tahrirlashda qolish</button>
+        {% if not obj %}<button type="submit" name="_addanother" class="btn btn-ghost">Saqlab, yana qo'shish</button>{% endif %}
+        <span class="spacer"></span>
+        {% if obj and resource.view_on_site and obj.get_absolute_url %}<a href="{{ obj.get_absolute_url }}" target="_blank" rel="noopener" class="btn btn-ghost">Saytda ko'rish ↗</a>{% endif %}
+        {% if obj %}<a href="{% url 'panel:delete' resource.slug obj.pk %}" class="btn btn-danger-ghost">O'chirish</a>{% endif %}
+    </div>
+</form>
+{% endblock %}
