@@ -1,0 +1,28 @@
+{% load i18n_extras %}
+{% comment %}Pricing cards. Needs `prices`; set `show_service` to print each plan's service name.{% endcomment %}
+<section class="section section-alt pricing-section" id="pricing">
+    <div class="container">
+        <div class="pricing-head reveal">
+            <h2>{% st "pricing.heading" %}</h2>
+            <p class="lead">{% st "pricing.subheading" %}</p>
+        </div>
+        <div class="pricing-grid">
+            {% for price in prices %}
+            <div class="pricing-card reveal">
+                <h3 class="pricing-plan">{% tr price "price_type_label" %}</h3>
+                {% if show_service and price.service %}<p class="pricing-service">{% tr price.service "title" %}</p>{% endif %}
+                <div class="pricing-amount">${{ price.price_whole }}{% if price.price_cents %}<sup>.{{ price.price_cents }}</sup>{% endif %}</div>
+                <p class="pricing-note">{{ price.note }}</p>
+                {% with features=price.features_list %}
+                {% if features %}
+                <ul class="pricing-features">
+                    {% for feature in features %}<li>{{ feature }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+                <a href="{% url 'contact' %}?plan={{ price.pk }}" class="btn btn-primary pricing-cta">{% st "pricing.cta" %}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

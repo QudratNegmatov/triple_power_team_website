@@ -1,7 +1,9 @@
 from django.contrib import messages
+from django.db.models import Q
 from django.shortcuts import redirect, render
 
 from portfolio.models import Project
+from prices.models import Price
 from products.models import Product
 from services.models import Service, UsedSystem
 
@@ -21,6 +23,9 @@ def home(request):
         "services": Service.objects.filter(is_active=True).prefetch_related("gallery")[:4],
         "projects": Project.objects.filter(is_active=True)[:3],
         "products": Product.objects.filter(is_active=True).prefetch_related("gallery")[:4],
+        "prices": Price.objects.filter(is_active=True)
+        .filter(Q(service__isnull=True) | Q(service__is_active=True))
+        .select_related("service")[:6],
         "why_us": WhyChooseUs.objects.filter(is_active=True)
         .prefetch_related("points", "stats")
         .first(),
@@ -52,5 +57,21 @@ def contact(request):
             messages.success(request, get_site_text("contact.success"))
             return redirect("contact")
     else:
-        form = ContactForm()
+        form = ContactForm(initial={"message": _plan_message(request.GET.get("plan"))})
     return render(request, "core/contact.html", {"form": form})
+
+
+def _plan_message(plan_id):
+    """Pre-fill the message when the visitor came from a pricing card's button."""
+    import uuid
+
+    from common.i18n import get_translated
+
+    try:
+        price = Price.objects.select_related("service").get(pk=uuid.UUID(str(plan_id)), is_active=True)
+    except (ValueError, Price.DoesNotExist):
+        return ""
+    name = get_translated(price, "price_type_label")
+    if price.service:
+        name = f"{name} — {get_translated(price.service, 'title')}"
+    return f"{get_site_text('pricing.plan_interest')} {name}\n"

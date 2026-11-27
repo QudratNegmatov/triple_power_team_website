@@ -1,6 +1,7 @@
 import uuid
 
 from django.conf import settings
+from django.core.validators import RegexValidator
 from django.db import models
 
 
@@ -76,7 +77,17 @@ class SiteText(models.Model):
     from the {% st "key" %} template tag.
     """
 
-    key = models.SlugField(max_length=100, unique=True, help_text='e.g. "nav.home", "btn.learn_more"')
+    key = models.CharField(
+        max_length=100,
+        unique=True,
+        validators=[
+            RegexValidator(
+                r"^[a-z0-9_.-]+$",
+                "Use lowercase letters, digits, dots, dashes or underscores, e.g. nav.home",
+            )
+        ],
+        help_text='e.g. "nav.home", "btn.learn_more". The site looks texts up by this exact key.',
+    )
     description = models.CharField(
         max_length=200, blank=True, help_text="Where this text appears, for whoever edits it later."
     )

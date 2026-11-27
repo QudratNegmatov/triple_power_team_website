@@ -17,3 +17,8 @@ class SiteTextAdmin(admin.ModelAdmin):
     list_display = ("key", "description", "value_en")
     search_fields = ("key", "description", "value_en", "value_uz", "value_ru")
     ordering = ("key",)
+
+    def get_readonly_fields(self, request, obj=None):
+        # Templates look a text up by its key: renaming it would make the page
+        # show the raw key instead. Only the texts are editable.
+        return ("key",) if obj else ()

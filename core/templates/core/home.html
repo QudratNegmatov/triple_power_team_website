@@ -171,6 +171,10 @@
     </div>
 </section>
 
+{% if prices %}
+{% include "prices/_pricing_section.html" with show_service=True %}
+{% endif %}
+
 <section class="section section-alt">
     <div class="container how-it-works-grid">
         <div class="how-it-works-copy reveal">

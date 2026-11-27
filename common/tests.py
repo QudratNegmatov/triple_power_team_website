@@ -123,3 +123,59 @@ class AdminLoginThrottleTests(TestCase):
             for _ in range(9)
         ]
         self.assertEqual(codes[-1], 429)
+
+
+class PricingAndSiteTextTests(TestCase):
+    def test_pricing_cards_on_home_and_service_page(self):
+        from prices.models import Price
+
+        plan = Price.objects.get(price_type="basic")
+        for url in ("/", plan.service.get_absolute_url(), "/uz/", "/ru/"):
+            page = self.client.get(url).content.decode()
+            self.assertIn('class="pricing-card', page, url)
+        page = self.client.get("/").content.decode()
+        self.assertIn("$79<sup>.99</sup>", page)
+        self.assertIn("Per month for a truck", page)
+        self.assertIn("Electronic DVIR", page)
+        self.assertIn("Elektron DVIR", self.client.get("/uz/").content.decode())
+
+    def test_plan_button_prefills_contact_message(self):
+        from prices.models import Price
+
+        plan = Price.objects.get(price_type="basic")
+        self.assertContains(self.client.get(f"/contact/?plan={plan.pk}"), "Basic Plan — ELD Service")
+        self.assertEqual(self.client.get("/contact/?plan=not-a-uuid").status_code, 200)
+
+    def test_every_text_key_in_templates_exists(self):
+        import re
+        from pathlib import Path
+
+        from django.conf import settings
+
+        from common.models import SiteText
+
+        keys = set()
+        for path in Path(settings.BASE_DIR).glob("**/templates/**/*.html"):
+            keys |= set(re.findall(r'\{% st "([^"]+)"', path.read_text()))
+        missing = keys - set(SiteText.objects.values_list("key", flat=True))
+        self.assertEqual(missing, set())
+
+    def test_underscore_key_still_found(self):
+        from common.i18n import get_site_text
+        from common.models import SiteText
+
+        text = SiteText.objects.get(key="systems.integrated_heading")
+        text.key = "systems_integrated_heading"
+        text.save()
+        from django.utils import translation
+
+        with translation.override("en"):
+            self.assertEqual(get_site_text("systems.integrated_heading"), text.value_en)
+
+    def test_admin_cannot_rename_key(self):
+        from django.contrib.admin.sites import site
+
+        from common.models import SiteText
+
+        admin = site._registry[SiteText]
+        self.assertIn("key", admin.get_readonly_fields(None, SiteText.objects.first()))

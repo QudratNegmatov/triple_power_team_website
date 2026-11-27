@@ -73,33 +73,7 @@
 </section>
 
 {% if prices %}
-<section class="section section-alt">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>{% st "pricing.heading" %}</h2>
-        </div>
-        <div class="grid grid-3">
-            {% for price in prices %}
-            <div class="price-card reveal">
-                <h3>{% tr price "price_type_label" %}</h3>
-                <div class="price-row price-row-lg">
-                    <span class="price-current">${{ price.price }}</span>
-                    <span class="price-period">/ {{ price.get_period_display }}</span>
-                </div>
-                {% with features=price.features_list %}
-                {% if features %}
-                <ul class="checklist checklist-light">
-                    {% for feature in features %}
-                    <li>{{ "check"|svg_icon }} {{ feature }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% endwith %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
+{% include "prices/_pricing_section.html" %}
 {% endif %}
 
 {% if used_systems %}

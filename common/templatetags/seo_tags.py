@@ -84,6 +84,18 @@ def jsonld_service(context, service):
         "provider": {"@id": request.build_absolute_uri("/#organization")},
         "areaServed": {"@type": "Country", "name": "United States"},
     }
+    offers = [
+        {
+            "@type": "Offer",
+            "name": get_translated(price, "price_type_label"),
+            "price": f"{price.price:.2f}",
+            "priceCurrency": "USD",
+            "url": request.build_absolute_uri(request.path),
+        }
+        for price in context.get("prices") or []
+    ]
+    if offers:
+        data["offers"] = offers
     return _json_script(data)
 
 

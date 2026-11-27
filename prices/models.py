@@ -33,6 +33,14 @@ class Price(ContentModel):
     price_type_label_ru = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     period = models.CharField(max_length=20, choices=PERIOD_CHOICES, default=PERIOD_MONTH)
+    note_en = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Small line under the price, e.g. "Per month for a truck". '
+        "Leave blank to show just the period (per month / per year).",
+    )
+    note_uz = models.CharField(max_length=80, blank=True)
+    note_ru = models.CharField(max_length=80, blank=True)
     features_en = models.TextField(blank=True, help_text="One item per line — what's included.")
     features_uz = models.TextField(blank=True)
     features_ru = models.TextField(blank=True)
@@ -51,6 +59,21 @@ class Price(ContentModel):
     def __str__(self):
         service_name = self.service.title_en if self.service else "General"
         return f"{service_name} — {self.price_type_label_en}"
+
+    @property
+    def price_whole(self):
+        return int(self.price)
+
+    @property
+    def price_cents(self):
+        """"99" for 79.99; empty for a whole-dollar price."""
+        cents = int(round((self.price - int(self.price)) * 100))
+        return f"{cents:02d}" if cents else ""
+
+    def note(self):
+        from common.i18n import get_site_text
+
+        return get_translated(self, "note") or get_site_text(f"pricing.period_{self.period}")
 
     def features_list(self):
         text = get_translated(self, "features")

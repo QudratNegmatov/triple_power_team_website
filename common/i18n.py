@@ -34,5 +34,8 @@ def get_site_text(key):
         cache.set("site_text_all", texts, 300)
     obj = texts.get(key)
     if obj is None:
+        # Older admin edits could only save keys without dots ("a_b" for "a.b").
+        obj = texts.get(key.replace(".", "_"))
+    if obj is None:
         return key
     return get_translated(obj, "value")
