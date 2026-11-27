@@ -13,7 +13,7 @@ TEXTS = [
     ("pricing.cta", "Pricing card button",
      "Get started", "Boshlash", "Начать"),
     ("pricing.period_month", "Pricing card: shown under the price when the plan has no own note",
-     "Per month", "Oyiga", "В месяц"),
+     "Per month per truck", "Bir truck uchun oyiga", "В месяц за один трак"),
     ("pricing.period_year", "Pricing card: yearly plans",
      "Per year", "Yiliga", "В год"),
     ("pricing.period_one_time", "Pricing card: one-time price",
