@@ -1062,12 +1062,12 @@ a:hover { text-decoration: underline; }
 .pricing-head .lead { margin: 0; }
 .pricing-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
 .pricing-card {
-    flex: 0 1 340px;
+    flex: 0 1 360px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 32px 28px;
+    padding: 32px 24px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
@@ -1097,8 +1097,15 @@ a:hover { text-decoration: underline; }
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
-.pricing-features { list-style: none; margin: 0 0 28px; padding: 18px 0 0; width: 100%; border-top: 1px solid var(--color-border); }
-.pricing-features li { padding: 6px 0; color: var(--color-text); }
+.pricing-features { list-style: none; margin: 0 0 24px; padding: 14px 0 0; width: 100%; border-top: 1px solid var(--color-border); }
+.pricing-features li {
+    padding: 4px 0;
+    color: var(--color-text);
+    font-size: 0.88rem;
+    line-height: 1.4;
+    text-wrap: balance; /* long (e.g. Uzbek) lines break into even halves */
+}
+.pricing-features li + li { margin-top: 2px; }
 .pricing-cta { margin-top: auto; min-width: 200px; justify-content: center; }
 
 /* "Most popular" plan */
